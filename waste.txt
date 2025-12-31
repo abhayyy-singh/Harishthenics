@@ -1,0 +1,458 @@
+ <section class="testi-section" id="Reviews">
+      <!-- Section Header -->
+      <div class="testi-header">
+        <h2 class="testi-header__title">What My Clients Say</h2>
+        <p class="testi-header__subtitle">Real Stories, Real Results ✨</p>
+      </div>
+      <!-- PART 1: Comments Rain (Top Section) -->
+      <div class="testi-rain">
+        <!-- WhatsApp Style Comment 1 -->
+        <div class="testi-card testi-card--whatsapp" data-delay="0.2">
+          <div class="testi-card__header">
+            <div class="testi-card__avatar">
+              <svg viewBox="0 0 24 24" fill="currentColor">
+                <path
+                  d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"
+                />
+              </svg>
+            </div>
+            <div class="testi-card__info">
+              <h4>Rajesh Kumar</h4>
+              <span>2 days ago</span>
+            </div>
+          </div>
+          <p class="testi-card__text">
+            Bhai ekdum mast kaam kiya! On time delivery aur quality top notch.
+            Highly recommended! 🔥
+          </p>
+        </div>
+
+        <!-- YouTube Style Comment 2 -->
+        <div class="testi-card testi-card--youtube" data-delay="0.4">
+          <div class="testi-card__header">
+            <div class="testi-card__avatar">
+              <svg viewBox="0 0 24 24" fill="currentColor">
+                <path
+                  d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"
+                />
+              </svg>
+            </div>
+            <div class="testi-card__info">
+              <h4>@TechSavvy_Priya</h4>
+              <span>5 days ago</span>
+            </div>
+          </div>
+          <p class="testi-card__text">
+            Outstanding work! The attention to detail is impressive. Will
+            definitely work again. 👏
+          </p>
+          <div class="testi-card__actions">
+            <span>👍 234</span>
+            <span>Reply</span>
+          </div>
+        </div>
+
+        <!-- WhatsApp Style Comment 3 -->
+        <div class="testi-card testi-card--whatsapp" data-delay="0.6">
+          <div class="testi-card__header">
+            <div class="testi-card__avatar">
+              <svg viewBox="0 0 24 24" fill="currentColor">
+                <path
+                  d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"
+                />
+              </svg>
+            </div>
+            <div class="testi-card__info">
+              <h4>Sneha Patel</h4>
+              <span>1 week ago</span>
+            </div>
+          </div>
+          <p class="testi-card__text">
+            Perfect execution! Budget ke andar best quality mili. Thank you so
+            much! ✨
+          </p>
+        </div>
+
+        <!-- YouTube Style Comment 4 -->
+        <div class="testi-card testi-card--youtube" data-delay="0.8">
+          <div class="testi-card__header">
+            <div class="testi-card__avatar">
+              <svg viewBox="0 0 24 24" fill="currentColor">
+                <path
+                  d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"
+                />
+              </svg>
+            </div>
+            <div class="testi-card__info">
+              <h4>@BusinessGrowth_Amit</h4>
+              <span>3 days ago</span>
+            </div>
+          </div>
+          <p class="testi-card__text">
+            Professional service with quick turnaround. Exceeded expectations!
+            💯
+          </p>
+          <div class="testi-card__actions">
+            <span>👍 189</span>
+            <span>Reply</span>
+          </div>
+        </div>
+
+        <!-- WhatsApp Style Comment 5 -->
+        <div class="testi-card testi-card--whatsapp" data-delay="1.0">
+          <div class="testi-card__header">
+            <div class="testi-card__avatar">
+              <svg viewBox="0 0 24 24" fill="currentColor">
+                <path
+                  d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"
+                />
+              </svg>
+            </div>
+            <div class="testi-card__info">
+              <h4>Vikram Singh</h4>
+              <span>4 days ago</span>
+            </div>
+          </div>
+          <p class="testi-card__text">
+            Amazing results! Communication bhi bahut smooth tha. 10/10
+            recommend! 🌟
+          </p>
+        </div>
+
+        <!-- YouTube Style Comment 6 -->
+        <div class="testi-card testi-card--youtube" data-delay="1.2">
+          <div class="testi-card__header">
+            <div class="testi-card__avatar">
+              <svg viewBox="0 0 24 24" fill="currentColor">
+                <path
+                  d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"
+                />
+              </svg>
+            </div>
+            <div class="testi-card__info">
+              <h4>@Creative_Neha</h4>
+              <span>1 week ago</span>
+            </div>
+          </div>
+          <p class="testi-card__text">
+            Superb quality and fantastic support. Couldn't ask for better! 🎯
+          </p>
+          <div class="testi-card__actions">
+            <span>👍 312</span>
+            <span>Reply</span>
+          </div>
+        </div>
+
+        <!-- WhatsApp Style Comment 7 -->
+        <div class="testi-card testi-card--whatsapp" data-delay="1.4">
+          <div class="testi-card__header">
+            <div class="testi-card__avatar">
+              <svg viewBox="0 0 24 24" fill="currentColor">
+                <path
+                  d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"
+                />
+              </svg>
+            </div>
+            <div class="testi-card__info">
+              <h4>Ananya Sharma</h4>
+              <span>6 days ago</span>
+            </div>
+          </div>
+          <p class="testi-card__text">
+            Best decision ever! Quality aur service dono excellent. Must try! 💖
+          </p>
+        </div>
+
+        <!-- YouTube Style Comment 8 -->
+        <div class="testi-card testi-card--youtube" data-delay="1.6">
+          <div class="testi-card__header">
+            <div class="testi-card__avatar">
+              <svg viewBox="0 0 24 24" fill="currentColor">
+                <path
+                  d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"
+                />
+              </svg>
+            </div>
+            <div class="testi-card__info">
+              <h4>@Startup_Rahul</h4>
+              <span>2 weeks ago</span>
+            </div>
+          </div>
+          <p class="testi-card__text">
+            Incredible work ethic and results. Worth every penny! Highly
+            professional. ⭐
+          </p>
+          <div class="testi-card__actions">
+            <span>👍 267</span>
+            <span>Reply</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== END TESTIMONIAL SECTION ==================== -->
+
+
+
+
+
+
+    <!-- ==================== PRICING SECTION ==================== -->
+    <!-- Self-contained section - Safe to integrate in any website -->
+    <!-- No global CSS pollution -->
+<section class="pricing-section" id="pricing-section">
+  <!-- Section Header -->
+  <div class="pricing-header">
+    <h2 class="pricing-header__title"> How can you train with me.</h2>
+    <p class="pricing-header__subtitle">
+      Select the option that best fits your fitness journey
+    </p>
+  </div>
+
+  <!-- Pricing Cards Container (2 Cards Only) -->
+  <div class="pricing-cards" style="grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; max-width: 900px; margin: 0 auto;">
+    
+    <!-- Card 1: Assessment & Consultation -->
+    <div class="pricing-card">
+      <div class="pricing-card__header">
+        <h3 class="pricing-card__title">Assessment & Consultation</h3>
+        <p class="pricing-card__desc">
+          One-on-one guidance to kickstart your journey
+        </p>
+      </div>
+
+      <div class="pricing-card__price">
+        <div class="pricing-card__price-main">
+          <span class="pricing-card__currency">₹</span>
+          <span class="pricing-card__amount">2,000</span>
+        </div>
+      </div>
+
+      <button class="pricing-card__cta" onclick="openBookingModal('consultation')">
+        Book Consultation
+      </button>
+
+      <ul class="pricing-card__features">
+        <li class="pricing-card__feature">
+          <svg
+            class="pricing-card__icon"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="3"
+          >
+            <polyline points="20 6 9 17 4 12"></polyline>
+          </svg>
+          <span>Want to talk to Harish about your fitness goals, personalized training plans, or any challenges you're facing?</span>
+        </li>
+        <li class="pricing-card__feature">
+          <svg
+            class="pricing-card__icon"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="3"
+          >
+            <polyline points="20 6 9 17 4 12"></polyline>
+          </svg>
+          <span>After booking, you'll receive a confirmation email, and Harish will personally connect with you over a call.</span>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Card 2: Train with Harishthenics (Sunday Class) -->
+    <div class="pricing-card">
+      <div class="pricing-card__header">
+        <h3 class="pricing-card__title">Train with Harishthenics</h3>
+        <p class="pricing-card__desc">
+          Practical Sunday classes with hands-on coaching
+        </p>
+      </div>
+
+      <div class="pricing-card__price">
+        <div class="pricing-card__price-main">
+          <span class="pricing-card__currency">₹</span>
+          <span class="pricing-card__amount">1,000</span>
+          <span class="pricing-card__period">/class</span>
+        </div>
+      </div>
+
+      <button class="pricing-card__cta" onclick="openBookingModal('sunday-class')">
+        Join Sunday Class
+      </button>
+
+      <ul class="pricing-card__features">
+        <li class="pricing-card__feature">
+          <svg
+            class="pricing-card__icon"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="3"
+          >
+            <polyline points="20 6 9 17 4 12"></polyline>
+          </svg>
+          <span>After running successful workshops, we're now organizing practical Sunday classes.</span>
+        </li>
+        <li class="pricing-card__feature">
+          <svg
+            class="pricing-card__icon"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="3"
+          >
+            <polyline points="20 6 9 17 4 12"></polyline>
+          </svg>
+          <span>Whether you're dealing with pain, stuck with a specific skill, need guidance on technique, or struggling with motivation.</span>
+        </li>
+      </ul>
+
+      <!-- Sunday Class Details Box -->
+      <div style="margin-top: 1.5rem; padding: 1.25rem; background: rgba(124, 156, 181, 0.05); border-left: 3px solid #7C9CB5; border-radius: 8px;">
+        <div style="display: flex; align-items: center; margin-bottom: 0.75rem; font-size: 14px;">
+          <span style="margin-right: 0.5rem;">📅</span>
+          <span><strong>Next Class:</strong> <span id="nextSundayDate">Loading...</span></span>
+        </div>
+        <div style="display: flex; align-items: center; margin-bottom: 0.75rem; font-size: 14px;">
+          <span style="margin-right: 0.5rem;">⏰</span>
+          <span><strong>Time:</strong> 8:00 AM - 10:00 AM</span>
+        </div>
+        <div style="display: flex; align-items: flex-start; margin-bottom: 0.75rem; font-size: 14px;">
+          <span style="margin-right: 0.5rem;">📍</span>
+          <span><strong>Location:</strong> <a href="https://maps.app.goo.gl/qLY9BBGNsWx9MEoU7" target="_blank" style="color: #7C9CB5; text-decoration: underline;">B-32, 3rd Floor, Lajpat Nagar, New Delhi</a></span>
+        </div>
+        <div style="display: flex; align-items: center; font-size: 14px;">
+          <span style="margin-right: 0.5rem;">🎯</span>
+          <span style="color: #7C9CB5; font-weight: 600;">Limited Slots Available</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Bottom CTA Button (Removed - Not needed anymore) -->
+</section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<section class="philosophy-section-v2" id="philosophy">
+  <div class="philosophy-wrapper">
+    
+    <!-- TOP SECTION: Text Content + Circle Diagram -->
+    <div class="philosophy-top-grid">
+      
+      <!-- LEFT: Philosophy Text Content -->
+      <div class="philosophy-text-content">
+        
+        <!-- Section Title -->
+        <div class="philosophy-section-header">
+          <h2 class="philosophy-main-title">Movement Philosophy</h2>
+          <div class="philosophy-title-divider"></div>
+        </div>
+
+        <!-- Philosophy Block 1 -->
+        <div class="philosophy-text-block">
+          <h3 class="philosophy-block-title">Moving Smart, Moving for Life</h3>
+          <p class="philosophy-block-text">
+            Movement is not just about lifting heavier or training harder — it's about moving intelligently, pain-free, and for life. My philosophy centers around understanding the body's unique mechanics and designing training that supports longevity rather than burnout.
+          </p>
+        </div>
+
+        <!-- Philosophy Block 2 -->
+        <div class="philosophy-text-block">
+          <h3 class="philosophy-block-title">Your Body, Your Journey</h3>
+          <p class="philosophy-block-text">
+            Every client is different, and so is their movement. That's why I focus on building strength, mobility, and awareness in a way that aligns with each person's needs. Through a blend of calisthenics, functional training, and movement therapy, I teach people how to reconnect with their bodies.
+          </p>
+        </div>
+
+        <!-- Philosophy Block 3 -->
+        <div class="philosophy-text-block">
+          <h3 class="philosophy-block-title">A Long-Term Relationship</h3>
+          <p class="philosophy-block-text">
+            Movement isn't a quick fix — it's a long-term relationship between strength, balance, and self-awareness. It's about learning to move better, feel better, and truly understand your body.
+          </p>
+        </div>
+
+      </div>
+
+      <!-- RIGHT: Animated Circle Diagram with Sequential Reveal -->
+      <div class="philosophy-circle-wrapper">
+        <div class="longevity-circle-container">
+          
+          <!-- SVG for Circle Progress Animation - FIXED -->
+          <svg class="progress-ring" viewBox="0 0 200 200">
+            <!-- Background Circle -->
+            <circle
+              class="progress-ring-bg"
+              cx="100"
+              cy="100"
+              r="85"
+              fill="none"
+              stroke="rgba(251, 146, 60, 0.15)"
+              stroke-width="2"
+            />
+            <!-- Animated Progress Circle - WITH STROKE-DASHARRAY -->
+            <circle
+              class="progress-ring-circle"
+              cx="100"
+              cy="100"
+              r="85"
+              fill="none"
+              stroke="#fb923c"
+              stroke-width="3"
+              stroke-linecap="round"
+              stroke-dasharray="534.07"
+              stroke-dashoffset="534.07"
+            />
+          </svg>
+
+          <!-- Center Circle -->
+          <div class="longevity-center">
+            <span class="longevity-text">Longevity</span>
+          </div>
+
+          <!-- Orbit Points - Sequential Reveal -->
+          <div class="orbit-element orbit-pos-1">
+            <div class="orbit-dot"></div>
+            <span class="orbit-text">Strength</span>
+          </div>
+
+          <div class="orbit-element orbit-pos-2">
+            <div class="orbit-dot"></div>
+            <span class="orbit-text">Mobility</span>
+          </div>
+
+          <div class="orbit-element orbit-pos-3">
+            <div class="orbit-dot"></div>
+            <span class="orbit-text">Balance</span>
+          </div>
+
+          <div class="orbit-element orbit-pos-4">
+            <div class="orbit-dot"></div>
+            <span class="orbit-text">Awareness</span>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+
+   
+
+  </div>
+</section>
+<!-- ==================== END PHILOSOPHY SECTION ==================== -->
