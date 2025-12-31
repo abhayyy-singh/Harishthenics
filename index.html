@@ -4042,7 +4042,7 @@ Movement is quality of life.      </p>
             <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
           </svg>
         </div>
-        <div class="achievement-number" data-target="2000">0</div>
+        <div class="achievement-number" data-target="2000" >0</div>
         <div class="achievement-label">Clients Trained</div>
       </div>
 
@@ -5007,7 +5007,7 @@ function toggleOption(optionId) {
                 element.textContent = target;
                 // Add + suffix for specific counters
                 const label = element.nextElementSibling;
-                if (label && (label.textContent.includes('Hours') || label.textContent.includes('Social'))) {
+                if (label && (label.textContent.includes('Hours') || label.textContent.includes('Social')|| label.textContent.includes('Clients'))) {
                     element.textContent = target + '+';
                 }
             }
