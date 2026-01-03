@@ -61,7 +61,7 @@ body {
     left: 0;
     width: 0%;
     height: 3px;
-    background: linear-gradient(90deg, #fb923c, #f97316);
+    
     z-index: 9999;
     transition: width 0.1s ease-out;
 }
@@ -3565,6 +3565,7 @@ body {
   opacity: 0;
   transform: translateY(20px);
   pointer-events: none;
+  display: none;
 }
 
 .sticky-book-button.visible {
@@ -3792,7 +3793,7 @@ body {
 
   <body class="bg-matte-black text-off-white antialiased">
     <!-- Sticky Book Appointment Button -->
-<button id="stickyBookBtn" class="sticky-book-btn">
+<button id="stickyBookBtn" class="sticky-book-button">
     Book Your Appointment
 </button> 
     <!-- Scroll Progress Bar -->
@@ -3802,7 +3803,7 @@ body {
     <div id="page-loader" class="page-loader">
       <div class="loader-content">
         <div class="loader-logo">
-          HS<span class="text-accent-orange">.</span>
+          HS<span style="color: white;">.</span>
         </div>
       </div>
     </div>
@@ -5719,6 +5720,41 @@ if (modalOverlay) {
 }
 
 console.log('✅ Booking system initialized');
+
+
+
+// ==================== STICKY BUTTON LOGIC ====================
+(function() {
+    const stickyBtn = document.getElementById('stickyBookBtn');
+    const pricingSection = document.getElementById('pricing-section');
+    
+    if (!stickyBtn || !pricingSection) return;
+
+    // Show button after scrolling 500px
+    window.addEventListener('scroll', function() {
+        const scrolled = window.pageYOffset;
+        const pricingSectionTop = pricingSection.offsetTop;
+        const pricingSectionBottom = pricingSectionTop + pricingSection.offsetHeight;
+        
+        // Show button after 500px scroll
+        // Hide when pricing section is visible
+        if (scrolled > 500 && (scrolled < pricingSectionTop - 200 || scrolled > pricingSectionBottom + 200)) {
+            stickyBtn.classList.add('visible');
+        } else {
+            stickyBtn.classList.remove('visible');
+        }
+    }, { passive: true });
+
+    // Click handler - scroll to pricing section
+    stickyBtn.addEventListener('click', function() {
+        pricingSection.scrollIntoView({ 
+            behavior: 'smooth', 
+            block: 'start' 
+        });
+    });
+})();
+
+console.log('✅ Sticky Button Initialized');
 </script>
 
 <!-- ==========================================
