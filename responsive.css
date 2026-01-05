@@ -228,6 +228,7 @@
     .hs-text-content-section {
         gap: 1rem;
         margin-top: -60px;
+        margin-bottom: 50px;
     }
     
     .hs-coaching-title {
@@ -306,6 +307,7 @@
         height: 22px;
     }
 }
+
 
 /* ================================
    LARGE DESKTOP (1280px+)
