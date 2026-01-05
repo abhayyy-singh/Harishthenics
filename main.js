@@ -279,3 +279,43 @@
     console.log('✅ Main.js loaded successfully');
 
 })();
+
+
+// ==========================================
+// ==========================================
+// AUTO OPEN PRICING CARD FROM URL
+// ==========================================
+window.addEventListener('load', function() {
+  const urlParams = new URLSearchParams(window.location.search);
+  const openCard = urlParams.get('open');
+  
+  if (openCard === 'sundayClass') {
+    setTimeout(function() {
+      const option2 = document.getElementById('option2');
+      if (option2 && typeof toggleOption === 'function') {
+        toggleOption('option2');
+        setTimeout(function() {
+          const btn = option2.querySelector('.pricing-option__cta');
+          if (btn) {
+            btn.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          }
+        }, 500);
+      }
+    }, 300);
+  }
+  
+  if (openCard === 'consultation') {
+    setTimeout(function() {
+      const option1 = document.getElementById('option1');
+      if (option1 && typeof toggleOption === 'function') {
+        toggleOption('option1');
+        setTimeout(function() {
+          const btn = option1.querySelector('.pricing-option__cta');
+          if (btn) {
+            btn.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          }
+        }, 500);
+      }
+    }, 300);
+  }
+});
