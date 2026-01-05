@@ -1,0 +1,6008 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Coach Harish Sharma - Your Movement Coach specializing in CrossFit, fitness training, and personalized coaching"
+    />
+    <title>Harish Sharma | Movement Coach</title>
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+        <!-- EmailJS SDK -->
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    
+    <!-- Razorpay SDK -->
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
+
+    <!-- Google Fonts - Poppins -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="icon" href="./channels4_profile.jpg" style="border-radius: 50%;" >
+
+    <!-- Link External CSS -->
+    <!-- ============================================
+         SECTION: MAIN STYLES (style.css inline)
+         ============================================ -->
+    <style>
+/* ================================
+   RESET & BASE STYLES
+   ================================ */
+* {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    overflow-x: hidden;
+    background: #000000;
+    color: #d1d1d1;
+}
+
+
+/* ================================
+   SCROLL PROGRESS BAR
+   ================================ */
+.scroll-progress {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 0%;
+    height: 3px;
+    background: linear-gradient(90deg, #fb923c, #f97316);
+    z-index: 9999;
+    transition: width 0.1s ease-out;
+}
+
+
+/* ================================
+   PAGE LOADER
+   ================================ */
+.page-loader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #000000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10000;
+    opacity: 1;
+    transition: opacity 0.5s ease-out;
+}
+
+.page-loader.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.loader-content {
+    text-align: center;
+}
+
+.loader-logo {
+    font-size: 3rem;
+    font-weight: bold;
+    color: #f5f5f5;
+    animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+    0%, 100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+    50% {
+        opacity: 0.7;
+        transform: scale(1.05);
+    }
+}
+
+
+/* ================================
+   NAVBAR STYLES
+   ================================ */
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 50;
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    transition: transform 0.3s ease-in-out;
+}
+
+.navbar.nav-hidden {
+    transform: translateY(-100%);
+}
+
+/* Mobile Menu */
+.mobile-menu {
+    transition: max-height 0.4s ease-in-out;
+    max-height: 0;
+    overflow: hidden;
+}
+
+.mobile-menu.active {
+    max-height: 300px;
+}
+
+/* ================================
+   HERO SECTION - SCOPED STYLES
+   All classes prefixed with 'hs-'
+   Black & White minimalistic theme
+   ================================ */
+
+/* ================================
+   MAIN LAYOUT
+   ================================ */
+.hs-hero-section {
+    position: relative;
+    min-height: 100vh;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #000000;
+    padding: 3rem 1rem 2rem;
+    overflow: hidden;
+}
+/* Hero Gradient Background - Animated with Grid */
+.hs-hero-gradient {
+    position: absolute;
+    inset: 0;
+    background-color: #000000;
+    background-image: 
+        /* Grid pattern - horizontal lines */
+        repeating-linear-gradient(
+            0deg,
+            transparent,
+            transparent 49px,
+            rgba(255, 255, 255, 0.05) 49px,
+            rgba(255, 255, 255, 0.05) 50px
+        ),
+        /* Grid pattern - vertical lines */
+        repeating-linear-gradient(
+            90deg,
+            transparent,
+            transparent 49px,
+            rgba(255, 255, 255, 0.03) 49px,
+            rgba(255, 255, 255, 0.03) 50px
+        ),
+        /* Animated gradient overlay */
+        radial-gradient(circle at 20% 50%, rgba(26, 26, 26, 0.8) 0%, transparent 50%),
+        radial-gradient(circle at 80% 50%, rgba(26, 26, 26, 0.8) 0%, transparent 50%);
+    background-size: 
+        50px 50px,
+        50px 50px,
+        200% 200%,
+        200% 200%;
+    animation: hs-gridMove 20s linear infinite, hs-gradientShift 15s ease infinite;
+    opacity: 1;
+    z-index: 1;
+}
+
+@keyframes hs-gridMove {
+    0% {
+        background-position: 0 0, 0 0, 0% 50%, 0% 50%;
+    }
+    100% {
+        background-position: 50px 50px, 50px 50px, 0% 50%, 0% 50%;
+    }
+}
+
+@keyframes hs-gradientShift {
+    0%, 100% {
+        background-position: 0 0, 0 0, 0% 50%, 100% 50%;
+    }
+    50% {
+        background-position: 0 0, 0 0, 100% 50%, 0% 50%;
+    }
+}
+/* Particle Canvas */
+.hs-particle-canvas {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    pointer-events: none;
+}
+
+/* Hero Content Wrapper - Flexbox Centered */
+.hs-hero-content-wrapper {
+    position: relative;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    gap: 1rem;
+    opacity: 0;
+    animation: hs-fadeInUp 1.2s ease-out 0.3s forwards;
+}
+
+@keyframes hs-fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Mobile - Reduce gap further */
+@media (max-width: 640px) {
+    .hs-hero-section {
+        padding: 2rem 1rem 1.5rem;
+    }
+    
+    .hs-hero-content-wrapper {
+        gap: 0.75rem;
+    }
+}
+
+/* ================================
+   IMAGE SECTION
+   ================================ */
+.hs-image-section {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+
+/* Background Text Wrapper */
+.hs-bg-text-wrapper {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1;
+    pointer-events: none;
+}
+
+.hs-bg-text {
+    font-size: 2rem;
+    line-height: 1;
+    letter-spacing: -0.02em;
+    color: rgba(255, 255, 255, 0.03);
+    font-weight: bold;
+    user-select: none;
+    white-space: nowrap;
+    transition: transform 0.1s ease-out;
+    text-transform: uppercase;
+}
+
+/* Image Container - Fixed Aspect Ratio */
+.hs-image-container {
+    position: relative;
+    z-index: 10;
+    width: 400px;
+    height: 320px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.3s ease;
+}
+
+.hs-coach-image {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: center;
+    filter: drop-shadow(0 15px 50px rgba(0, 0, 0, 0.9));
+    transition: filter 0.3s ease;
+    will-change: filter;
+    position: relative;
+    bottom: 70px;
+}
+
+/* Image Hover Effect - Desktop Only */
+@media (hover: hover) and (pointer: fine) {
+    .hs-image-container:hover {
+        transform: translateY(-8px);
+    }
+    
+    .hs-image-container:hover .hs-coach-image {
+        filter: drop-shadow(0 20px 60px rgba(255, 255, 255, 0.15));
+    }
+}
+
+/* Mobile - iPhone SE (340px+) */
+@media (min-width: 340px) {
+    .hs-image-container {
+        width: 420px;
+        height: 230px;
+    }
+    
+    .hs-bg-text {
+        font-size: 2.2rem;
+    }
+}
+
+/* Mobile - iPhone XR (414px+) */
+@media (min-width: 414px) {
+    .hs-image-container {
+        width: 360px;
+        height: 250px;
+    }
+    
+    .hs-bg-text {
+        font-size: 2.5rem;
+    }
+}
+
+/* Small screens (640px+) */
+@media (min-width: 640px) {
+    .hs-image-container {
+        width: 450px;
+        height: 320px;
+    }
+    
+    .hs-bg-text {
+        font-size: 3rem;
+    }
+}
+
+/* Medium screens (768px+) */
+@media (min-width: 768px) {
+    .hs-image-container {
+        width: 550px;
+        height: 380px;
+    }
+    
+    .hs-bg-text {
+        font-size: 3.5rem;
+    }
+}
+
+/* Large screens (1024px+) */
+@media (min-width: 1024px) {
+    .hs-image-container {
+        width: 650px;
+        height: 450px;
+    }
+    
+    .hs-bg-text {
+        font-size: 4rem;
+    }
+}
+
+/* Extra large screens (1280px+) */
+@media (min-width: 1280px) {
+    .hs-image-container {
+        width: 750px;
+        height: 500px;
+    }
+    
+    .hs-bg-text {
+        font-size: 4.5rem;
+    }
+}
+
+/* ================================
+   TEXT CONTENT SECTION
+   ================================ */
+.hs-text-content-section {
+    text-align: center;
+    width: 100%;
+    max-width: 800px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: -60px;
+}
+
+/* Coaching Title with Typing Effect */
+.hs-coaching-title {
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.5);
+    font-weight: 400;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    min-height: 1.2rem;
+    margin: 0;
+}
+
+.hs-typing-cursor {
+    animation: hs-blink 1s step-end infinite;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+@keyframes hs-blink {
+    0%, 50% { opacity: 1; }
+    51%, 100% { opacity: 0; }
+}
+
+/* Coach Name */
+.hs-coach-name {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #ffffff;
+    line-height: 1.2;
+    margin: 0;
+    cursor: default;
+    transition: all 0.3s ease;
+}
+
+.hs-coach-name:hover {
+    letter-spacing: 0.05em;
+    text-shadow: 0 0 30px rgba(255, 255, 255, 0.3);
+}
+
+/* Coach Subtitle */
+.hs-coach-subtitle {
+    font-size: 0.875rem;
+    color: rgba(255, 255, 255, 0.4);
+    line-height: 1.6;
+    max-width: 600px;
+    padding: 0 1rem;
+    margin: 0;
+}
+
+/* CTA Wrapper */
+.hs-cta-wrapper {
+    margin-top: 0.75rem;
+}
+
+.hs-cta-button {
+    display: inline-block;
+    padding: 0.875rem 1.75rem;
+    background: #ffffff;
+    color: #000000;
+    font-weight: 600;
+    font-size: 0.875rem;
+    border-radius: 0.375rem;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    box-shadow: 0 8px 25px rgba(255, 255, 255, 0.15);
+    border: 1px solid #ffffff;
+}
+
+.hs-cta-button:hover {
+    background: transparent;
+    color: #ffffff;
+    transform: translateY(-2px);
+    box-shadow: 0 12px 30px rgba(255, 255, 255, 0.25);
+}
+
+.hs-cta-button:active {
+    transform: translateY(0);
+}
+
+/* Medium screens - Increase text sizes */
+@media (min-width: 640px) {
+    .hs-text-content-section {
+        gap: 0.65rem;
+    }
+    
+    .hs-coaching-title {
+        font-size: 0.875rem;
+    }
+    
+    .hs-coach-name {
+        font-size: 2.5rem;
+    }
+    
+    .hs-coach-subtitle {
+        font-size: 0.9375rem;
+    }
+    
+    .hs-cta-button {
+        padding: 1rem 2rem;
+        font-size: 0.9375rem;
+    }
+}
+
+@media (min-width: 768px) {
+    .hs-text-content-section {
+        gap: 0.75rem;
+    }
+    
+    .hs-coach-name {
+        font-size: 3rem;
+    }
+    
+    .hs-coach-subtitle {
+        font-size: 1rem;
+    }
+}
+
+@media (min-width: 1024px) {
+    .hs-text-content-section {
+        gap: 1rem;
+    }
+    
+    .hs-coaching-title {
+        font-size: 0.9375rem;
+    }
+    
+    .hs-coach-name {
+        font-size: 3.5rem;
+    }
+    
+    .hs-coach-subtitle {
+        font-size: 1.125rem;
+    }
+}
+
+/* ================================
+   SCROLL INDICATOR
+   ================================ */
+.hs-scroll-indicator {
+    position: absolute;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 20;
+    animation: hs-bounce 2s infinite;
+    opacity: 0.4;
+    transition: opacity 0.3s ease;
+}
+
+.hs-scroll-indicator:hover {
+    opacity: 0.8;
+}
+
+.hs-scroll-icon {
+    width: 1.5rem;
+    height: 1.5rem;
+    color: rgba(255, 255, 255, 0.6);
+}
+
+@keyframes hs-bounce {
+    0%, 100% {
+        transform: translateX(-50%) translateY(0);
+    }
+    50% {
+        transform: translateX(-50%) translateY(-10px);
+    }
+}
+
+/* Hide scroll indicator on very small screens */
+@media (max-height: 600px) {
+    .hs-scroll-indicator {
+        display: none;
+    }
+}
+
+/* ================================
+   PERFORMANCE OPTIMIZATIONS
+   ================================ */
+.hs-coach-image {
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
+}
+
+/* Reduce motion for users who prefer it */
+@media (prefers-reduced-motion: reduce) {
+    .hs-hero-content-wrapper,
+    .hs-image-container,
+    .hs-coach-image,
+    .hs-cta-button,
+    .hs-scroll-indicator {
+        animation: none !important;
+        transition: none !important;
+    }
+} 
+
+/* How It Works Section */
+.how-it-works-section {
+  min-height: 100vh;
+  padding: 100px 5vw;
+  display: flex;
+  align-items: center;
+  background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
+  overflow: hidden;
+  width: 100%;
+}
+
+.how-it-works-content {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: center;
+  max-width: 1400px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.how-text h2 {
+  font-size: clamp(2.5rem, 6vw, 6rem);
+  font-weight: 900;
+  line-height: 0.9;
+  letter-spacing: -0.05em;
+  text-transform: uppercase;
+  margin-bottom: 30px;
+  background: linear-gradient(135deg, #fff, #ccc);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.cta-button {
+  padding: 20px 50px;
+  font-size: 18px;
+  font-weight: 700;
+  background: linear-gradient(135deg, #ff6b6b, #f7d794);
+  color: #000;
+  border: none;
+  border-radius: 35px;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.cta-button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 15px 35px rgba(255, 107, 107, 0.3);
+}
+
+.how-text p {
+  font-size: 18px;
+  line-height: 1.8;
+  margin-bottom: 60px;
+  opacity: 0.9;
+  font-weight: 300;
+}
+
+.steps-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin-top: 15px;
+}
+
+.step {
+  background: linear-gradient(135deg, rgba(255, 107, 107, 0.1), rgba(247, 215, 148, 0.1));
+  padding: 20px 25px;
+  border-radius: 15px;
+  border: 1px solid rgba(255, 107, 107, 0.2);
+  font-weight: 600;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.step:hover {
+  transform: translateX(10px);
+  background: linear-gradient(135deg, rgba(255, 107, 107, 0.2), rgba(247, 215, 148, 0.2));
+  border-color: rgba(255, 107, 107, 0.4);
+}
+
+/* Phone Frame */
+.phone-frame {
+  position: relative;
+  width: 300px;
+  height: 600px;
+  margin: 0 auto;
+  filter: drop-shadow(0 20px 40px rgba(0, 0, 0, 0.3));
+  max-width: 100%;
+}
+
+.phone-png {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  position: absolute;
+  z-index: 3;
+  top: 0;
+  left: 0;
+}
+
+.phone-video {
+  position: absolute;
+  top: 6%;
+  left: 6%;
+  width: 88%;
+  height: 88%;
+  object-fit: cover;
+  border-radius: 25px;
+  z-index: 2;
+}
+
+.floating-label {
+  position: absolute;
+  background: rgba(255, 255, 255, 0.25);
+  backdrop-filter: blur(15px);
+  padding: 12px 18px;
+  font-size: 14px;
+  font-weight: 700;
+  border-radius: 25px;
+  border: 2px solid rgba(255, 255, 255, 0.4);
+  animation: float 4s ease-in-out infinite;
+  color: #000;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+  z-index: 10;
+  white-space: nowrap;
+}
+
+.label-1 { 
+  top: 10%; 
+  left: -60px; 
+  animation-delay: 0s;
+}
+
+.label-2 { 
+  bottom: 20%; 
+  right: -70px; 
+  animation-delay: 1.5s;
+}
+
+.label-3 { 
+  top: 60%; 
+  left: -80px; 
+  animation-delay: 3s;
+}
+
+
+
+/* ================================
+   TEXT CONTENT - RESPONSIVE
+   ================================ */
+
+/* Small screens (640px+) */
+@media (min-width: 640px) {
+    .coaching-title {
+        font-size: 1rem;
+    }
+    
+    .coach-name {
+        font-size: 3rem;
+    }
+    
+    .coach-subtitle {
+        font-size: 1rem;
+    }
+    
+    .cta-button {
+        font-size: 1rem;
+    }
+}
+
+/* Medium screens (768px+) */
+@media (min-width: 768px) {
+    .text-content-section {
+        gap: 2rem;
+    }
+    
+    .coaching-title {
+        font-size: 1.125rem;
+    }
+    
+    .coach-name {
+        font-size: 3.75rem;
+    }
+    
+    .coach-subtitle {
+        font-size: 1.125rem;
+    }
+}
+
+/* Large screens (1024px+) */
+@media (min-width: 1024px) {
+    .hero-content-wrapper {
+        gap: 3rem;
+    }
+    
+    .coach-name {
+        font-size: 4.5rem;
+    }
+    
+    .cta-wrapper {
+        margin-top: 1.5rem;
+    }
+}
+
+
+/* ================================
+   SCROLL INDICATOR
+   ================================ */
+.scroll-indicator {
+    position: absolute;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    animation: bounce 2s infinite;
+    display: none;
+}
+
+@media (min-width: 640px) {
+    .scroll-indicator {
+        display: block;
+    }
+}
+
+@keyframes bounce {
+    0%, 100% {
+        transform: translateX(-50%) translateY(0);
+    }
+    50% {
+        transform: translateX(-50%) translateY(-10px);
+    }
+}
+
+
+/* ================================
+   SAFE AREA SUPPORT (iOS)
+   ================================ */
+@supports (padding: max(0px)) {
+    .hero-section {
+        padding-left: max(1rem, env(safe-area-inset-left));
+        padding-right: max(1rem, env(safe-area-inset-right));
+        padding-bottom: max(3rem, env(safe-area-inset-bottom));
+    }
+}
+
+
+/* ================================
+   PERFORMANCE OPTIMIZATIONS
+   ================================ */
+.coach-image,
+.image-container,
+.navbar {
+    will-change: transform;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+/* ==================== MOVEMENT PHILOSOPHY SECTION V2 - Z-INDEX FIXED ==================== */
+
+.philosophy-section-v2 {
+  position: relative;
+  background: linear-gradient(180deg, #000000 0%, #0a0a0a 50%, #000000 100%);
+  padding: 4rem 1.5rem;
+  overflow: hidden;
+}
+
+.philosophy-wrapper {
+  max-width: 1300px;
+  margin: 0 auto;
+}
+
+/* ========== TOP SECTION: Text + Circle ========== */
+
+.philosophy-top-grid {
+  display: grid;
+  grid-template-columns: 1fr !important;
+  gap: 3rem;
+  align-items: center;
+  margin-bottom: 5rem;
+}
+
+@media (min-width: 968px) {
+  .philosophy-top-grid {
+    grid-template-columns: 1.4fr 1fr;
+    gap: 4rem;
+  }
+}
+
+/* Left Side: Text Content */
+
+.philosophy-text-content {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.philosophy-section-header {
+  margin-bottom: 1rem;
+}
+
+.philosophy-main-title {
+  font-size: clamp(2.2rem, 5vw, 3.5rem);
+  font-weight: 700;
+  color: #f5f5f5;
+  margin-bottom: 0.8rem;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+}
+
+.philosophy-title-divider {
+  width: 80px;
+  height: 4px;
+  background: linear-gradient(90deg, #fb923c, #f97316);
+  border-radius: 2px;
+}
+
+.philosophy-text-block {
+  padding: 1.5rem;
+  background: rgba(255, 255, 255, 0.02);
+  border-left: 3px solid #fb923c;
+  border-radius: 8px;
+  transition: all 0.4s ease;
+  min-height: 140px;
+  display: flex;
+  flex-direction: column;
+}
+
+.philosophy-text-block:hover {
+  background: rgba(255, 255, 255, 0.05);
+  transform: translateX(8px);
+  border-left-color: #f97316;
+}
+
+.philosophy-block-title {
+  font-size: clamp(1.15rem, 2.5vw, 1.35rem);
+  font-weight: 600;
+  color: #fb923c;
+  margin-bottom: 0.6rem;
+  line-height: 1.3;
+}
+
+.philosophy-block-text {
+  font-size: clamp(0.92rem, 2vw, 1rem);
+  line-height: 1.7;
+  color: #d1d1d1;
+  margin: 0;
+  flex-grow: 1;
+}
+
+/* Right Side: Circle Diagram - Z-INDEX FIXED */
+
+.philosophy-circle-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1.5rem;
+  display: none;
+}
+
+.longevity-circle-container {
+  position: relative;
+  width: 100%;
+  max-width: 340px;
+  aspect-ratio: 1;
+  /* CRITICAL: Remove z-index conflicts */
+}
+
+/* SVG Circle Progress Animation - LOWER Z-INDEX */
+
+.progress-ring {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg);
+  z-index: 1; /* Behind everything */
+}
+
+.progress-ring-circle {
+  filter: drop-shadow(0 0 8px rgba(251, 146, 60, 0.6));
+  animation: draw-circle-clockwise 3s ease-in-out 0.5s forwards;
+}
+
+@keyframes draw-circle-clockwise {
+  from {
+    stroke-dashoffset: 534.07;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+/* Center Circle - MIDDLE Z-INDEX */
+
+.longevity-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 120px;
+  height: 120px;
+  background: linear-gradient(135deg, #fb923c, #f97316);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 40px rgba(251, 146, 60, 0.5);
+  z-index: 15; /* Above SVG but below orbit points */
+  animation: pulse-glow 3s ease-in-out infinite;
+}
+
+@keyframes pulse-glow {
+  0%, 100% {
+    box-shadow: 0 0 40px rgba(251, 146, 60, 0.5);
+    transform: translate(-50%, -50%) scale(1);
+  }
+  50% {
+    box-shadow: 0 0 60px rgba(251, 146, 60, 0.7);
+    transform: translate(-50%, -50%) scale(1.05);
+  }
+}
+
+.longevity-text {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #000;
+  text-align: center;
+}
+
+/* Orbit Elements - HIGHEST Z-INDEX FOR VISIBILITY */
+
+.orbit-element {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  opacity: 0;
+  z-index: 20; /* CRITICAL: Above everything else */
+}
+
+/* Sequential Reveal Animations */
+.orbit-element:nth-child(3) {
+  animation: reveal-point 0.6s ease-out 1.2s forwards;
+}
+
+.orbit-element:nth-child(4) {
+  animation: reveal-point 0.6s ease-out 1.9s forwards;
+}
+
+.orbit-element:nth-child(5) {
+  animation: reveal-point 0.6s ease-out 2.6s forwards;
+}
+
+.orbit-element:nth-child(6) {
+  animation: reveal-point 0.6s ease-out 3.3s forwards;
+}
+
+@keyframes reveal-point {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0);
+  }
+  50% {
+    transform: translate(-50%, -50%) scale(1.2);
+  }
+  100% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+/* ========== ORBIT POSITIONING - OUTSIDE CIRCLE ========== */
+
+/* Position 1: Top - Label ABOVE dot, outside circle */
+.orbit-pos-1 {
+  transform: translate(-50%, -50%) translateY(-170px);
+}
+
+.orbit-pos-1 .orbit-text {
+  position: absolute;
+  bottom: 30px; /* Push label UP and OUT */
+  left: 50%;
+  transform: translateX(-50%);
+  white-space: nowrap;
+}
+
+/* Position 2: Right - Label RIGHT of dot, outside circle */
+.orbit-pos-2 {
+  transform: translate(-50%, -50%) translateX(170px);
+}
+
+.orbit-pos-2 .orbit-text {
+  position: absolute;
+  left: 30px; /* Push label RIGHT and OUT */
+  top: 50%;
+  transform: translateY(-50%);
+  white-space: nowrap;
+}
+
+/* Position 3: Bottom - Label BELOW dot, outside circle */
+.orbit-pos-3 {
+  transform: translate(-50%, -50%) translateY(170px);
+}
+
+.orbit-pos-3 .orbit-text {
+  position: absolute;
+  top: 30px; /* Push label DOWN and OUT */
+  left: 50%;
+  transform: translateX(-50%);
+  white-space: nowrap;
+}
+
+/* Position 4: Left - Label LEFT of dot, outside circle */
+.orbit-pos-4 {
+  transform: translate(-50%, -50%) translateX(-170px);
+}
+
+.orbit-pos-4 .orbit-text {
+  position: absolute;
+  right: 30px; /* Push label LEFT and OUT */
+  top: 50%;
+  transform: translateY(-50%);
+  white-space: nowrap;
+}
+
+/* Orbit Dots - Proper layering */
+.orbit-dot {
+  position: relative;
+  width: 18px;
+  height: 18px;
+  background: #fb923c;
+  border: 3px solid #000;
+  border-radius: 50%;
+  box-shadow: 0 0 20px rgba(251, 146, 60, 0.7);
+  animation: dot-pulse 2s ease-in-out infinite;
+  z-index: 21;
+}
+
+/* Orbit Labels - Higher z-index, better visibility */
+.orbit-text {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #f5f5f5;
+  background: rgba(0, 0, 0, 0.95);
+  padding: 0.5rem 0.9rem;
+  border-radius: 6px;
+  border: 1px solid rgba(251, 146, 60, 0.5);
+  backdrop-filter: blur(10px);
+  z-index: 22;
+  pointer-events: none;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+}
+
+
+@keyframes dot-pulse {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(251, 146, 60, 0.7);
+  }
+  50% {
+    box-shadow: 0 0 30px rgba(251, 146, 60, 1);
+  }
+}
+
+/* Orbit Labels - HIGHEST Z-INDEX */
+
+.orbit-text {
+  position: absolute;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #f5f5f5;
+  white-space: nowrap;
+  background: rgba(0, 0, 0, 0.95); /* Darker for better visibility */
+  padding: 0.5rem 0.9rem;
+  border-radius: 6px;
+  border: 1px solid rgba(251, 146, 60, 0.5); /* Stronger border */
+  backdrop-filter: blur(10px);
+  z-index: 22; /* CRITICAL: Highest z-index */
+  pointer-events: none; /* Prevent interference */
+}
+
+/* ========== MIDDLE SECTION: Who is Haristhenics ========== */
+
+
+.whoisharish-section {
+  margin-top: 2rem;
+  
+}
+
+.Haristhenics-intro {
+  text-align: center;
+  max-width: 850px;
+  margin: 0 auto 4.5rem;
+  padding: 0 1.5rem;
+}
+
+.Haristhenics-heading {
+  font-size: clamp(1.8rem, 4.5vw, 3rem);
+  font-weight: 700;
+  color: #fb923c;
+  margin-bottom: 1.2rem;
+  letter-spacing: -0.02em;
+}
+
+.Haristhenics-description {
+  font-size: clamp(0.98rem, 2.3vw, 1.1rem);
+  line-height: 1.8;
+  color: #d1d1d1;
+  margin: 0;
+}
+
+/* ========== BOTTOM SECTION: Achievements ========== */
+
+.achievements-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.achievement-stat-card {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(251, 146, 60, 0.2);
+  border-radius: 12px;
+  padding: 1.8rem 1.2rem;
+  text-align: center;
+  transition: all 0.4s ease;
+  min-height: 200px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.achievement-stat-card:hover {
+  background: rgba(251, 146, 60, 0.1);
+  border-color: rgba(251, 146, 60, 0.5);
+  transform: translateY(-6px);
+  box-shadow: 0 8px 25px rgba(251, 146, 60, 0.3);
+}
+
+.achievement-icon {
+  width: 50px;
+  height: 50px;
+  margin-bottom: 1.2rem;
+  color: #fb923c;
+  flex-shrink: 0;
+}
+
+.achievement-icon svg {
+  width: 100%;
+  height: 100%;
+}
+
+.achievement-number {
+  font-size: clamp(2.2rem, 4.5vw, 3rem);
+  font-weight: 700;
+  color: #f5f5f5;
+  margin-bottom: 0.4rem;
+  line-height: 1;
+}
+
+.achievement-label {
+  font-size: clamp(0.9rem, 1.8vw, 1rem);
+  font-weight: 500;
+  color: #d1d1d1;
+  line-height: 1.4;
+}
+
+/* ========== RESPONSIVE ========== */
+
+@media (max-width: 768px) {
+  .philosophy-section-v2 {
+    padding: 3rem 1rem;
+  }
+
+  .philosophy-top-grid {
+    margin-bottom: 3.5rem;
+    gap: 2.5rem;
+  }
+
+  .philosophy-text-block {
+    min-height: 130px;
+    padding: 1.3rem;
+  }
+
+  .longevity-circle-container {
+    max-width: 280px;
+  }
+
+  .longevity-center {
+    width: 100px;
+    height: 100px;
+  }
+
+  .longevity-text {
+    font-size: 1.15rem;
+  }
+
+  .orbit-pos-1 {
+    transform: translate(-50%, -50%) translateY(-140px);
+  }
+
+  .orbit-pos-1 .orbit-text {
+    top: -42px;
+  }
+
+  .orbit-pos-2 {
+    transform: translate(-50%, -50%) translateX(140px);
+  }
+
+  .orbit-pos-2 .orbit-text {
+    left: 42px;
+  }
+
+  .orbit-pos-3 {
+    transform: translate(-50%, -50%) translateY(140px);
+  }
+
+  .orbit-pos-3 .orbit-text {
+    bottom: -42px;
+  }
+
+  .orbit-pos-4 {
+    transform: translate(-50%, -50%) translateX(-140px);
+  }
+
+  .orbit-pos-4 .orbit-text {
+    right: 42px;
+  }
+
+  .orbit-text {
+    font-size: 0.8rem;
+    padding: 0.4rem 0.7rem;
+  }
+
+  .Haristhenics-intro {
+    margin-bottom: 3rem;
+  }
+
+  .achievements-container {
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 1.2rem;
+  }
+
+  .achievement-stat-card {
+    min-height: 180px;
+    padding: 1.5rem 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .longevity-circle-container {
+    max-width: 240px;
+  }
+
+  .longevity-center {
+    width: 85px;
+    height: 85px;
+  }
+
+  .longevity-text {
+    font-size: 1rem;
+  }
+
+  .orbit-dot {
+    width: 14px;
+    height: 14px;
+  }
+
+  .orbit-pos-1 {
+    transform: translate(-50%, -50%) translateY(-120px);
+  }
+
+  .orbit-pos-1 .orbit-text {
+    top: -38px;
+  }
+
+  .orbit-pos-2 {
+    transform: translate(-50%, -50%) translateX(120px);
+  }
+
+  .orbit-pos-2 .orbit-text {
+    left: 38px;
+  }
+
+  .orbit-pos-3 {
+    transform: translate(-50%, -50%) translateY(120px);
+  }
+
+  .orbit-pos-3 .orbit-text {
+    bottom: -38px;
+  }
+
+  .orbit-pos-4 {
+    transform: translate(-50%, -50%) translateX(-120px);
+  }
+
+  .orbit-pos-4 .orbit-text {
+    right: 38px;
+  }
+
+  .achievements-container {
+    grid-template-columns: 1fr;
+  }
+
+  .achievement-stat-card {
+    min-height: 170px;
+  }
+}
+
+/* ==================== END PHILOSOPHY SECTION V2 ==================== */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* ==================== TESTIMONIAL SECTION STYLES ==================== */
+/* All styles scoped with .testi-section prefix to avoid conflicts */
+/* Mobile-first approach with inline media queries */
+
+.testi-section {
+  width: 100%;
+  background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
+  padding: 60px 20px;
+  overflow: hidden;
+  position: relative;
+  color: #ffffff;
+}
+/* ==================== SECTION HEADER ==================== */
+
+.testi-header {
+  text-align: center;
+  max-width: 800px;
+  margin: 0 auto 60px;
+  opacity: 0;
+  animation: fadeInUp 0.8s ease-out 0.3s forwards;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.testi-header__title {
+  font-size: 32px;
+  font-weight: 700;
+  margin: 0 0 12px 0;
+  color: #ffffff;
+  letter-spacing: -0.5px;
+}
+
+.testi-header__subtitle {
+  font-size: 18px;
+  font-weight: 400;
+  margin: 0;
+  color: rgba(255, 255, 255, 0.7);
+  line-height: 1.6;
+}
+
+/* Responsive header */
+@media (max-width: 767px) {
+  .testi-header {
+    margin-bottom: 40px;
+  }
+  
+  .testi-header__title {
+    font-size: 24px;
+  }
+  
+  .testi-header__subtitle {
+    font-size: 16px;
+  }
+}
+
+@media (min-width: 768px) {
+  .testi-header {
+    margin-bottom: 80px;
+  }
+  
+  .testi-header__title {
+    font-size: 36px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .testi-header__title {
+    font-size: 42px;
+  }
+  
+  .testi-header__subtitle {
+    font-size: 20px;
+  }
+}
+/* ==================== PART 1: COMMENTS RAIN ==================== */
+
+.testi-rain {
+  position: relative;
+  min-height: 400px;
+  max-width: 1200px;
+  margin: 0 auto 80px;
+  padding: 20px;
+}
+
+/* Individual Comment Card */
+.testi-card {
+  position: absolute;
+  background: rgba(42, 42, 42, 0.6);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 16px;
+  max-width: 280px;
+  opacity: 0;
+  transform: scale(0.8) rotate(0deg);
+  animation: popIn 0.6s ease-out forwards;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  transition: all 0.3s ease;
+}
+
+/* Pop-in Animation */
+@keyframes popIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.8) translateY(20px) rotate(-5deg);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0) rotate(var(--rotate));
+  }
+}
+
+/* Random positioning for cards - Mobile First */
+.testi-card:nth-child(1) {
+  top: 20px;
+  left: 5%;
+  --rotate: 2deg;
+  animation-delay: 0.2s;
+}
+
+.testi-card:nth-child(2) {
+  top: 80px;
+  right: 8%;
+  --rotate: -3deg;
+  animation-delay: 0.4s;
+}
+
+.testi-card:nth-child(3) {
+  top: 160px;
+  left: 15%;
+  --rotate: 1deg;
+  animation-delay: 0.6s;
+}
+
+.testi-card:nth-child(4) {
+  top: 240px;
+  right: 12%;
+  --rotate: -2deg;
+  animation-delay: 0.8s;
+}
+
+.testi-card:nth-child(5) {
+  top: 180px;
+  left: 50%;
+  transform: translateX(-50%);
+  --rotate: 3deg;
+  animation-delay: 1s;
+}
+
+.testi-card:nth-child(6) {
+  top: 320px;
+  left: 10%;
+  --rotate: -1deg;
+  animation-delay: 1.2s;
+}
+
+.testi-card:nth-child(7) {
+  top: 100px;
+  left: 40%;
+  --rotate: 2deg;
+  animation-delay: 1.4s;
+}
+
+.testi-card:nth-child(8) {
+  top: 360px;
+  right: 15%;
+  --rotate: -3deg;
+  animation-delay: 1.6s;
+}
+
+/* Card Header */
+.testi-card__header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.testi-card__avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.testi-card__avatar svg {
+  width: 20px;
+  height: 20px;
+  color: #ffffff;
+}
+
+.testi-card__info h4 {
+  font-size: 14px;
+  font-weight: 600;
+  margin: 0 0 2px 0;
+  color: #ffffff;
+}
+
+.testi-card__info span {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+/* Card Text */
+.testi-card__text {
+  font-size: 13px;
+  line-height: 1.5;
+  margin: 0;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+/* YouTube Style Actions */
+.testi-card__actions {
+  display: flex;
+  gap: 20px;
+  margin-top: 10px;
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.testi-card__actions span {
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.testi-card__actions span:hover {
+  color: #ffffff;
+}
+
+/* WhatsApp Style Variant */
+.testi-card--whatsapp {
+  background: rgba(18, 140, 126, 0.15);
+  border-left: 3px solid rgba(37, 211, 102, 0.5);
+}
+
+/* YouTube Style Variant */
+.testi-card--youtube {
+  background: rgba(42, 42, 42, 0.6);
+}
+
+/* Hover Effect */
+.testi-card:hover {
+  transform: scale(1.05) rotate(var(--rotate)) !important;
+  box-shadow: 0 12px 48px rgba(0, 0, 0, 0.5);
+  z-index: 10;
+}
+
+/* ==================== PART 2: VIDEO CAROUSEL ==================== */
+
+.testi-carousel {
+  max-width: 1400px;
+  margin: 0 auto;
+  position: relative;
+}
+
+.testi-carousel__container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+/* Video Track */
+.testi-carousel__track {
+  display: flex;
+  gap: 20px;
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+  padding: 20px 0;
+  width: 100%;
+}
+
+/* Individual Video Card - Mobile First (9:16 ratio) */
+.testi-video {
+  flex: 0 0 280px;
+  height: 500px;
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  opacity: 0.6;
+  transform: scale(0.9);
+}
+
+/* Active/Center Video */
+.testi-video.active {
+  opacity: 1;
+  transform: scale(1);
+  z-index: 2;
+}
+
+/* Video Wrapper */
+.testi-video__wrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border-radius: 16px;
+  overflow: hidden;
+  background: rgba(42, 42, 42, 0.4);
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.testi-video__wrapper:hover {
+  border-color: rgba(255, 255, 255, 0.3);
+  box-shadow: 0 12px 48px rgba(0, 0, 0, 0.5);
+}
+
+/* Video Placeholder */
+.testi-video__placeholder {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  background: linear-gradient(135deg, rgba(26, 26, 26, 0.9) 0%, rgba(10, 10, 10, 0.9) 100%);
+  z-index: 1;
+}
+
+.testi-video__placeholder svg {
+  width: 60px;
+  height: 60px;
+  color: #ffffff;
+  opacity: 0.8;
+}
+
+.testi-video__placeholder span {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+/* Client Info Overlay */
+.testi-video__overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 20px;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.9) 0%, transparent 100%);
+  z-index: 2;
+  transform: translateY(100%);
+  transition: transform 0.3s ease;
+}
+
+.testi-video:hover .testi-video__overlay,
+.testi-video.active .testi-video__overlay {
+  transform: translateY(0);
+}
+
+.testi-video__name {
+  font-size: 18px;
+  font-weight: 600;
+  margin: 0 0 6px 0;
+  color: #ffffff;
+}
+
+.testi-video__text {
+  font-size: 14px;
+  margin: 0;
+  color: rgba(255, 255, 255, 0.8);
+  line-height: 1.4;
+}
+
+/* Progress Indicator */
+.testi-video__progress {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 3px;
+  width: 0%;
+  background: #ffffff;
+  z-index: 3;
+  transition: width 0.1s linear;
+}
+
+.testi-video.active .testi-video__progress {
+  animation: progress 5s linear forwards;
+}
+
+@keyframes progress {
+  to { width: 100%; }
+}
+
+/* Navigation Arrows */
+.testi-carousel__nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: rgba(42, 42, 42, 0.8);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #ffffff;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  transition: all 0.3s ease;
+  opacity: 0;
+}
+
+.testi-carousel:hover .testi-carousel__nav {
+  opacity: 1;
+}
+
+.testi-carousel__nav:hover {
+  background: rgba(58, 58, 58, 0.9);
+  transform: translateY(-50%) scale(1.1);
+}
+
+.testi-carousel__nav svg {
+  width: 24px;
+  height: 24px;
+}
+
+.testi-carousel__nav--prev {
+  left: 10px;
+}
+
+.testi-carousel__nav--next {
+  right: 10px;
+}
+
+/* Dots Indicator */
+.testi-carousel__dots {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 30px;
+}
+
+.testi-carousel__dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.3);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.testi-carousel__dot--active {
+  background: #ffffff;
+  width: 24px;
+  border-radius: 4px;
+}
+
+/* ==================== RESPONSIVE DESIGN ==================== */
+
+/* Tablet - 768px and up */
+@media (min-width: 768px) {
+  .testi-section {
+    padding: 80px 40px;
+  }
+
+  .testi-rain {
+    min-height: 500px;
+    margin-bottom: 100px;
+  }
+
+  .testi-card {
+    max-width: 320px;
+    padding: 20px;
+  }
+
+  .testi-card__text {
+    font-size: 14px;
+  }
+
+  /* Better positioning for tablets */
+  .testi-card:nth-child(1) {
+    top: 30px;
+    left: 8%;
+  }
+
+  .testi-card:nth-child(2) {
+    top: 100px;
+    right: 10%;
+  }
+
+  .testi-card:nth-child(3) {
+    top: 200px;
+    left: 20%;
+  }
+
+  .testi-card:nth-child(4) {
+    top: 280px;
+    right: 15%;
+  }
+
+  .testi-card:nth-child(5) {
+    top: 150px;
+    left: 45%;
+  }
+
+  .testi-card:nth-child(6) {
+    top: 360px;
+    left: 12%;
+  }
+
+  .testi-card:nth-child(7) {
+    top: 80px;
+    left: 35%;
+  }
+
+  .testi-card:nth-child(8) {
+    top: 400px;
+    right: 18%;
+  }
+
+  /* Video carousel for tablets */
+  .testi-video {
+    flex: 0 0 320px;
+    height: 560px;
+  }
+}
+
+/* Desktop - 1024px and up */
+@media (min-width: 1024px) {
+  .testi-section {
+    padding: 100px 60px;
+  }
+
+  .testi-rain {
+    min-height: 600px;
+    margin-bottom: 120px;
+  }
+
+  .testi-card {
+    max-width: 360px;
+  }
+
+  /* Optimal positioning for desktop */
+  .testi-card:nth-child(1) {
+    top: 40px;
+    left: 10%;
+  }
+
+  .testi-card:nth-child(2) {
+    top: 120px;
+    right: 12%;
+  }
+
+  .testi-card:nth-child(3) {
+    top: 240px;
+    left: 22%;
+  }
+
+  .testi-card:nth-child(4) {
+    top: 320px;
+    right: 18%;
+  }
+
+  .testi-card:nth-child(5) {
+    top: 180px;
+    left: 48%;
+  }
+
+  .testi-card:nth-child(6) {
+    top: 420px;
+    left: 15%;
+  }
+
+  .testi-card:nth-child(7) {
+    top: 60px;
+    left: 38%;
+  }
+
+  .testi-card:nth-child(8) {
+    top: 460px;
+    right: 20%;
+  }
+
+  /* Video carousel - Show 3 videos: [Half][Full][Half] */
+  .testi-carousel__track {
+    justify-content: center;
+  }
+
+  .testi-video {
+    flex: 0 0 360px;
+    height: 640px;
+  }
+
+  .testi-carousel__nav {
+    opacity: 0.7;
+  }
+}
+
+/* Large Desktop - 1440px and up */
+@media (min-width: 1440px) {
+  .testi-section {
+    padding: 120px 80px;
+  }
+
+  .testi-video {
+    flex: 0 0 400px;
+    height: 700px;
+  }
+
+  .testi-video__name {
+    font-size: 20px;
+  }
+
+  .testi-video__text {
+    font-size: 16px;
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* ==================== ACCESSIBILITY ==================== */
+
+.testi-carousel__nav:focus,
+.testi-carousel__dot:focus {
+  outline: 2px solid rgba(255, 255, 255, 0.5);
+  outline-offset: 2px;
+}
+
+/* Reduced Motion Support */
+@media (prefers-reduced-motion: reduce) {
+  .testi-card,
+  .testi-video,
+  .testi-video__wrapper,
+  .testi-video__overlay {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+/* ==================== TOUCH DEVICE OPTIMIZATIONS ==================== */
+
+@media (hover: none) and (pointer: coarse) {
+  .testi-carousel__nav {
+    opacity: 1;
+    width: 40px;
+    height: 40px;
+  }
+
+  .testi-carousel__nav svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  .testi-video__overlay {
+    transform: translateY(0);
+  }
+}
+
+/* ==================== PRINT STYLES ==================== */
+
+@media print {
+  .testi-section {
+    background: #ffffff;
+    color: #000000;
+  }
+
+  .testi-carousel__nav {
+    display: none;
+  }
+}
+/* ==================== PRICING SECTION STYLES ==================== */
+/* All styles scoped with .pricing-section prefix to avoid conflicts */
+/* Mobile-first approach with inline media queries */
+
+.pricing-section {
+  width: 100%;
+  min-height: 100vh;
+  background: #000000;
+  padding: 60px 20px;
+  position: relative;
+  color: #ffffff;
+  overflow: hidden;
+}
+
+/* ==================== SECTION HEADER ==================== */
+
+.pricing-header {
+  text-align: center;
+  max-width: 700px;
+  margin: 0 auto 50px;
+  position: relative;
+  z-index: 1;
+}
+
+.pricing-header__title {
+  font-size: 36px;
+  font-weight: 700;
+  margin: 0 0 12px 0;
+  color: #ffffff;
+  letter-spacing: -0.5px;
+}
+
+.pricing-header__subtitle {
+  font-size: 16px;
+  font-weight: 400;
+  margin: 0 0 32px 0;
+  color: rgba(255, 255, 255, 0.6);
+  line-height: 1.6;
+}
+
+/* ==================== PRICING CARDS ==================== */
+
+.pricing-cards {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+  max-width: 1000px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+}
+
+/* Individual Card */
+.pricing-card {
+  background: #141414;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  padding: 32px 24px;
+  position: relative;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.pricing-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+/* Featured Card (Center) */
+.pricing-card--featured {
+  background: linear-gradient(135deg, #14b8a6 0%, #06b6d4 100%);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 20px 60px rgba(20, 184, 166, 0.3);
+  transform: scale(1);
+}
+
+.pricing-card--featured:hover {
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 0 25px 70px rgba(20, 184, 166, 0.4);
+}
+
+/* Badge for Featured Card */
+.pricing-card__badge {
+  position: absolute;
+  top: -12px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(10px);
+  padding: 6px 20px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+/* Card Header */
+.pricing-card__header {
+  margin-bottom: 24px;
+}
+
+.pricing-card__title {
+  font-size: 24px;
+  font-weight: 700;
+  margin: 0 0 8px 0;
+  color: #ffffff;
+}
+
+.pricing-card__desc {
+  font-size: 14px;
+  margin: 0;
+  color: rgba(255, 255, 255, 0.7);
+  line-height: 1.5;
+}
+
+/* Card Price */
+.pricing-card__price {
+  margin-bottom: 24px;
+}
+
+.pricing-card__price-main {
+  display: flex;
+  align-items: baseline;
+  margin-bottom: 8px;
+}
+
+.pricing-card__currency {
+  font-size: 28px;
+  font-weight: 600;
+  color: #ffffff;
+}
+
+.pricing-card__amount {
+  font-size: 48px;
+  font-weight: 700;
+  color: #ffffff;
+  line-height: 1;
+  margin: 0 4px;
+}
+
+.pricing-card__period {
+  font-size: 16px;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.pricing-card__price-alt {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.5);
+  font-weight: 500;
+}
+
+/* CTA Button inside card */
+.pricing-card__cta {
+  width: 100%;
+  padding: 14px 24px;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-bottom: 28px;
+}
+
+.pricing-card__cta:hover {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.4);
+  transform: translateY(-2px);
+}
+
+/* Featured card CTA */
+.pricing-card__cta--featured {
+  background: rgba(0, 0, 0, 0.3);
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.pricing-card__cta--featured:hover {
+  background: rgba(0, 0, 0, 0.5);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+}
+
+/* Features List */
+.pricing-card__features {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.pricing-card__feature {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.9);
+  line-height: 1.5;
+}
+
+.pricing-card__feature:last-child {
+  margin-bottom: 0;
+}
+
+.pricing-card__icon {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  color: #14b8a6;
+  margin-top: 2px;
+}
+
+.pricing-card--featured .pricing-card__icon {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+/* ==================== CALLBACK SECTION ==================== */
+
+.pricing-callback {
+  text-align: center;
+  margin-top: 50px;
+  position: relative;
+  z-index: 1;
+}
+
+.pricing-callback__btn {
+  padding: 16px 48px;
+  background: linear-gradient(135deg, #14b8a6 0%, #06b6d4 100%);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+  color: #ffffff;
+  font-size: 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 8px 24px rgba(20, 184, 166, 0.3);
+}
+
+.pricing-callback__btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 32px rgba(20, 184, 166, 0.5);
+  background: linear-gradient(135deg, #0d9488 0%, #0891b2 100%);
+}
+
+/* ==================== RESPONSIVE DESIGN ==================== */
+
+/* Tablet - 768px and up */
+@media (min-width: 768px) {
+  .pricing-section {
+    padding: 80px 40px;
+  }
+
+  .pricing-header__title {
+    font-size: 42px;
+  }
+
+  .pricing-header__subtitle {
+    font-size: 18px;
+  }
+
+  .pricing-cards {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 28px;
+  }
+
+  .pricing-card {
+    padding: 36px 28px;
+  }
+
+  .pricing-card__title {
+    font-size: 26px;
+  }
+
+  .pricing-card__amount {
+    font-size: 52px;
+  }
+}
+
+/* Desktop - 1024px and up */
+@media (min-width: 1024px) {
+  .pricing-section {
+    padding: 100px 60px;
+  }
+
+  .pricing-header__title {
+    font-size: 48px;
+  }
+
+  .pricing-header__subtitle {
+    font-size: 20px;
+  }
+
+  .pricing-cards {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 32px;
+  }
+
+  .pricing-card {
+    padding: 40px 32px;
+  }
+
+  .pricing-card__title {
+    font-size: 28px;
+  }
+
+  .pricing-card__desc {
+    font-size: 15px;
+  }
+
+  .pricing-card__amount {
+    font-size: 56px;
+  }
+
+  .pricing-card__feature {
+    font-size: 15px;
+  }
+
+  /* Featured card slightly bigger */
+  .pricing-card--featured {
+    transform: scale(1.05);
+  }
+
+  .pricing-card--featured:hover {
+    transform: translateY(-8px) scale(1.07);
+  }
+}
+
+/* Large Desktop - 1440px and up */
+@media (min-width: 1440px) {
+  .pricing-cards {
+    max-width: 1400px;
+  }
+
+  .pricing-card {
+    padding: 48px 36px;
+  }
+}
+
+/* ==================== ACCESSIBILITY ==================== */
+
+.pricing-card__cta:focus,
+.pricing-callback__btn:focus {
+  outline: 2px solid rgba(20, 184, 166, 0.5);
+  outline-offset: 3px;
+}
+
+/* Reduced Motion Support */
+@media (prefers-reduced-motion: reduce) {
+  .pricing-card,
+  .pricing-card__cta,
+  .pricing-callback__btn {
+    transition: none !important;
+  }
+
+  .pricing-card:hover,
+  .pricing-card--featured:hover {
+    transform: none !important;
+  }
+}
+
+/* ==================== PRINT STYLES ==================== */
+
+@media print {
+  .pricing-section {
+    background: #ffffff;
+    color: #000000;
+  }
+}
+/* ==================== CALLBACK MODAL STYLES ==================== */
+/* All styles scoped with .callback-modal prefix to avoid conflicts */
+/* Mobile-first approach with inline media queries */
+
+/* Modal Overlay */
+.callback-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+}
+
+.callback-modal.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Dark Overlay Background */
+.callback-modal__overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(8px);
+  cursor: pointer;
+}
+
+/* Modal Container */
+.callback-modal__container {
+  position: relative;
+  width: 100%;
+  max-width: 500px;
+  background: linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 100%);
+  border-radius: 24px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.6);
+  transform: scale(0.9) translateY(20px);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.callback-modal.active .callback-modal__container {
+  transform: scale(1) translateY(0);
+}
+
+/* Close Button */
+.callback-modal__close {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  z-index: 10;
+}
+
+.callback-modal__close:hover {
+  background: rgba(255, 255, 255, 0.1);
+  transform: rotate(90deg);
+}
+
+.callback-modal__close svg {
+  width: 20px;
+  height: 20px;
+}
+
+/* Modal Content */
+.callback-modal__content {
+  padding: 48px 32px 40px;
+}
+
+/* Icon with Glow Effect */
+.callback-modal__icon {
+  width: 72px;
+  height: 72px;
+  margin: 0 auto 24px;
+  background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.callback-modal__icon::before {
+  content: '';
+  position: absolute;
+  inset: -20px;
+  background: radial-gradient(circle, rgba(139, 92, 246, 0.3) 0%, transparent 70%);
+  border-radius: 50%;
+  filter: blur(20px);
+  z-index: -1;
+}
+
+.callback-modal__icon svg {
+  width: 32px;
+  height: 32px;
+  color: #ffffff;
+}
+
+/* Modal Title */
+.callback-modal__title {
+  font-size: 28px;
+  font-weight: 700;
+  text-align: center;
+  margin: 0 0 32px 0;
+  color: #ffffff;
+  letter-spacing: -0.5px;
+}
+
+/* ==================== FORM STYLES ==================== */
+
+.callback-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Form Group */
+.callback-form__group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* Label */
+.callback-form__label {
+  font-size: 14px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.9);
+  letter-spacing: 0.3px;
+}
+
+/* Input Fields */
+.callback-form__input {
+  width: 100%;
+  padding: 14px 18px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 12px;
+  color: #ffffff;
+  font-size: 15px;
+  font-family: inherit;
+  transition: all 0.3s ease;
+  outline: none;
+}
+
+.callback-form__input::placeholder {
+  color: rgba(255, 255, 255, 0.3);
+}
+
+.callback-form__input:focus {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(139, 92, 246, 0.5);
+  box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
+}
+
+.callback-form__input:hover {
+  border-color: rgba(255, 255, 255, 0.25);
+}
+
+/* Select Dropdown Wrapper */
+.callback-form__select-wrapper {
+  position: relative;
+}
+
+/* Select Dropdown */
+.callback-form__select {
+  width: 100%;
+  padding: 14px 44px 14px 18px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 12px;
+  color: #ffffff;
+  font-size: 15px;
+  font-family: inherit;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  outline: none;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
+
+.callback-form__select option {
+  background: #1a1a1a;
+  color: #ffffff;
+  padding: 10px;
+}
+
+.callback-form__select:focus {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(139, 92, 246, 0.5);
+  box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
+}
+
+.callback-form__select:hover {
+  border-color: rgba(255, 255, 255, 0.25);
+}
+
+/* Dropdown Icon */
+.callback-form__select-icon {
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 20px;
+  height: 20px;
+  color: rgba(255, 255, 255, 0.5);
+  pointer-events: none;
+  transition: transform 0.3s ease;
+}
+
+.callback-form__select:focus ~ .callback-form__select-icon {
+  transform: translateY(-50%) rotate(180deg);
+}
+
+/* Submit Button */
+.callback-form__submit {
+  width: 100%;
+  padding: 16px 24px;
+  margin-top: 8px;
+  background: linear-gradient(135deg, #7C9CB5 0%, #A3C1D8 100%);
+  border: none;
+  border-radius: 12px;
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 0 0 0 rgba(124, 156, 181, 0);
+}
+
+.callback-form__submit:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 40px rgba(124, 156, 181, 0.6), 0 12px 32px rgba(124, 156, 181, 0.4);
+}
+
+.callback-form__submit:active {
+  transform: translateY(0);
+}
+
+.callback-form__submit:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none !important;
+}
+
+/* Submit Button Text */
+.callback-form__submit-text {
+  display: inline-block;
+  transition: opacity 0.3s ease;
+}
+
+.callback-form__submit.loading .callback-form__submit-text {
+  opacity: 0;
+}
+
+/* Submit Button Loader */
+.callback-form__submit-loader {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 20px;
+  height: 20px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top-color: #ffffff;
+  border-radius: 50%;
+  opacity: 0;
+  animation: spin 0.8s linear infinite;
+}
+
+.callback-form__submit.loading .callback-form__submit-loader {
+  opacity: 1;
+}
+
+@keyframes spin {
+  to { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+/* Success Message */
+.callback-form__success {
+  display: none;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 18px;
+  background: rgba(34, 197, 94, 0.1);
+  border: 1px solid rgba(34, 197, 94, 0.3);
+  border-radius: 12px;
+  color: #4ade80;
+  font-size: 14px;
+  margin-top: 8px;
+}
+
+.callback-form__success.show {
+  display: flex;
+}
+
+.callback-form__success svg {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+}
+
+/* Error Message */
+.callback-form__error {
+  display: none;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 18px;
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  border-radius: 12px;
+  color: #f87171;
+  font-size: 14px;
+  margin-top: 8px;
+}
+
+.callback-form__error.show {
+  display: flex;
+}
+
+.callback-form__error svg {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+}
+
+/* ==================== RESPONSIVE DESIGN ==================== */
+
+/* Tablet - 768px and up */
+@media (min-width: 768px) {
+  .callback-modal__container {
+    max-width: 540px;
+  }
+
+  .callback-modal__content {
+    padding: 56px 40px 48px;
+  }
+
+  .callback-modal__title {
+    font-size: 32px;
+    margin-bottom: 36px;
+  }
+
+  .callback-form {
+    gap: 24px;
+  }
+
+  .callback-form__input,
+  .callback-form__select {
+    padding: 16px 20px;
+    font-size: 16px;
+  }
+
+  .callback-form__select {
+    padding-right: 48px;
+  }
+
+  .callback-form__label {
+    font-size: 15px;
+  }
+
+  .callback-form__submit {
+    padding: 18px 28px;
+    font-size: 17px;
+  }
+}
+
+/* Desktop - 1024px and up */
+@media (min-width: 1024px) {
+  .callback-modal__close {
+    width: 40px;
+    height: 40px;
+  }
+
+  .callback-modal__close svg {
+    width: 22px;
+    height: 22px;
+  }
+
+  .callback-modal__icon {
+    width: 80px;
+    height: 80px;
+  }
+
+  .callback-modal__icon svg {
+    width: 36px;
+    height: 36px;
+  }
+}
+
+/* ==================== ACCESSIBILITY ==================== */
+
+.callback-form__input:focus,
+.callback-form__select:focus,
+.callback-form__submit:focus,
+.callback-modal__close:focus {
+  outline: 2px solid rgba(139, 92, 246, 0.5);
+  outline-offset: 2px;
+}
+
+/* Reduced Motion Support */
+@media (prefers-reduced-motion: reduce) {
+  .callback-modal,
+  .callback-modal__container,
+  .callback-modal__close,
+  .callback-form__input,
+  .callback-form__select,
+  .callback-form__submit {
+    transition: none !important;
+    animation: none !important;
+  }
+}
+
+/* ==================== SCROLLBAR STYLING ==================== */
+
+.callback-modal__container::-webkit-scrollbar {
+  width: 6px;
+}
+
+.callback-modal__container::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.callback-modal__container::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 3px;
+}
+
+.callback-modal__container::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* ==================== FOOTER SECTION STYLES ==================== */
+/* All styles scoped with .footer-section prefix to avoid conflicts */
+/* Mobile-first approach with inline media queries */
+
+.footer-section {
+  width: 100%;
+  background: #000000;
+  color: #ffffff;
+  padding: 60px 20px 30px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* ==================== MAIN FOOTER CONTENT ==================== */
+
+.footer-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 40px;
+  margin-bottom: 50px;
+}
+
+/* ==================== FOOTER COLUMNS ==================== */
+
+.footer-col {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Heading Style */
+.footer-heading {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  color: rgba(255, 255, 255, 0.5);
+  margin: 0;
+  text-transform: uppercase;
+}
+
+/* ==================== CONTACT COLUMN ==================== */
+
+.footer-title {
+  font-size: 28px;
+  font-weight: 700;
+  line-height: 1.3;
+  margin: 0;
+  color: #ffffff;
+  max-width: 400px;
+}
+
+/* CTA Button */
+.footer-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 28px;
+  background: #ffffff;
+  color: #000000;
+  border: none;
+  border-radius: 50px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  width: fit-content;
+}
+
+.footer-cta:hover {
+  background: rgba(255, 255, 255, 0.9);
+  transform: translateX(4px);
+}
+
+.footer-cta__icon {
+  width: 18px;
+  height: 18px;
+  transition: transform 0.3s ease;
+}
+
+.footer-cta:hover .footer-cta__icon {
+  transform: translateX(4px);
+}
+
+/* Contact Section */
+.footer-contact {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.footer-contact__label {
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  color: rgba(255, 255, 255, 0.5);
+  margin: 0;
+}
+
+/* WhatsApp Link */
+.footer-whatsapp {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 20px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 50px;
+  color: #ffffff;
+  text-decoration: none;
+  font-size: 15px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  width: fit-content;
+}
+
+.footer-whatsapp:hover {
+  background: rgba(37, 211, 102, 0.1);
+  border-color: rgba(37, 211, 102, 0.3);
+  transform: translateY(-2px);
+}
+
+.footer-whatsapp__icon {
+  width: 22px;
+  height: 22px;
+  color: #25d366;
+}
+
+/* ==================== NAVIGATION COLUMNS ==================== */
+
+.footer-nav__list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.footer-nav__link {
+  color: rgba(255, 255, 255, 0.7);
+  text-decoration: none;
+  font-size: 15px;
+  font-weight: 400;
+  transition: all 0.3s ease;
+  display: inline-block;
+}
+
+.footer-nav__link:hover {
+  color: #ffffff;
+  transform: translateX(4px);
+}
+
+/* ==================== BOTTOM SECTION ==================== */
+
+.footer-bottom {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding-top: 40px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+}
+
+/* Social Media Icons */
+.footer-social {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+
+.footer-social__link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+  color: #ffffff;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.footer-social__link:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.3);
+  transform: translateY(-4px);
+}
+
+.footer-social__link svg {
+  width: 20px;
+  height: 20px;
+}
+
+/* Copyright */
+.footer-copyright {
+  text-align: center;
+}
+
+.footer-copyright p {
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.5);
+  margin: 0;
+  letter-spacing: 0.3px;
+}
+
+/* ==================== RESPONSIVE DESIGN ==================== */
+
+/* Tablet - 768px and up */
+@media (min-width: 768px) {
+  .footer-section {
+    padding: 80px 40px 40px;
+  }
+
+  .footer-content {
+    grid-template-columns: 1.5fr 1fr 1fr;
+    gap: 50px;
+    margin-bottom: 60px;
+  }
+
+  .footer-title {
+    font-size: 32px;
+    max-width: 450px;
+  }
+
+  .footer-cta {
+    padding: 16px 32px;
+    font-size: 16px;
+  }
+
+  .footer-cta__icon {
+    width: 20px;
+    height: 20px;
+  }
+
+  .footer-whatsapp {
+    padding: 14px 24px;
+    font-size: 16px;
+  }
+
+  .footer-whatsapp__icon {
+    width: 24px;
+    height: 24px;
+  }
+
+  .footer-nav__link {
+    font-size: 16px;
+  }
+
+  .footer-bottom {
+    padding-top: 50px;
+  }
+
+  .footer-social {
+    gap: 24px;
+  }
+
+  .footer-social__link {
+    width: 48px;
+    height: 48px;
+  }
+
+  .footer-social__link svg {
+    width: 22px;
+    height: 22px;
+  }
+
+  .footer-copyright p {
+    font-size: 14px;
+  }
+}
+
+/* Desktop - 1024px and up */
+@media (min-width: 1024px) {
+  .footer-section {
+    padding: 100px 60px 50px;
+  }
+
+  .footer-content {
+    grid-template-columns: 2fr 1fr 1fr;
+    gap: 60px;
+  }
+
+  .footer-title {
+    font-size: 36px;
+    max-width: 500px;
+  }
+
+  .footer-social {
+    gap: 28px;
+  }
+
+  .footer-social__link {
+    width: 52px;
+    height: 52px;
+  }
+
+  .footer-social__link svg {
+    width: 24px;
+    height: 24px;
+  }
+}
+
+/* Large Desktop - 1440px and up */
+@media (min-width: 1440px) {
+  .footer-content {
+    max-width: 1400px;
+  }
+
+  .footer-bottom {
+    max-width: 1400px;
+  }
+}
+
+/* ==================== ACCESSIBILITY ==================== */
+
+.footer-cta:focus,
+.footer-whatsapp:focus,
+.footer-nav__link:focus,
+.footer-social__link:focus {
+  outline: 2px solid rgba(255, 255, 255, 0.5);
+  outline-offset: 3px;
+}
+
+/* Reduced Motion Support */
+@media (prefers-reduced-motion: reduce) {
+  .footer-cta,
+  .footer-whatsapp,
+  .footer-nav__link,
+  .footer-social__link,
+  .footer-cta__icon {
+    transition: none !important;
+  }
+
+  .footer-cta:hover,
+  .footer-whatsapp:hover,
+  .footer-nav__link:hover,
+  .footer-social__link:hover {
+    transform: none !important;
+  }
+}
+
+/* ==================== PRINT STYLES ==================== */
+
+@media print {
+  .footer-section {
+    background: #ffffff;
+    color: #000000;
+    border-top: 2px solid #000000;
+  }
+
+  .footer-social {
+    display: none;
+  }
+
+  .footer-cta,
+  .footer-whatsapp {
+    display: none;
+  }
+}
+
+
+
+/* ============================================
+   PART 3: COLOR THEME UPDATE - COOL PROFESSIONAL
+   Black/White → Blue Accent Conversion
+   ============================================ */
+
+/* Scroll Progress Bar */
+.scroll-progress {
+  background: linear-gradient(90deg, #7C9CB5, #A3C1D8) !important;
+}
+
+/* Navbar Hover Effects */
+.navbar a:hover {
+  color: #7C9CB5 !important;
+}
+
+/* Hero Section - CTA Button */
+.hs-cta-button {
+  background: #7C9CB5 !important;
+  color: #ffffff !important;
+  border: 1px solid #7C9CB5 !important;
+  box-shadow: 0 8px 25px rgba(124, 156, 181, 0.3) !important;
+}
+
+.hs-cta-button:hover {
+  background: #A3C1D8 !important;
+  color: #ffffff !important;
+  box-shadow: 0 12px 30px rgba(124, 156, 181, 0.5) !important;
+}
+
+/* Philosophy Section - Title Divider */
+.philosophy-title-divider {
+  background: linear-gradient(90deg, #7C9CB5, #A3C1D8) !important;
+}
+
+/* Philosophy Section - Text Blocks */
+.philosophy-text-block {
+  border-left: 3px solid #7C9CB5 !important;
+}
+
+.philosophy-text-block:hover {
+  border-left-color: #A3C1D8 !important;
+}
+
+.philosophy-block-title {
+  color: #7C9CB5 !important;
+}
+
+/* Philosophy Section - Circle Elements */
+.progress-ring-circle {
+  stroke: #7C9CB5 !important;
+  filter: drop-shadow(0 0 8px rgba(124, 156, 181, 0.6)) !important;
+}
+
+.longevity-center {
+  background: linear-gradient(135deg, #7C9CB5, #A3C1D8) !important;
+  box-shadow: 0 0 40px rgba(124, 156, 181, 0.5) !important;
+}
+
+.orbit-dot {
+  background: #7C9CB5 !important;
+  box-shadow: 0 0 20px rgba(124, 156, 181, 0.7) !important;
+}
+
+.orbit-text {
+  border: 1px solid rgba(124, 156, 181, 0.5) !important;
+}
+
+/* Achievement Stats Cards */
+.achievement-stat-card {
+  border: 1px solid rgba(124, 156, 181, 0.2) !important;
+}
+
+.achievement-stat-card:hover {
+  background: rgba(124, 156, 181, 0.05) !important;
+  border-color: rgba(124, 156, 181, 0.5) !important;
+  box-shadow: 0 8px 25px rgba(124, 156, 181, 0.3) !important;
+}
+
+.achievement-icon {
+  color: #7C9CB5 !important;
+}
+
+.Haristhenics-heading {
+  color: #7C9CB5 !important;
+}
+
+/* Pricing Section - Featured Card */
+.pricing-card--featured {
+  background: linear-gradient(135deg, #2a2a2a 0%, #1a1a1a 100%) !important;
+  border: 1px solid rgba(124, 156, 181, 0.3) !important;
+  box-shadow: 0 20px 60px rgba(124, 156, 181, 0.2) !important;
+}
+
+.pricing-card--featured:hover {
+  box-shadow: 0 25px 70px rgba(124, 156, 181, 0.3) !important;
+}
+
+.pricing-card__icon {
+  color: #7C9CB5 !important;
+}
+
+/* Pricing Callback Button */
+.pricing-callback__btn {
+  background: linear-gradient(135deg, #7C9CB5 0%, #A3C1D8 100%) !important;
+  color: #ffffff !important;
+  border: 1px solid rgba(124, 156, 181, 0.2) !important;
+  box-shadow: 0 8px 24px rgba(124, 156, 181, 0.3) !important;
+}
+
+.pricing-callback__btn:hover {
+  background: linear-gradient(135deg, #A3C1D8 0%, #B8D4E8 100%) !important;
+  box-shadow: 0 12px 32px rgba(124, 156, 181, 0.4) !important;
+}
+
+/* Callback Modal */
+.callback-modal__icon::before {
+  background: radial-gradient(circle, rgba(124, 156, 181, 0.2) 0%, transparent 70%) !important;
+}
+
+.callback-form__input:focus,
+.callback-form__select:focus {
+  border-color: rgba(124, 156, 181, 0.5) !important;
+  box-shadow: 0 0 0 3px rgba(124, 156, 181, 0.1) !important;
+}
+
+.callback-form__submit {
+  background: linear-gradient(135deg, #7C9CB5 0%, #A3C1D8 100%) !important;
+  color: #ffffff !important;
+}
+
+.callback-form__submit:hover {
+  box-shadow: 0 12px 32px rgba(124, 156, 181, 0.4) !important;
+}
+
+/* Footer WhatsApp */
+.footer-whatsapp:hover {
+  background: rgba(124, 156, 181, 0.1) !important;
+  border-color: rgba(124, 156, 181, 0.3) !important;
+}
+
+/* Footer Social Links Hover */
+.footer-social__link:hover {
+  background: rgba(124, 156, 181, 0.1) !important;
+  border-color: rgba(124, 156, 181, 0.3) !important;
+}
+
+/* Success/Error Messages */
+.callback-form__success {
+  background: rgba(124, 156, 181, 0.05) !important;
+  border: 1px solid rgba(124, 156, 181, 0.3) !important;
+  color: #7C9CB5 !important;
+}
+
+.callback-form__error {
+  background: rgba(239, 68, 68, 0.05) !important;
+  border: 1px solid rgba(239, 68, 68, 0.3) !important;
+  color: #f87171 !important;
+}
+
+/* Accessibility - Focus States */
+*:focus-visible {
+  outline: 2px solid rgba(124, 156, 181, 0.5) !important;
+  outline-offset: 2px !important;
+}
+
+/* ==================== NEW: STICKY BUTTON STYLES ==================== */
+.sticky-book-button {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  z-index: 1000;
+  padding: 16px 32px;
+  background: linear-gradient(135deg, #7C9CB5 0%, #A3C1D8 100%);
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 600;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  opacity: 0;
+  transform: translateY(20px);
+  pointer-events: none;
+}
+
+.sticky-book-button.visible {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: all;
+}
+
+.sticky-book-button:hover {
+  background: linear-gradient(135deg, #A3C1D8 0%, #B8D4E8 100%);
+  transform: translateY(-4px);
+  box-shadow: 0 12px 32px rgba(124, 156, 181, 0.6);
+}
+
+.sticky-book-button:active {
+  transform: translateY(-2px);
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+  .sticky-book-button {
+    bottom: 20px;
+    right: 20px;
+    padding: 14px 24px;
+    font-size: 14px;
+  }
+}
+
+/* ==================== NEW: CHOOSE YOUR PLAN SECTION ==================== */
+.choose-plan-section {
+  width: 100%;
+  min-height: 100vh;
+  background: #000000;
+  padding: 100px 20px;
+  position: relative;
+  color: #ffffff;
+}
+
+.choose-plan-header {
+  text-align: center;
+  max-width: 700px;
+  margin: 0 auto 60px;
+}
+
+.choose-plan-header__title {
+  font-size: 42px;
+  font-weight: 700;
+  margin: 0 0 16px 0;
+  color: #ffffff;
+  letter-spacing: -0.5px;
+}
+
+.choose-plan-header__subtitle {
+  font-size: 18px;
+  font-weight: 400;
+  margin: 0;
+  color: rgba(255, 255, 255, 0.6);
+  line-height: 1.6;
+}
+
+.choose-plan-cards {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 32px;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+@media (min-width: 768px) {
+  .choose-plan-cards {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Individual Plan Card */
+.plan-card {
+  background: #141414;
+  border: 1px solid rgba(124, 156, 181, 0.2);
+  border-radius: 20px;
+  padding: 40px 32px;
+  position: relative;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.plan-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 60px rgba(124, 156, 181, 0.3);
+  border-color: rgba(124, 156, 181, 0.5);
+}
+
+/* Card Header */
+.plan-card__header {
+  margin-bottom: 24px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding-bottom: 20px;
+}
+
+.plan-card__title {
+  font-size: 26px;
+  font-weight: 700;
+  margin: 0 0 12px 0;
+  color: #7C9CB5;
+}
+
+.plan-card__price {
+  font-size: 36px;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0;
+}
+
+/* Card Description */
+.plan-card__description {
+  font-size: 15px;
+  line-height: 1.7;
+  color: rgba(255, 255, 255, 0.8);
+  margin-bottom: 28px;
+}
+
+/* Class Details (Only for Sunday Class) */
+.plan-card__details {
+  background: rgba(124, 156, 181, 0.05);
+  border-left: 3px solid #7C9CB5;
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 28px;
+}
+
+.plan-detail-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 10px;
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.plan-detail-item:last-child {
+  margin-bottom: 0;
+}
+
+.plan-detail-item svg {
+  width: 18px;
+  height: 18px;
+  color: #7C9CB5;
+  flex-shrink: 0;
+}
+
+.plan-detail-item strong {
+  color: #ffffff;
+}
+
+/* CTA Button */
+.plan-card__cta {
+  width: 100%;
+  padding: 16px 24px;
+  background: linear-gradient(135deg, #7C9CB5 0%, #A3C1D8 100%);
+  border: none;
+  border-radius: 12px;
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(124, 156, 181, 0.3);
+}
+
+.plan-card__cta:hover {
+  background: linear-gradient(135deg, #A3C1D8 0%, #B8D4E8 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(124, 156, 181, 0.5);
+}
+
+.plan-card__cta:active {
+  transform: translateY(0);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .choose-plan-section {
+    padding: 60px 20px;
+  }
+
+  .choose-plan-header__title {
+    font-size: 32px;
+  }
+
+  .plan-card {
+    padding: 32px 24px;
+  }
+
+  .plan-card__title {
+    font-size: 22px;
+  }
+
+  .plan-card__price {
+    font-size: 28px;
+  }
+}
+
+/* End Color Theme Update */
+    </style>
+   
+
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              "deep-black": "#0a0a0a",
+              "matte-black": "#000000",
+              "light-grey": "#f5f5f5",
+              "off-white": "#d1d1d1",
+              "accent-orange": "#fb923c",
+            },
+          },
+        },
+      };
+    </script>
+  </head>
+  <!-- Preload Critical Fonts Only (2 weights max) -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+
+  <body class="bg-matte-black text-off-white antialiased">
+    <!-- Sticky Book Appointment Button -->
+<button id="stickyBookBtn" class="sticky-book-btn">
+    Book Your Appointment
+</button> 
+    <!-- Scroll Progress Bar -->
+    <div id="scroll-progress" class="scroll-progress"></div>
+
+    <!-- Page Load Overlay -->
+    <div id="page-loader" class="page-loader">
+      <div class="loader-content">
+        <div class="loader-logo">
+          HS<span class="text-accent-orange">.</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Navbar -->
+    <nav id="navbar" class="navbar">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between items-center h-16 sm:h-20">
+          <!-- Logo -->
+          <div class="flex-shrink-0">
+            <a
+              href="#"
+              class="text-xl sm:text-2xl font-bold text-light-grey  transition-colors duration-300"
+            >
+              HS<span class="" style="color: #7C9CB5 ;">.</span>
+            </a>
+          </div>
+
+          <!-- Desktop Menu -->
+          <div class="hidden md:flex space-x-8">
+            <a
+              href="#pricing-section"
+              class="text-sm lg:text-base text-off-white hover:text-accent-orange transition-colors duration-300"
+              >Pricings</a
+            >
+            <a
+              href="#whoisharish"
+              class="text-sm lg:text-base text-off-white hover:text-accent-orange transition-colors duration-300"
+              >Philosophy</a
+            >
+            <a
+              href="#footer-section"
+              class="text-sm lg:text-base text-off-white hover:text-accent-orange transition-colors duration-300"
+              >Contact me</a
+            >
+          </div>
+
+          <!-- Mobile Menu Button -->
+          <button
+            id="mobile-menu-btn"
+            class="md:hidden text-light-grey focus:outline-none  transition-colors duration-300"
+            aria-label="Toggle menu"
+          >
+            <svg
+              class="w-6 h-6"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M4 6h16M4 12h16M4 18h16"
+              ></path>
+            </svg>
+          </button>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="mobile-menu">
+          <div class="py-4 space-y-4 border-t border-white/5">
+            <a
+              href="#pricing-section"
+              class="block text-off-white hover:text-accent-orange text-center py-2 transition-colors duration-300"
+              >Pricing</a
+            >
+            <a
+              href="#whoisharish"
+              class="block text-off-white hover:text-accent-orange text-center py-2 transition-colors duration-300"
+              >Philosophy</a
+            >
+            <a
+              href="#footer-section"
+              class="block text-off-white hover:text-accent-orange text-center py-2 transition-colors duration-300"
+              >Contact Me</a
+            >
+          </div>
+        </div>
+      </div>
+    </nav>
+<!-- Hero Section - Self-contained, ready to integrate -->
+<section class="hs-hero-section" id="Home">
+  <!-- Animated Gradient Background -->
+  <div class="hs-hero-gradient"></div>
+  
+  <!-- Particle Canvas -->
+  <canvas class="hs-particle-canvas" id="hs-particle-canvas"></canvas>
+  
+  <!-- Hero Content Container - Flexbox Centered -->
+  <div class="hs-hero-content-wrapper">
+    <!-- Image Section with background text -->
+    <div class="hs-image-section">
+      <!-- Background text - positioned relative to image -->
+      <div class="hs-bg-text-wrapper">
+        <h2 class="hs-bg-text">Haristhenics</h2>
+      </div>
+      
+      <!-- Coach Image Container -->
+      <div class="hs-image-container">
+        <img
+          src="./cutout bg remoive.png"
+          alt="Coach Harish Sharma - Professional Movement Coach"
+          class="hs-coach-image"
+          loading="eager"
+        />
+      </div>
+    </div>
+    
+    <!-- Text Content Section -->
+    <div class="hs-text-content-section">
+      <!-- Coaching Title with Typing Effect -->
+      <p class="hs-coaching-title">
+        <span id="hs-typing-text"></span>
+        <span class="hs-typing-cursor">|</span>
+      </p>
+      
+      <!-- Name -->
+      <h1 class="hs-coach-name">Harish Sharma</h1>
+      <p>Movement Specialist</p>
+      <!-- Subtitle -->
+      <p class="hs-coach-subtitle">
+       Helping people move better, live pain-free, and build a stronger connection with their bodies through intelligent movement.
+      </p>
+      
+      <!-- CTA Button -->
+      <div class="hs-cta-wrapper">
+        <a href="#pricing-section" class="hs-cta-button">Talk With Harish</a>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Scroll indicator -->
+  <div class="hs-scroll-indicator">
+    <svg
+      class="hs-scroll-icon"
+      fill="none"
+      stroke="currentColor"
+      viewBox="0 0 24 24"
+    >
+      <path
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="2"
+        d="M19 14l-7 7m0 0l-7-7m7 7V3"
+      ></path>
+    </svg>
+  </div>
+</section>
+
+
+
+
+
+
+
+
+<section class="whoisharish-section" id="whoisharish">
+
+
+ <!-- MIDDLE SECTION: Who is Haristhenics -->
+    <div class="Haristhenics-intro">
+      <h2 class="Haristhenics-heading">Who is Haristhenics?</h2>
+      <p class="Haristhenics-description">
+HARISTHENICS is a movement-based system created by Harish Sharma.
+
+Haris represents the person behind the work, and thenics represents movement.
+Together, HARISTHENICS stands for movements thoughtfully designed for real human bodies.
+
+It is not about copying exercises.
+It is about curating movements that suit you.
+
+⸻
+
+What HARISTHENICS Works On
+
+HARISTHENICS movements are designed to support every aspect of human movement, including:
+	•	Strength & Control
+	•	Mobility & Flexibility
+	•	Rehabilitation & Recovery
+	•	Muscle Release & Tissue Health
+	•	Posture Correction
+	•	Muscle Imbalance Correction
+	•	Skill Development
+	•	Pain Management & Injury Prevention
+
+Every movement is designed with purpose, awareness, and progression.
+<br>
+The HARISTHENICS Ideology
+
+At HARISTHENICS, there is no “right” or “wrong” movement.
+
+There is only:
+		The movement that suits your body
+		The movement that does not—yet
+
+Movement should be designed based on:
+		Your body’s current strength & flexibility
+		Your pain, limitations, or past injuries
+		Your goals and daily lifestyle demands
+
+We focus on:
+		Which movement is needed and which is not
+		Why a movement feels restricted or uncomfortable
+		How to use progression and regression intelligently
+		When to change movement patterns to avoid future muscle imbalances
+
+This approach ensures long-term results, not temporary fixes.
+
+
+
+My Mission
+
+My biggest aim is simple:
+
+To help you move better, live better, and stay pain-free for life.
+
+Through HARISTHENICS, I help people:
+		Understand their bodies
+		Build confidence in movement
+		Reduce pain without fear
+		Move with strength, freedom, and awareness
+
+Movement is not just exercise.
+Movement is quality of life.      </p>
+    </div>
+
+    <!-- BOTTOM SECTION: Achievement Stats Cards -->
+    <div class="achievements-container">
+      
+      <div class="achievement-stat-card">
+        <div class="achievement-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+            <circle cx="9" cy="7" r="4"/>
+            <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+            <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+          </svg>
+        </div>
+        <div class="achievement-number" data-target="2000" >0</div>
+        <div class="achievement-label">Clients Trained</div>
+      </div>
+
+      <div class="achievement-stat-card">
+        <div class="achievement-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+            <line x1="16" y1="2" x2="16" y2="6"/>
+            <line x1="8" y1="2" x2="8" y2="6"/>
+            <line x1="3" y1="10" x2="21" y2="10"/>
+          </svg>
+        </div>
+        <div class="achievement-number" data-target="13">0</div>
+        <div class="achievement-label">Years Experience</div>
+      </div>
+
+      
+
+      
+    </div>
+
+
+</section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- ==================== MOVEMENT PHILOSOPHY SECTION ==================== -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Placeholder sections for scroll testing
+    <section id="about" style="min-height: 100vh; background: #0a0a0a; display: flex; align-items: center; justify-content: center;">
+        <h2 class="text-4xl text-light-grey">About Section</h2>
+    </section>
+
+    <section id="philosophy" style="min-height: 100vh; background: #000; display: flex; align-items: center; justify-content: center;">
+        <h2 class="text-4xl text-light-grey">Philosophy Section</h2>
+    </section>
+
+    <section id="contact" style="min-height: 100vh; background: #0a0a0a; display: flex; align-items: center; justify-content: center;">
+        <h2 class="text-4xl text-light-grey">Contact Section</h2>
+    </section> -->
+
+    <!-- How It Works Section -->
+    <!-- <section class="how-it-works-section" id="how-it-works">
+    <div class="how-it-works-content">
+      <div class="how-text animate-left">
+        <h2>My Movement Philosophy</h2>
+        <p>
+            Harish believes that movement is not just about lifting heavier or training harder — it’s about moving intelligently, pain-free, and for life. His philosophy centers around understanding the body’s unique mechanics and designing training that supports longevity rather than burnout. Every client is different, and so is their movement — that’s why Harish focuses on building strength, mobility, and awareness in a way that aligns with each person’s needs. Through a blend of calisthenics, functional training, and movement therapy, he teaches people how to reconnect with their bodies, eliminate pain, and move with confidence. For Harish, movement isn’t a quick fix — it’s a long-term relationship between strength, balance, and self-awareness.
+        </p>
+
+        <div class="steps-container">
+          <div class="step">1. Personalized Training Plans</div>
+          <div class="step">2. Regular Assesments</div>
+          <div class="step">3. Goal Orinted Training</div>
+        </div>
+      </div>
+
+      <div class="how-media animate-right">
+        <div class="phone-frame">
+          <img src="./video/pngwing.com.png" alt="Phone Frame" class="phone-png" />
+            <video id="autoPlayVideo" src="./video/website phone video cp.mp4" muted loop playsinline preload="metadata" class="phone-video"></video>
+          <!-- Floating Labels -->
+    <!-- <div class="floating-label label-1">Personalized Workouts</div>
+          <div class="floating-label label-2">Real-Time Progress</div>
+          <div class="floating-label label-3">Regular Assesments</div>
+        </div>
+      </div>
+    </div>
+  </section> -->
+    <!-- Link External JavaScript -->
+
+    <!-- ==================== TESTIMONIAL SECTION ==================== -->
+    <!-- Self-contained section - Safe to integrate in any website -->
+    <!-- No global CSS pollution -->
+
+
+
+
+
+
+
+
+
+
+<!-- testimonial section removed -->
+   
+
+
+<!-- ==================== PRICING SECTION - EXPANDABLE ==================== -->
+<section class="pricing-section" id="pricing-section" style="padding: 50px 20px; background: #000;">
+
+  <!-- Section Header -->
+  <div style="text-align: center; max-width: 900px; margin: 0 auto 50px;">
+    <h2 style="font-size: 40px; font-weight: 700; color: #ffffff; margin: 0 0 5px 0; line-height: 49px;">
+      How can you Train with me
+    </h2>
+    <p style="font-size: 18px; color: rgba(255,255,255,0.6);">
+      Choose the option that best fits your fitness journey
+    </p>
+  </div>
+
+  <!-- Two Options Container -->
+  <div style="max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: 1fr; gap: 40px;">
+<!-- OPTION 3: Join Grip&Grab (NEW) -->
+<div id="option3" class="pricing-option" style="
+    background: rgba(124, 156, 181, 0.05);
+    border: 2px solid rgba(124, 156, 181, 0.2);
+    border-radius: 20px;
+    padding: 30px;
+    cursor: pointer;
+    transition: all 0.3s ease;"
+    onclick="toggleOption('option3')">
+
+    <!-- Always Visible Header -->
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+        <h3 style="font-size: 25px; font-weight: 700; color: #7C9CB5; margin: 0;">
+            Join Grip&Grab
+        </h3>
+        <span id="option3-icon" style="font-size: 28px; color: #7C9CB5; transition: transform 0.3s ease;">▼</span>
+    </div>
+    <p style="font-size: 14px; color: rgba(255,255,255,0.5); margin: 8px 0 0 0;">
+        For Delhi-based fitness enthusiasts
+    </p>
+
+    <!-- Expandable Content - Initially Hidden -->
+    <div id="option3-content" style="
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.4s ease, margin-top 0.4s ease;">
+
+        <div style="padding-top: 20px;">
+
+            <!-- Description -->
+            <p style="font-size: 17px; line-height: 1.8; color: rgba(255,255,255,0.8); margin: 0 0 32px 0;">
+                If you're from <strong>Delhi</strong>, you can join <strong>Grip&Grab</strong> — a premium training facility located in Lajpat Nagar and Saket. Harish regularly takes classes at these gyms, offering personalized training and expert guidance.
+            </p>
+
+            <!-- Location Info Box -->
+            <div style="
+                background: rgba(124, 156, 181, 0.08);
+                border: 1px solid rgba(124, 156, 181, 0.2);
+                border-radius: 16px;
+                padding: 24px;
+                margin: 0 0 32px 0;">
+
+                <!-- Locations -->
+                <div style="display: flex; align-items: flex-start; margin-bottom: 18px; font-size: 15px; color: rgba(255,255,255,0.9);">
+                    <span style="margin-right: 12px; font-size: 18px;">📍</span>
+                    <span>
+                        <strong style="color: #ffffff;">Locations:</strong><br>
+                        • Lajpat Nagar, Delhi<br>
+                        • Saket, Delhi
+                    </span>
+                </div>
+
+               
+
+                <!-- Classes Info -->
+                <div style="display: flex; align-items: flex-start; font-size: 15px; color: rgba(255,255,255,0.9);">
+                    <span style="margin-right: 12px; font-size: 18px;">🗓️</span>
+                    <span>
+                        <strong style="color: #ffffff;">Training Schedule:</strong><br>
+                        Flexible timings available — visit Grip&Grab website for details .
+                    </span>
+                </div>
+            </div>
+
+            <!-- CTA Button with Hyperlink -->
+            <a 
+                href="https://www.gripandgrab.com" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                style="
+                    display: inline-block;
+                    padding: 18px 48px;
+                    background: linear-gradient(135deg, #7C9CB5 0%, #A3C1D8 100%);
+                    color: #ffffff;
+                    font-size: 18px;
+                    font-weight: 600;
+                    border: none;
+                    border-radius: 50px;
+                    cursor: pointer;
+                    transition: all 0.3s ease;
+                    
+                    text-decoration: none;
+                    text-align: center;"
+                onmouseover="this.style.transform='translateY(-3px)'; "
+                onmouseout="this.style.transform='translateY(0)'; ">
+                Visit Grip&Grab →
+            </a>
+
+        </div>
+    </div>
+</div>
+    <!-- ========== OPTION 1: Assessment & Consultation ========== -->
+    <div id="option1" class="pricing-option" style="
+      background: rgba(124, 156, 181, 0.05);
+      border: 2px solid rgba(124, 156, 181, 0.2);
+      border-radius: 20px;
+      padding: 30px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    " onclick="toggleOption('option1')">
+
+      <!-- Always Visible Header -->
+      <div style="display: flex; justify-content: space-between; align-items: center;">
+        <h3 style="font-size: 16px; font-weight: 800; color: #7C9CB5; margin: 0;">
+          Assessment & Consultation
+        </h3>
+        <span id="option1-icon" style="font-size: 28px; color: #7C9CB5; transition: transform 0.3s ease;">
+          ▼
+        </span>
+      </div>
+
+      <p style="font-size: 14px; color: rgba(255,255,255,0.5); margin: 8px 0 0 0;">
+        (Non Grip&Grab members only)
+      </p>
+
+      <!-- Expandable Content - Initially Hidden -->
+      <div id="option1-content" style="
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.4s ease, margin-top 0.4s ease;
+      ">
+        <div style="padding-top: 20px;">
+          <!-- Description -->
+          <p style="font-size: 17px; line-height: 1.8; color: rgba(255,255,255,0.8); margin: 0 0 32px 0;">
+            1-on-1 consultation with Harish. If you are facing any challenges in your fitness journey, 
+            day-to-day movement, or any chronic pain, you can book an appointment and Harish will 
+            personally contact you over a call.
+          </p>
+
+          <!-- CTA Button -->
+          <button 
+            onclick="event.stopPropagation(); openBookingModal('consultation')"
+            style="
+              padding: 18px 48px;
+              background: linear-gradient(135deg, #7C9CB5 0%, #A3C1D8 100%);
+              color: #ffffff;
+              font-size: 18px;
+              font-weight: 600;
+              border: none;
+              border-radius: 50px;
+              cursor: pointer;
+              transition: all 0.3s ease;
+              
+            "
+            onmouseover="this.style.transform='translateY(-3px)'; "
+            onmouseout="this.style.transform='translateY(0)'; "
+          >
+            Book Consultation - ₹2,000
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========== OPTION 2: Exclusive Sunday Class ========== -->
+    <div id="option2" class="pricing-option" style="
+      background: rgba(124, 156, 181, 0.05);
+      border: 2px solid rgba(124, 156, 181, 0.2);
+      border-radius: 20px;
+      padding: 30px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    " onclick="toggleOption('option2')">
+
+      <!-- Always Visible Header -->
+      <div style="display: flex; justify-content: space-between; align-items: center;">
+        <h3 style="font-size: 32px; font-weight: 700; color: #7C9CB5; margin: 0; line-height: 35px;">
+          Exclusive Sunday Class
+        </h3>
+        <span id="option2-icon" style="font-size: 28px; color: #7C9CB5; transition: transform 0.3s ease;">
+          ▼
+        </span>
+      </div>
+
+      <p style="font-size: 14px; color: rgba(255,255,255,0.5); margin: 8px 0 0 0;">
+        at Grip&Grab (Offline Class) 
+      </p>
+
+      <!-- Expandable Content - Initially Hidden -->
+      <div id="option2-content" style="
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.4s ease, margin-top 0.4s ease;
+      ">
+        <div style="padding-top: 20px;">
+          <!-- Description -->
+          <p style="font-size: 17px; line-height: 1.8; color: rgba(255,255,255,0.8); margin: 0 0 32px 0;">
+            Perfect for those who can only train on weekends. After running successful workshops, we're now organizing practical Sunday classes. Whether you're dealing with pain, stuck with a specific skill, need guidance on technique, or struggling with motivation - you'll get a chance to train with Harish. <strong>This is exclusively for Non Grip&Grab members.</strong>
+          </p>
+
+          <!-- Class Details Box -->
+          <div style="
+            background: rgba(124, 156, 181, 0.08);
+            border: 1px solid rgba(124, 156, 181, 0.2);
+            border-radius: 16px;
+            padding: 24px;
+            margin: 0 0 32px 0;
+          ">
+            <!-- Next Class Date -->
+            <div style="display: flex; align-items: center; margin-bottom: 14px; font-size: 15px; color: rgba(255,255,255,0.9);">
+              <span style="margin-right: 12px; font-size: 18px;">📅</span>
+              <span><strong style="color: #ffffff;">Next Class:</strong> <span id="nextSundayDate">Loading...</span></span>
+            </div>
+
+            <!-- Time -->
+            <div style="display: flex; align-items: center; margin-bottom: 14px; font-size: 15px; color: rgba(255,255,255,0.9);">
+              <span style="margin-right: 12px; font-size: 18px;">⏰</span>
+              <span><strong style="color: #ffffff;">Time:</strong> 8:00 AM - 10:00 AM</span>
+            </div>
+
+            <!-- Location -->
+            <div style="display: flex; align-items: flex-start; margin-bottom: 14px; font-size: 15px; color: rgba(255,255,255,0.9);">
+              <span style="margin-right: 12px; font-size: 18px;">📍</span>
+              <span>
+                <strong style="color: #ffffff;">Location:</strong><br>
+                <a href="https://maps.app.goo.gl/qLY9BBGNsWx9MEoU7" target="_blank" style="color: #7C9CB5; text-decoration: underline;">
+                  B-32, 3rd Floor, Lajpat Nagar, New Delhi
+                </a>
+              </span>
+            </div>
+
+            <!-- Limited Slots -->
+            <div style="display: flex; align-items: center; font-size: 15px;">
+              <span style="margin-right: 12px; font-size: 18px;">🎯</span>
+              <span style="color: #7C9CB5; font-weight: 600;">Limited Slots Available</span>
+            </div>
+          </div>
+
+          <!-- CTA Button -->
+          <button 
+            onclick="event.stopPropagation(); openBookingModal('sundayClass')"
+            style="
+              padding: 18px 48px;
+              background: linear-gradient(135deg, #7C9CB5 0%, #A3C1D8 100%);
+              color: #ffffff;
+              font-size: 18px;
+              font-weight: 600;
+              border: none;
+              border-radius: 50px;
+              cursor: pointer;
+              transition: all 0.3s ease;
+              
+            "
+            onmouseover="this.style.transform='translateY(-3px)'; "
+            onmouseout="this.style.transform='translateY(0)';"
+          >
+            Book Your Spot - ₹1,000
+          </button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</section>
+
+<!-- ==================== JAVASCRIPT FOR EXPAND/COLLAPSE ==================== -->
+<script>
+// Toggle expand/collapse for pricing options
+function toggleOption(optionId) {
+  const content = document.getElementById(optionId + '-content');
+  const icon = document.getElementById(optionId + '-icon');
+  const option = document.getElementById(optionId);
+
+  // Check if currently expanded
+  const isExpanded = content.style.maxHeight && content.style.maxHeight !== '0px';
+
+  if (isExpanded) {
+    // Collapse
+    content.style.maxHeight = '0px';
+    icon.style.transform = 'rotate(0deg)';
+    option.style.background = 'rgba(124, 156, 181, 0.05)';
+  } else {
+    // Expand
+    content.style.maxHeight = content.scrollHeight + 'px';
+    icon.style.transform = 'rotate(180deg)';
+    option.style.background = 'rgba(124, 156, 181, 0.1)';
+  }
+}
+</script>
+<!-- ==================== END PRICING SECTION ==================== -->
+
+<!-- RESPONSIVE STYLES -->
+<style>
+ /* ============================================
+   COMPLETE FIX: "How can you train with me" Section
+   For Big Screens - Apply This CSS
+   ============================================ */
+/* ============================================
+   HYBRID FIX: Original Mobile + New Desktop Layout
+   Mobile styling original rahegi (unchanged)
+   Sirf tablet/desktop layout fix hoga
+   ============================================ */
+
+/* MOBILE STYLES - ORIGINAL (UNTOUCHED) 
+   Keep all existing mobile styles as-is
+   No changes for screens below 768px */
+
+/* ============================================
+   TABLET & DESKTOP - NEW RESPONSIVE LAYOUT
+   ============================================ */
+
+/* TABLET (768px - 1023px): Single column but wider */
+@media (min-width: 768px) and (max-width: 1023px) {
+    /* Main section heading wrapper */
+    #pricing-section > div:first-child {
+        max-width: 900px !important;
+        margin: 0 auto 60px !important;
+        padding: 0 30px !important;
+    }
+
+    /* Cards container - single column on tablet */
+    #pricing-section > div:nth-child(2) {
+        max-width: 800px !important;
+        margin: 0 auto !important;
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 50px !important;
+        padding: 0 30px !important;
+    }
+
+    /* Individual cards */
+    #pricing-section > div:nth-child(2) > div {
+        max-width: 100% !important;
+        margin: 0 !important;
+    }
+
+    /* Heading size increase */
+    #pricing-section h3 {
+        font-size: 36px !important;
+    }
+
+    /* Paragraph spacing */
+    #pricing-section p {
+        font-size: 17px !important;
+        line-height: 1.7 !important;
+    }
+}
+
+/* DESKTOP (1024px+): Side-by-side 2 columns */
+@media (min-width: 1024px) {
+    /* Main section heading wrapper */
+    #pricing-section > div:first-child {
+        max-width: 1200px !important;
+        margin: 0 auto 80px !important;
+        padding: 0 40px !important;
+    }
+
+    /* Cards container - TWO COLUMNS */
+    #pricing-section > div:nth-child(2) {
+        display: grid !important;
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 60px !important;
+        max-width: 1200px !important;
+        margin: 0 auto !important;
+        padding: 0 40px !important;
+    }
+
+    /* Individual cards - remove constraints */
+    #pricing-section > div:nth-child(2) > div {
+        max-width: none !important;
+        margin: 0 !important;
+    }
+
+    /* Heading size */
+    #pricing-section h3 {
+        font-size: 38px !important;
+    }
+
+    /* Paragraph */
+    #pricing-section p {
+        font-size: 17px !important;
+        line-height: 1.75 !important;
+        max-width: 100% !important;
+    }
+
+    /* Button adjustments */
+    #pricing-section button {
+        padding: 18px 48px !important;
+        font-size: 18px !important;
+    }
+
+    /* Details box (for Sunday class) */
+    #pricing-section > div:nth-child(2) > div:nth-child(2) > div {
+        max-width: 100% !important;
+        margin: 0 auto 32px !important;
+    }
+}
+
+/* LARGE DESKTOP (1440px+): More breathing room */
+@media (min-width: 1440px) {
+    /* Wider max-width */
+    #pricing-section > div:first-child,
+    #pricing-section > div:nth-child(2) {
+        max-width: 1400px !important;
+    }
+
+    /* More gap between cards */
+    #pricing-section > div:nth-child(2) {
+        gap: 80px !important;
+        padding: 0 60px !important;
+    }
+
+    /* Larger heading */
+    #pricing-section h3 {
+        font-size: 42px !important;
+    }
+
+    /* Slightly bigger text */
+    #pricing-section p {
+        font-size: 18px !important;
+    }
+}
+
+/* EXTRA LARGE (1920px+): Maximum constraints */
+@media (min-width: 1920px) {
+    #pricing-section > div:first-child,
+    #pricing-section > div:nth-child(2) {
+        max-width: 1600px !important;
+    }
+
+    #pricing-section > div:nth-child(2) {
+        gap: 100px !important;
+    }
+}
+
+</style>
+
+
+
+
+
+
+<!--pricing section removed-->
+
+
+
+
+
+
+
+
+
+
+    <!-- ==================== END PRICING SECTION ==================== -->
+
+    
+    <!-- ==================== FOOTER SECTION ==================== -->
+    <!-- Self-contained footer - Safe to integrate in any website -->
+    <!-- No global CSS pollution -->
+
+    <footer class="footer-section" id="footer-section">
+      <!-- Main Footer Content -->
+      <div class="footer-content">
+        <!-- Left Column: Contact -->
+        <div class="footer-col footer-col--contact">
+          <h3 class="footer-heading">CONTACT ME</h3>
+          <h2 class="footer-title">Let's Discuss Your Vision. With Us</h2>
+
+          <div class="footer-contact">
+            <p class="footer-contact__label">OR CONTACT ME ON</p>
+            <a
+              href="https://wa.me/919971250050"
+              target="_blank"
+              class="footer-whatsapp"
+              rel="noopener noreferrer"
+            >
+              <svg
+                class="footer-whatsapp__icon"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+              >
+                <path
+                  d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"
+                />
+              </svg>
+              <span>WhatsApp</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Middle Column: Quick Links -->
+        <div class="footer-col footer-col--links">
+          <h3 class="footer-heading">QUICK LINKS</h3>
+          <nav class="footer-nav">
+            <ul class="footer-nav__list">
+              <li><a href="#Home" class="footer-nav__link">Home</a></li>
+              <li><a href="https://www.gripandgrab.com/" class="footer-nav__link">Grip&Grab</a></li>
+              <li>
+                <a href="#whoisharish" class="footer-nav__link">Philosophy</a>
+              </li>
+             
+            </ul>
+          </nav>
+        </div>
+
+        <!-- Right Column: Information -->
+        <div class="footer-col footer-col--info">
+          <h3 class="footer-heading">INFORMATION</h3>
+          <nav class="footer-nav">
+            <ul class="footer-nav__list">
+              <li>
+                <a href="#terms" class="footer-nav__link">Terms & Conditions</a>
+              </li>
+              <li>
+                <a href="#privacy" class="footer-nav__link">Privacy Policy</a>
+              </li>
+            </ul>
+          </nav>
+        </div>
+      </div>
+
+      <!-- Bottom Section: Social & Copyright -->
+      <div class="footer-bottom">
+        <!-- Social Media Icons -->
+        <div class="footer-social">
+          <a
+            href="https://www.facebook.com/share/1AKMo1YcmU/"
+            target="_blank"
+            class="footer-social__link"
+            aria-label="Facebook"
+            rel="noopener noreferrer"
+          >
+            <svg viewBox="0 0 24 24" fill="currentColor">
+              <path
+                d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"
+              />
+            </svg>
+          </a>
+
+          <a
+            href="https://www.youtube.com/@haristhenics06"
+            target="_blank"
+            class="footer-social__link"
+            aria-label="YouTube"
+            rel="noopener noreferrer"
+          >
+            <svg viewBox="0 0 24 24" fill="currentColor">
+              <path
+                d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"
+              />
+            </svg>
+          </a>
+
+          <a
+            href="https://www.instagram.com/haristhenics/#"
+            target="_blank"
+            class="footer-social__link"
+            aria-label="Instagram"
+            rel="noopener noreferrer"
+          >
+            <svg viewBox="0 0 24 24" fill="currentColor">
+              <path
+                d="M12 0C8.74 0 8.333.015 7.053.072 5.775.132 4.905.333 4.14.63c-.789.306-1.459.717-2.126 1.384S.935 3.35.63 4.14C.333 4.905.131 5.775.072 7.053.012 8.333 0 8.74 0 12s.015 3.667.072 4.947c.06 1.277.261 2.148.558 2.913.306.788.717 1.459 1.384 2.126.667.666 1.336 1.079 2.126 1.384.766.296 1.636.499 2.913.558C8.333 23.988 8.74 24 12 24s3.667-.015 4.947-.072c1.277-.06 2.148-.262 2.913-.558.788-.306 1.459-.718 2.126-1.384.666-.667 1.079-1.335 1.384-2.126.296-.765.499-1.636.558-2.913.06-1.28.072-1.687.072-4.947s-.015-3.667-.072-4.947c-.06-1.277-.262-2.149-.558-2.913-.306-.789-.718-1.459-1.384-2.126C21.319 1.347 20.651.935 19.86.63c-.765-.297-1.636-.499-2.913-.558C15.667.012 15.26 0 12 0zm0 2.16c3.203 0 3.585.016 4.85.071 1.17.055 1.805.249 2.227.415.562.217.96.477 1.382.896.419.42.679.819.896 1.381.164.422.36 1.057.413 2.227.057 1.266.07 1.646.07 4.85s-.015 3.585-.074 4.85c-.061 1.17-.256 1.805-.421 2.227-.224.562-.479.96-.899 1.382-.419.419-.824.679-1.38.896-.42.164-1.065.36-2.235.413-1.274.057-1.649.07-4.859.07-3.211 0-3.586-.015-4.859-.074-1.171-.061-1.816-.256-2.236-.421-.569-.224-.96-.479-1.379-.899-.421-.419-.69-.824-.9-1.38-.165-.42-.359-1.065-.42-2.235-.045-1.26-.061-1.649-.061-4.844 0-3.196.016-3.586.061-4.861.061-1.17.255-1.814.42-2.234.21-.57.479-.96.9-1.381.419-.419.81-.689 1.379-.898.42-.166 1.051-.361 2.221-.421 1.275-.045 1.65-.06 4.859-.06l.045.03zm0 3.678c-3.405 0-6.162 2.76-6.162 6.162 0 3.405 2.76 6.162 6.162 6.162 3.405 0 6.162-2.76 6.162-6.162 0-3.405-2.76-6.162-6.162-6.162zM12 16c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4zm7.846-10.405c0 .795-.646 1.44-1.44 1.44-.795 0-1.44-.646-1.44-1.44 0-.794.646-1.439 1.44-1.439.793-.001 1.44.645 1.44 1.439z"
+              />
+            </svg>
+          </a>
+        </div>
+
+        <!-- Copyright -->
+        <div class="footer-copyright">
+          <p>© HS FutureWorld. ALL RIGHTS RESERVED.</p>
+        </div>
+      </div>
+    </footer>
+    <!-- ==================== END FOOTER SECTION ==================== -->
+
+    <!-- ============================================
+         SECTION: PAGE LOADER SCRIPT (script.js replacement)
+         ============================================ -->
+    <script>
+    // Hide page loader when content is loaded
+    window.addEventListener('load', function() {
+        const loader = document.getElementById('page-loader');
+        if (loader) {
+            loader.style.opacity = '0';
+            loader.style.transition = 'opacity 0.5s ease';
+            setTimeout(function() {
+                loader.style.display = 'none';
+            }, 500);
+        }
+    });
+    </script>
+    
+    <!-- ============================================
+         SECTION: WHOISHARISH JAVASCRIPT (whoisharish.js inline)
+         ============================================ -->
+    <script>
+// ============================================
+// Who is Haristhenics Section JavaScript
+// Scoped | Production Ready | iOS Optimized
+// ============================================
+
+(function() {
+    'use strict';
+
+    // Counter Animation on Scroll
+    const counterObserverOptions = {
+        threshold: 0.3,
+        rootMargin: '0px'
+    };
+
+    const animateCounter = (element) => {
+        const target = parseInt(element.getAttribute('data-target'));
+        const duration = 2000;
+        const increment = target / (duration / 16);
+        let current = 0;
+
+        const updateCounter = () => {
+            current += increment;
+            if (current < target) {
+                element.textContent = Math.floor(current);
+                requestAnimationFrame(updateCounter);
+            } else {
+                element.textContent = target;
+            }
+        };
+
+        updateCounter();
+    };
+
+    const counterObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting && !entry.target.classList.contains('animated')) {
+                entry.target.classList.add('animated');
+                animateCounter(entry.target);
+            }
+        });
+    }, counterObserverOptions);
+
+    // Observe all stat numbers
+    document.querySelectorAll('.Haristhenics-stat-number').forEach(counter => {
+        counterObserver.observe(counter);
+    });
+
+    // Timeline Expandable Cards
+    document.querySelectorAll('.Haristhenics-timeline-card').forEach(card => {
+        card.addEventListener('click', function() {
+            // Close all other cards
+            document.querySelectorAll('.Haristhenics-timeline-card').forEach(otherCard => {
+                if (otherCard !== card) {
+                    otherCard.classList.remove('active');
+                }
+            });
+            
+            // Toggle current card
+            this.classList.toggle('active');
+        });
+    });
+
+    // Smooth scroll for anchor links within section
+    document.querySelectorAll('.Haristhenics-section a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+            const target = document.querySelector(this.getAttribute('href'));
+            if (target) {
+                target.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            }
+        });
+    });
+
+})();
+
+    </script>
+    <!-- ============================================
+     PART 1: CORE JAVASCRIPT FUNCTIONS
+     Navbar, Mobile Menu, Scroll Progress, Parallax
+     ============================================ -->
+<script>
+(function() {
+    'use strict';
+
+    // ==================== MOBILE MENU TOGGLE ====================
+    const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+    const mobileMenu = document.getElementById('mobile-menu');
+    
+    if (mobileMenuBtn && mobileMenu) {
+        mobileMenuBtn.addEventListener('click', function() {
+            mobileMenu.classList.toggle('active');
+            
+            // Change icon
+            const icon = this.querySelector('svg path');
+            if (mobileMenu.classList.contains('active')) {
+                // Change to X icon
+                this.innerHTML = `
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                `;
+            } else {
+                // Change back to hamburger
+                this.innerHTML = `
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                `;
+            }
+        });
+
+        // Close menu when clicking on a link
+        const mobileLinks = mobileMenu.querySelectorAll('a');
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', function() {
+                mobileMenu.classList.remove('active');
+                mobileMenuBtn.innerHTML = `
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                `;
+            });
+        });
+    }
+
+    // ==================== NAVBAR HIDE ON SCROLL ====================
+    let lastScrollTop = 0;
+    const navbar = document.getElementById('navbar');
+    const scrollThreshold = 100;
+
+    window.addEventListener('scroll', function() {
+        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+        
+        // Scroll Progress Bar
+        updateScrollProgress();
+        
+        // Navbar Hide/Show Logic
+        if (scrollTop > scrollThreshold) {
+            if (scrollTop > lastScrollTop) {
+                // Scrolling DOWN - Hide navbar
+                navbar.classList.add('nav-hidden');
+            } else {
+                // Scrolling UP - Show navbar
+                navbar.classList.remove('nav-hidden');
+            }
+        } else {
+            // At top of page - Always show
+            navbar.classList.remove('nav-hidden');
+        }
+        
+        lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
+    }, { passive: true });
+
+    // ==================== SCROLL PROGRESS BAR ====================
+    function updateScrollProgress() {
+        const scrollProgress = document.getElementById('scroll-progress');
+        if (!scrollProgress) return;
+        
+        const windowHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        const scrolled = (window.pageYOffset / windowHeight) * 100;
+        
+        scrollProgress.style.width = scrolled + '%';
+    }
+
+
+    // ==================== HERO TYPING EFFECT ====================
+    const typingText = document.getElementById('hs-typing-text');
+    const textToType = 'YOUR MOVEMENT COACH';
+    
+    if (typingText) {
+        let charIndex = 0;
+        
+        function typeCharacter() {
+            if (charIndex < textToType.length) {
+                typingText.textContent += textToType.charAt(charIndex);
+                charIndex++;
+                setTimeout(typeCharacter, 100); // 100ms per character
+            }
+        }
+        
+        // Start typing after page load
+        setTimeout(typeCharacter, 800);
+    }
+
+    // ==================== FOOTER CTA WHATSAPP REDIRECT ====================
+    // Temporary redirect until modal is ready
+    const footerCTA = document.querySelector('.footer-cta');
+    if (footerCTA) {
+        footerCTA.addEventListener('click', function() {
+            window.open('https://wa.me/919971250050', '_blank');
+        });
+    }
+
+    console.log('✅ Part 1: Core Functions Loaded');
+
+
+})();
+
+
+    // ==================== ACHIEVEMENT COUNTER ANIMATION ====================
+    const counterObserverOptions = {
+        threshold: 0.5, // Trigger when 50% visible
+        rootMargin: '0px'
+    };
+
+    function animateCounter(element) {
+        const target = parseInt(element.getAttribute('data-target'));
+        const duration = 2000; // 2 seconds
+        const increment = target / (duration / 16); // 60fps
+        let current = 0;
+        
+        const updateCounter = () => {
+            current += increment;
+            if (current < target) {
+                element.textContent = Math.floor(current);
+                requestAnimationFrame(updateCounter);
+            } else {
+                element.textContent = target;
+                // Add + suffix for specific counters
+                const label = element.nextElementSibling;
+                if (label && (label.textContent.includes('Hours') || label.textContent.includes('Social')|| label.textContent.includes('Clients'))) {
+                    element.textContent = target + '+';
+                }
+            }
+        };
+        
+        updateCounter();
+    }
+
+    const counterObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting && !entry.target.classList.contains('animated')) {
+                entry.target.classList.add('animated');
+                animateCounter(entry.target);
+            }
+        });
+    }, counterObserverOptions);
+
+    // Observe all achievement numbers
+    document.querySelectorAll('.achievement-number').forEach(counter => {
+        counterObserver.observe(counter);
+    });
+
+  // ==================== PHILOSOPHY CIRCLE ANIMATION ====================
+    // Fresh redesign with clockwise progress and sequential dot reveals
+    
+    const philosophyCircle = document.querySelector('.longevity-circle-container');
+    
+    if (philosophyCircle) {
+        const progressCircle = philosophyCircle.querySelector('.progress-ring-circle');
+        const orbitElements = philosophyCircle.querySelectorAll('.orbit-element');
+        const centerText = philosophyCircle.querySelector('.longevity-center');
+        
+        let hasAnimated = false;
+        
+        const circleObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting && !hasAnimated) {
+                    hasAnimated = true;
+                    startPhilosophyAnimation();
+                }
+            });
+        }, { threshold: 0.5 });
+        
+        circleObserver.observe(philosophyCircle);
+        
+        function startPhilosophyAnimation() {
+            // Reset all states
+            if (progressCircle) {
+                progressCircle.style.strokeDashoffset = '534.07';
+            }
+            
+            orbitElements.forEach(el => {
+                el.style.opacity = '0';
+                el.style.transform = el.classList.contains('orbit-pos-1') ? 'translate(-50%, -50%) translateY(-170px) scale(0)' :
+                                      el.classList.contains('orbit-pos-2') ? 'translate(-50%, -50%) translateX(170px) scale(0)' :
+                                      el.classList.contains('orbit-pos-3') ? 'translate(-50%, -50%) translateY(170px) scale(0)' :
+                                      'translate(-50%, -50%) translateX(-170px) scale(0)';
+            });
+            
+            if (centerText) {
+                centerText.style.opacity = '0';
+                centerText.style.transform = 'translate(-50%, -50%) scale(0.8)';
+            }
+            
+            // Start progress animation
+            setTimeout(() => {
+                if (progressCircle) {
+                    progressCircle.style.transition = 'stroke-dashoffset 3s ease-in-out';
+                    progressCircle.style.strokeDashoffset = '0';
+                }
+                
+                // Reveal dots sequentially as progress passes them
+                const dotTimings = [
+                    { element: orbitElements[0], delay: 750, position: 'orbit-pos-1' },  // Top
+                    { element: orbitElements[1], delay: 1500, position: 'orbit-pos-2' }, // Right
+                    { element: orbitElements[2], delay: 2250, position: 'orbit-pos-3' }, // Bottom
+                    { element: orbitElements[3], delay: 3000, position: 'orbit-pos-4' }  // Left
+                ];
+                
+                dotTimings.forEach(({ element, delay, position }) => {
+                    if (element) {
+                        setTimeout(() => {
+                            element.style.transition = 'all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1)';
+                            element.style.opacity = '1';
+                            
+                            // Keep original position transform
+                            if (position === 'orbit-pos-1') {
+                                element.style.transform = 'translate(-50%, -50%) translateY(-170px) scale(1)';
+                            } else if (position === 'orbit-pos-2') {
+                                element.style.transform = 'translate(-50%, -50%) translateX(170px) scale(1)';
+                            } else if (position === 'orbit-pos-3') {
+                                element.style.transform = 'translate(-50%, -50%) translateY(170px) scale(1)';
+                            } else {
+                                element.style.transform = 'translate(-50%, -50%) translateX(-170px) scale(1)';
+                            }
+                        }, delay);
+                    }
+                });
+                
+                // Reveal center text after all dots
+                if (centerText) {
+                    setTimeout(() => {
+                        centerText.style.transition = 'all 0.8s cubic-bezier(0.34, 1.56, 0.64, 1)';
+                        centerText.style.opacity = '1';
+                        centerText.style.transform = 'translate(-50%, -50%) scale(1)';
+                    }, 3200);
+                }
+                
+            }, 300);
+        }
+    }
+
+    console.log('✅ Part 2: Animations Loaded (Fixed)');
+
+
+
+    // Calculate next Sunday
+function getNextSunday() {
+    const today = new Date();
+    const nextSunday = new Date(today);
+    nextSunday.setDate(today.getDate() + (7 - today.getDay()));
+    
+    const options = { day: 'numeric', month: 'long', year: 'numeric' };
+    return nextSunday.toLocaleDateString('en-IN', options);
+}
+
+// Update on page load
+document.addEventListener('DOMContentLoaded', function() {
+    const dateElement = document.getElementById('nextSundayDate');
+    if (dateElement) {
+        dateElement.textContent = getNextSunday();
+    }
+});
+</script>
+
+
+
+
+
+
+
+
+<!-- ==========================================
+     ✅ MODAL 1 - BOOKING MODAL (KEEP THIS)
+     For pricing cards with payment
+     ========================================== -->
+
+<!-- Booking Modal -->
+<div id="bookingModal" class="callback-modal">
+  <div class="callback-modal__overlay" onclick="closeBookingModal()"></div>
+
+
+  <div class="callback-modal__container">
+    <button class="callback-modal__close" onclick="closeBookingModal()" aria-label="Close modal">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <line x1="18" y1="6" x2="6" y2="18"></line>
+        <line x1="6" y1="6" x2="18" y2="18"></line>
+      </svg>
+    </button>
+
+
+    <div class="callback-modal__content">
+      <div class="callback-modal__icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+          <circle cx="8.5" cy="7" r="4"></circle>
+          <line x1="20" y1="8" x2="20" y2="14"></line>
+          <line x1="23" y1="11" x2="17" y2="11"></line>
+        </svg>
+      </div>
+
+
+      <h2 id="bookingModalTitle" class="callback-modal__title">Book Your Appointment</h2>
+      <p id="modalSubtitle" style="text-align: center; color: rgba(255,255,255,0.7); margin-bottom: 2rem; font-size: 14px;"></p>
+
+
+      <form class="callback-form" id="bookingForm">
+        <input type="hidden" id="planType" name="planType">
+
+        <!-- Full Name -->
+        <div class="callback-form__group">
+          <label class="callback-form__label" for="fullName">Full Name</label>
+          <input
+            type="text"
+            id="fullName"
+            name="fullName"
+            class="callback-form__input"
+            placeholder="Enter your full name"
+            required
+          />
+        </div>
+
+
+        <!-- Email -->
+        <div class="callback-form__group">
+          <label class="callback-form__label" for="email">Email Address</label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            class="callback-form__input"
+            placeholder="your.email@example.com"
+            required
+          />
+        </div>
+
+
+        <!-- Phone -->
+        <div class="callback-form__group">
+          <label class="callback-form__label" for="phone">Phone Number</label>
+          <div style="display: flex; gap: 0.5rem;">
+            <select id="countryCode" name="countryCode" class="callback-form__input" style="width: 110px;">
+              <option value="+91" selected>+91 (IN)</option>
+              <option value="+1">+1 (US)</option>
+              <option value="+44">+44 (UK)</option>
+              <option value="+61">+61 (AU)</option>
+              <option value="+971">+971 (UAE)</option>
+            </select>
+            <input
+              type="tel"
+              id="phone"
+              name="phone"
+              class="callback-form__input"
+              placeholder="10-digit number"
+              pattern="[0-9]{10,15}"
+              required
+              style="flex: 1;"
+            />
+          </div>
+          <small style="display: block; margin-top: 0.5rem; color: rgba(255,255,255,0.5); font-size: 0.875rem;">
+            Enter 10-15 digits without spaces
+          </small>
+        </div>
+
+
+        <!-- Submit Button -->
+        <button type="submit" class="callback-form__submit">
+          <span class="callback-form__submit-text">Proceed to Payment</span>
+          <span class="callback-form__submit-loader"></span>
+        </button>
+
+
+        <!-- Success Message -->
+        <div class="callback-form__success" id="bookingSuccess">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="20 6 9 17 4 12"></polyline>
+          </svg>
+          <span>Booking confirmed! Check your email for details.</span>
+        </div>
+
+
+        <!-- Error Message -->
+        <div class="callback-form__error" id="bookingError">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="12" y1="8" x2="12" y2="12"></line>
+            <line x1="12" y1="16" x2="12.01" y2="16"></line>
+          </svg>
+          <span id="errorText">Something went wrong. Please try again.</span>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+
+
+<!-- ==========================================
+     ✅ MODAL 3 - CALLBACK MODAL (KEEP THIS)
+     For "Get in touch" button
+     ========================================== -->
+
+<!-- ==================== CALLBACK MODAL ==================== -->
+    <!-- Self-contained modal - Safe to integrate in any website -->
+    <!-- No global CSS pollution -->
+
+
+    <!-- Modal Overlay -->
+    <div class="callback-modal" id="callbackModal">
+      <div class="callback-modal__overlay"></div>
+
+
+      <!-- Modal Container -->
+      <div class="callback-modal__container">
+        <!-- Close Button -->
+        <button class="callback-modal__close" aria-label="Close modal">
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+
+
+        <!-- Modal Content -->
+        <div class="callback-modal__content">
+          <!-- Icon with Glow -->
+          <div class="callback-modal__icon">
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path
+                d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"
+              ></path>
+              <polyline points="22,6 12,13 2,6"></polyline>
+            </svg>
+          </div>
+
+
+          <!-- Heading -->
+          <h2 class="callback-modal__title">Get in touch</h2>
+
+
+          <!-- Form -->
+          <form class="callback-form" id="callbackForm">
+            <!-- Name Field -->
+            <div class="callback-form__group">
+              <label class="callback-form__label" for="userName">Name</label>
+              <input
+                type="text"
+                id="userName"
+                name="user_name"
+                class="callback-form__input"
+                placeholder="Your name"
+                required
+              />
+            </div>
+
+
+            <!-- Email Field -->
+            <div class="callback-form__group">
+              <label class="callback-form__label" for="userEmail">Email</label>
+              <input
+                type="email"
+                id="userEmail"
+                name="user_email"
+                class="callback-form__input"
+                placeholder="your.email@example.com"
+                required
+              />
+            </div>
+
+
+            <!-- Contact Number Field -->
+            <div class="callback-form__group">
+              <label class="callback-form__label" for="userPhone"
+                >Contact Number</label
+              >
+              <input
+                type="tel"
+                id="userPhone"
+                name="user_phone"
+                class="callback-form__input"
+                placeholder="+91 98765 43210"
+                pattern="[0-9+\s-]{10,15}"
+                required
+              />
+            </div>
+
+
+            <!-- Service Dropdown -->
+            <div class="callback-form__group">
+              <label class="callback-form__label" for="userService"
+                >Service you need</label
+              >
+              <div class="callback-form__select-wrapper">
+                <select
+                  id="userService"
+                  name="user_service"
+                  class="callback-form__select"
+                  required
+                >
+                  <option value="" disabled selected>Select</option>
+                  <option value="Assessment">Assessment & Consultation</option>
+                  <option value="One Time Program">Personalized Program</option>
+                  <option value="Program + Modifications">Mentorship</option>
+                </select>
+                <svg
+                  class="callback-form__select-icon"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <polyline points="6 9 12 15 18 9"></polyline>
+                </svg>
+              </div>
+            </div>
+
+
+            <!-- Submit Button -->
+            <button type="submit" class="callback-form__submit">
+              <span class="callback-form__submit-text">Send Message</span>
+              <span class="callback-form__submit-loader"></span>
+            </button>
+
+
+            <!-- Success Message -->
+            <div class="callback-form__success" id="successMessage">
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <polyline points="20 6 9 17 4 12"></polyline>
+              </svg>
+              <span>Message sent successfully! We'll contact you soon.</span>
+            </div>
+
+
+            <!-- Error Message -->
+            <div class="callback-form__error" id="errorMessage">
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="12" y1="8" x2="12" y2="12"></line>
+                <line x1="12" y1="16" x2="12.01" y2="16"></line>
+              </svg>
+              <span>Something went wrong. Please try again.</span>
+            </div>
+
+          </form>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- ==================== END CALLBACK MODAL ==================== -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- ==========================================
+     JAVASCRIPT CODE
+     ========================================== -->
+<script>
+// ==========================================
+// CONFIGURATION - CHANGE THESE VALUES
+// ==========================================
+const BOOKING_CONFIG = {
+    razorpayKey: 'rzp_live_RZDqqPc9XD0IjO',
+    razorpayName: 'Haristhenics',
+    emailjsPublicKey: 'wwGXMDT6ekGDIkKNg',
+    emailjsServiceId: 'harish@teamgng',
+    emailjsUserTemplate: 'template_1k0fnrn',
+    emailjsAdminTemplate: 'template_axjwehu',
+    adminEmail: 'haristhenics06@gmail.com',
+
+    bookingTypes: {
+        consultation: {
+            name: 'Assessment & Consultation',
+            amount: 200000,
+            displayAmount: '₹2,000'
+        },
+        sundayClass: {
+            name: 'Exclusive Sunday Class',
+            amount: 100000,
+            displayAmount: '₹1,000'
+        }
+    }
+};
+
+// Initialize EmailJS
+emailjs.init(BOOKING_CONFIG.emailjsPublicKey);
+
+// ==========================================
+// MODAL FUNCTIONS - FIXED
+// ==========================================
+let currentBookingType = null;
+
+function openBookingModal(bookingType) {
+    currentBookingType = bookingType;
+    const modal = document.getElementById('bookingModal');
+    const title = document.getElementById('bookingModalTitle');
+    const subtitle = document.getElementById('modalSubtitle');
+    const typeInput = document.getElementById('planType');
+
+    // Check if elements exist
+    if (!modal || !title || !typeInput) {
+        console.error('Modal elements not found');
+        return;
+    }
+
+    const booking = BOOKING_CONFIG.bookingTypes[bookingType];
+
+    // Set modal content
+    title.textContent = `Book ${booking.name}`;
+    
+    if (subtitle) {
+        subtitle.textContent = `Complete your booking for ${booking.displayAmount}`;
+    }
+
+    // Set hidden field
+    typeInput.value = bookingType;
+
+    // Show modal
+    modal.classList.add('active');
+    document.body.style.overflow = 'hidden';
+}
+
+function closeBookingModal() {
+    const modal = document.getElementById('bookingModal');
+    if (!modal) return;
+    
+    modal.classList.remove('active');
+    document.body.style.overflow = '';
+
+    // Reset form
+    const form = document.getElementById('bookingForm');
+    if (form) form.reset();
+    
+    hideMessages();
+}
+
+function showSuccess() {
+    const successDiv = document.getElementById('bookingSuccess');
+    if (successDiv) {
+        successDiv.classList.add('show');
+        setTimeout(() => {
+            hideMessages();
+            closeBookingModal();
+        }, 3000);
+    }
+}
+
+function showError(message) {
+    const errorDiv = document.getElementById('bookingError');
+    const errorText = document.getElementById('errorText');
+    if (errorDiv && errorText) {
+        errorText.textContent = message;
+        errorDiv.classList.add('show');
+    }
+}
+
+function hideMessages() {
+    const successDiv = document.getElementById('bookingSuccess');
+    const errorDiv = document.getElementById('bookingError');
+    
+    if (successDiv) successDiv.classList.remove('show');
+    if (errorDiv) errorDiv.classList.remove('show');
+}
+
+// ==========================================
+// FORM SUBMISSION & PAYMENT - FIXED
+// ==========================================
+const bookingForm = document.getElementById('bookingForm');
+if (bookingForm) {
+    bookingForm.addEventListener('submit', async function(e) {
+        e.preventDefault();
+
+        const submitBtn = this.querySelector('.callback-form__submit');
+        
+        // Get form data
+        const planType = document.getElementById('planType').value;
+        const countryCode = document.getElementById('countryCode').value;
+        const phoneNumber = document.getElementById('phone').value;
+        
+        const formData = {
+            name: document.getElementById('fullName').value.trim(),
+            email: document.getElementById('email').value.trim(),
+            phone: countryCode + phoneNumber,
+            bookingType: BOOKING_CONFIG.bookingTypes[planType].name,
+            amount: BOOKING_CONFIG.bookingTypes[planType].amount
+        };
+
+        // Validate
+        if (!formData.name || !formData.email || !phoneNumber) {
+            showError('Please fill all required fields');
+            return;
+        }
+
+        // Phone validation
+        if (phoneNumber.length < 10 || phoneNumber.length > 15) {
+            showError('Please enter a valid phone number (10-15 digits)');
+            return;
+        }
+
+        // Show loading
+        if (submitBtn) {
+            submitBtn.classList.add('loading');
+            submitBtn.disabled = true;
+        }
+        hideMessages();
+
+        try {
+            // Initialize Razorpay
+            const options = {
+                key: BOOKING_CONFIG.razorpayKey,
+                amount: formData.amount,
+                currency: 'INR',
+                name: BOOKING_CONFIG.razorpayName,
+                description: formData.bookingType,
+                handler: async function(response) {
+                    console.log('Payment successful:', response);
+
+                    // Send emails
+                    await sendEmails(formData, response);
+
+                    // Show success
+                    showSuccess();
+
+                    // Reset button
+                    if (submitBtn) {
+                        submitBtn.classList.remove('loading');
+                        submitBtn.disabled = false;
+                    }
+                },
+                prefill: {
+                    name: formData.name,
+                    email: formData.email,
+                    contact: formData.phone
+                },
+                theme: {
+                    color: '#7C9CB5'
+                },
+                modal: {
+                    ondismiss: function() {
+                        if (submitBtn) {
+                            submitBtn.classList.remove('loading');
+                            submitBtn.disabled = false;
+                        }
+                    }
+                }
+            };
+
+            const razorpay = new Razorpay(options);
+            razorpay.open();
+
+        } catch (error) {
+            console.error('Payment error:', error);
+            showError('Payment failed. Please try again.');
+            if (submitBtn) {
+                submitBtn.classList.remove('loading');
+                submitBtn.disabled = false;
+            }
+        }
+    });
+}
+
+// ==========================================
+// EMAIL SENDING
+// ==========================================
+async function sendEmails(formData, paymentResponse) {
+    try {
+        // User confirmation
+        await emailjs.send(
+            BOOKING_CONFIG.emailjsServiceId,
+            BOOKING_CONFIG.emailjsUserTemplate,
+            {
+                to_email: formData.email,
+                to_name: formData.name,
+                booking_type: formData.bookingType,
+                amount: (formData.amount / 100).toFixed(2),
+                phone: formData.phone,
+                payment_id: paymentResponse.razorpay_payment_id,
+                date: new Date().toLocaleDateString('en-IN')
+            }
+        );
+
+        // Admin notification
+        await emailjs.send(
+            BOOKING_CONFIG.emailjsServiceId,
+            BOOKING_CONFIG.emailjsAdminTemplate,
+            {
+                to_email: BOOKING_CONFIG.adminEmail,
+                customer_name: formData.name,
+                customer_email: formData.email,
+                customer_phone: formData.phone,
+                booking_type: formData.bookingType,
+                amount: (formData.amount / 100).toFixed(2),
+                payment_id: paymentResponse.razorpay_payment_id,
+                date: new Date().toLocaleDateString('en-IN')
+            }
+        );
+
+        console.log('Emails sent successfully');
+    } catch (error) {
+        console.error('Email error:', error);
+    }
+}
+
+// Close modal when clicking outside
+const modalOverlay = document.querySelector('.callback-modal__overlay');
+if (modalOverlay) {
+    modalOverlay.addEventListener('click', closeBookingModal);
+}
+
+console.log('✅ Booking system initialized');
+</script>
+
+<!-- ==========================================
+     CSS STYLES
+     ========================================== -->
+<style>
+/* Booking Modal Styles */
+.booking-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+}
+
+.booking-modal.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.booking-modal-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(8px);
+    cursor: pointer;
+}
+
+.booking-modal-container {
+    position: relative;
+    width: 100%;
+    max-width: 500px;
+    background: linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 100%);
+    border-radius: 24px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 24px 80px rgba(0, 0, 0, 0.6);
+    transform: scale(0.9) translateY(20px);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+.booking-modal.active .booking-modal-container {
+    transform: scale(1) translateY(0);
+}
+
+.booking-modal-close {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #ffffff;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    z-index: 10;
+}
+
+.booking-modal-close:hover {
+    background: rgba(255, 255, 255, 0.1);
+    transform: rotate(90deg);
+}
+
+.booking-modal-content {
+    padding: 48px 32px 40px;
+}
+
+.booking-modal-icon {
+    width: 72px;
+    height: 72px;
+    margin: 0 auto 24px;
+    background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+    border: 1px solid rgba(124, 156, 181, 0.3);
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.booking-modal-icon::before {
+    content: '';
+    position: absolute;
+    inset: -20px;
+    background: radial-gradient(circle, rgba(124, 156, 181, 0.2) 0%, transparent 70%);
+    border-radius: 50%;
+    filter: blur(20px);
+    z-index: -1;
+}
+
+.booking-modal-icon svg {
+    color: #7C9CB5;
+}
+
+.booking-modal-title {
+    font-size: 28px;
+    font-weight: 700;
+    text-align: center;
+    margin: 0 0 32px 0;
+    color: #ffffff;
+    letter-spacing: -0.5px;
+}
+
+/* Form Styles */
+.booking-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.booking-form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.booking-form-label {
+    font-size: 14px;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.9);
+    letter-spacing: 0.3px;
+}
+
+.booking-form-input {
+    width: 100%;
+    padding: 14px 18px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 12px;
+    color: #ffffff;
+    font-size: 15px;
+    font-family: inherit;
+    transition: all 0.3s ease;
+    outline: none;
+}
+
+.booking-form-input::placeholder {
+    color: rgba(255, 255, 255, 0.3);
+}
+
+.booking-form-input:focus {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(124, 156, 181, 0.5);
+    box-shadow: 0 0 0 3px rgba(124, 156, 181, 0.1);
+}
+
+.booking-form-submit {
+    width: 100%;
+    padding: 16px 24px;
+    margin-top: 8px;
+    background: linear-gradient(135deg, #7C9CB5 0%, #A3C1D8 100%);
+    border: none;
+    border-radius: 12px;
+    color: #ffffff;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.booking-form-submit:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 32px rgba(124, 156, 181, 0.4);
+}
+
+.booking-form-submit:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none !important;
+}
+
+.booking-form-submit-text {
+    display: inline-block;
+    transition: opacity 0.3s ease;
+}
+
+.booking-form-submit.loading .booking-form-submit-text {
+    opacity: 0;
+}
+
+.booking-form-submit-loader {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 20px;
+    height: 20px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-top-color: #ffffff;
+    border-radius: 50%;
+    opacity: 0;
+    animation: spin 0.8s linear infinite;
+}
+
+.booking-form-submit.loading .booking-form-submit-loader {
+    opacity: 1;
+}
+
+@keyframes spin {
+    to {
+        transform: translate(-50%, -50%) rotate(360deg);
+    }
+}
+
+/* Success/Error Messages */
+.booking-form-success,
+.booking-form-error {
+    display: none;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 18px;
+    border-radius: 12px;
+    font-size: 14px;
+    margin-top: 8px;
+}
+
+.booking-form-success {
+    background: rgba(34, 197, 94, 0.1);
+    border: 1px solid rgba(34, 197, 94, 0.3);
+    color: #4ade80;
+}
+
+.booking-form-error {
+    background: rgba(239, 68, 68, 0.1);
+    border: 1px solid rgba(239, 68, 68, 0.3);
+    color: #f87171;
+}
+
+.booking-form-success.show,
+.booking-form-error.show {
+    display: flex;
+}
+
+.booking-form-success svg,
+.booking-form-error svg {
+    flex-shrink: 0;
+}
+
+/* Responsive */
+@media (min-width: 768px) {
+    .booking-modal-container {
+        max-width: 540px;
+    }
+
+    .booking-modal-content {
+        padding: 56px 40px 48px;
+    }
+
+    .booking-modal-title {
+        font-size: 32px;
+        margin-bottom: 36px;
+    }
+
+    .booking-form {
+        gap: 24px;
+    }
+
+    .booking-form-input {
+        padding: 16px 20px;
+        font-size: 16px;
+    }
+
+    .booking-form-submit {
+        padding: 18px 28px;
+        font-size: 18px;
+    }
+}
+</style>
+  </body>
+</html>
