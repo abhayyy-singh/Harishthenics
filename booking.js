@@ -7,7 +7,7 @@
 // CONFIGURATION - Original values
 // ==========================================
 const BOOKING_CONFIG = {
-    razorpayKey: 'rzp_test_Ry6JzZHDCODjps',
+    razorpayKey: 'rzp_live_RZDqqPc9XD0IjO',
     razorpayName: 'Haristhenics',
     emailjsPublicKey: 'wwGXMDT6ekGDIkKNg',
     emailjsServiceId: 'harish@teamgng',
