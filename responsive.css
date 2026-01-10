@@ -16,9 +16,6 @@
     .hs-bg-text {
         font-size: 2.2rem;
     }
-
- 
-
 }
 
 /* SIRF 340px to 767px tak */
@@ -308,7 +305,6 @@
     }
 }
 
-
 /* ================================
    LARGE DESKTOP (1280px+)
    ================================ */
@@ -529,3 +525,58 @@
     }
 }
 
+/* ================================================
+   WORKSHOP SECTION RESPONSIVE
+   ================================================ */
+@media (max-width: 768px) {
+    .workshop-section {
+        padding: 50px 15px;
+    }
+    
+    .workshop-container {
+        max-width: 100%;
+    }
+    
+    .workshop-cta {
+        padding: 14px 32px;
+        font-size: 15px;
+    }
+}
+
+@media (max-width: 480px) {
+    .workshop-section {
+        padding: 40px 10px;
+    }
+    
+    .workshop-heading {
+        margin-bottom: 12px;
+    }
+    
+    .workshop-subtitle {
+        margin-bottom: 30px;
+        padding: 0 10px;
+    }
+    
+    .workshop-slide {
+        padding: 0 2px;
+    }
+    
+    .workshop-slide__thumbnail {
+        border-radius: 12px;
+    }
+    
+    .workshop-slide__play {
+        width: 50px;
+        height: 50px;
+    }
+    
+    .workshop-slide__play svg {
+        width: 22px;
+        height: 22px;
+    }
+    
+    .workshop-cta {
+        padding: 14px 28px;
+        font-size: 14px;
+    }
+}
