@@ -580,3 +580,26 @@
         font-size: 14px;
     }
 }
+
+/* ================================================
+   GRIP&GRAB BUTTON RESPONSIVE
+   ================================================ */
+@media (max-width: 480px) {
+    .footer-gripgrab-btn {
+        padding: 14px 32px;
+        gap: 12px;
+    }
+    
+    .footer-gripgrab-btn__logo {
+        width: 28px;
+        height: 28px;
+    }
+    
+    .footer-gripgrab-btn__text {
+        font-size: 10px;
+    }
+    
+    .footer-gripgrab-btn__name {
+        font-size: 15px;
+    }
+}

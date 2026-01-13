@@ -494,7 +494,7 @@ body {
    ================================ */
 .footer-section {
     background: #000000;
-    padding: 50px 20px 30px;
+    padding: 0px 20px 30px;
     border-top: 1px solid rgba(255, 255, 255, 0.05);
 }
 
@@ -537,34 +537,58 @@ body {
     color: rgba(255, 255, 255, 0.5);
     margin: 0;
 }
+/* Grip&Grab Button - Centered */
+.footer-contact--centered {
+    display: flex;
+    justify-content: center;
+}
 
-/* Grip&Grab Link (Changed from WhatsApp) */
-.footer-gripgrab {
+.footer-gripgrab-btn {
     display: inline-flex;
     align-items: center;
-    gap: 10px;
-    padding: 12px 20px;
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 50px;
-    color: #ffffff;
+    gap: 15px;
+    padding: 16px 40px;
+    background: linear-gradient(135deg, #7C9CB5 0%, #A3C1D8 100%);
+    color: black;
     text-decoration: none;
-    font-size: 15px;
-    font-weight: 500;
+    border-radius: 50px;
     transition: all 0.3s ease;
-    width: fit-content;
+    box-shadow: 0 8px 25px rgba(124, 156, 181, 0.3);
 }
 
-.footer-gripgrab:hover {
-    background: rgba(124, 156, 181, 0.1);
-    border-color: rgba(124, 156, 181, 0.3);
-    transform: translateY(-2px);
+.footer-gripgrab-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 35px rgba(124, 156, 181, 0.5);
 }
 
-.footer-gripgrab__icon {
-    width: 22px;
-    height: 22px;
-    color: #7C9CB5;
+.footer-gripgrab-btn:active {
+    transform: translateY(-1px);
+}
+
+.footer-gripgrab-btn__logo {
+    width: 32px;
+    height: 32px;
+    object-fit: contain;
+    
+}
+
+.footer-gripgrab-btn__content {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.footer-gripgrab-btn__text {
+    font-size: 11px;
+    font-weight: 500;
+    opacity: 0.85;
+    letter-spacing: 0.5px;
+}
+
+.footer-gripgrab-btn__name {
+    font-size: 17px;
+    font-weight: 700;
+    line-height: 1.2;
 }
 
 /* Footer Navigation */
