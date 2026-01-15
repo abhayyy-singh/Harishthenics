@@ -538,6 +538,7 @@ body {
     margin: 0;
 }
 /* Grip&Grab Button - Centered */
+/* Grip&Grab Button - Simple & Minimal */
 .footer-contact--centered {
     display: flex;
     justify-content: center;
@@ -546,49 +547,53 @@ body {
 .footer-gripgrab-btn {
     display: inline-flex;
     align-items: center;
-    gap: 15px;
-    padding: 16px 40px;
-    background: linear-gradient(135deg, #7C9CB5 0%, #A3C1D8 100%);
-    color: black;
+    gap: 12px;
+    padding: 14px 32px;
+    background: #7C9CB5;
+    color: #ffffff;
     text-decoration: none;
-    border-radius: 50px;
+    border-radius: 8px;
     transition: all 0.3s ease;
-    box-shadow: 0 8px 25px rgba(124, 156, 181, 0.3);
+    border: 1px solid #7C9CB5;
+    width: fit-content;
+    margin-top: 15px;
 }
 
 .footer-gripgrab-btn:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 12px 35px rgba(124, 156, 181, 0.5);
+    background: #A3C1D8;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(124, 156, 181, 0.3);
 }
 
 .footer-gripgrab-btn:active {
-    transform: translateY(-1px);
+    transform: translateY(0);
 }
 
 .footer-gripgrab-btn__logo {
-    width: 32px;
-    height: 32px;
+    width: 24px;
+    height: 24px;
     object-fit: contain;
-    
 }
 
 .footer-gripgrab-btn__content {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
+    gap: 2px;
 }
 
 .footer-gripgrab-btn__text {
-    font-size: 11px;
+    font-size: 10px;
     font-weight: 500;
-    opacity: 0.85;
+    opacity: 0.9;
     letter-spacing: 0.5px;
+    text-transform: uppercase;
 }
 
 .footer-gripgrab-btn__name {
-    font-size: 17px;
-    font-weight: 700;
-    line-height: 1.2;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 1;
 }
 
 /* Footer Navigation */
