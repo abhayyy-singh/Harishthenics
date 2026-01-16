@@ -501,7 +501,7 @@ body {
 .footer-content {
     display: grid;
     grid-template-columns: 1fr;
-    gap: 35px;
+    gap: 20px;
     max-width: 1200px;
     margin: 0 auto 35px;
 }
@@ -542,13 +542,14 @@ body {
 .footer-contact--centered {
     display: flex;
     justify-content: center;
+    margin-right: 2px;
 }
 
 .footer-gripgrab-btn {
     display: inline-flex;
     align-items: center;
     gap: 12px;
-    padding: 14px 32px;
+    padding: 5px 5px;
     background: #7C9CB5;
     color: #ffffff;
     text-decoration: none;
@@ -557,6 +558,7 @@ body {
     border: 1px solid #7C9CB5;
     width: fit-content;
     margin-top: 15px;
+    margin-left: 8px;
 }
 
 .footer-gripgrab-btn:hover {
@@ -572,6 +574,8 @@ body {
 .footer-gripgrab-btn__logo {
     width: 24px;
     height: 24px;
+    border-radius: 4px;
+
     object-fit: contain;
 }
 

@@ -98,8 +98,11 @@
 
   <body class="bg-matte-black text-off-white antialiased">
     <!-- Sticky Book Appointment Button -->
-    <button id="stickyBookBtn" class="sticky-book-button"  onclick="event.stopPropagation(); openBookingModal('consultation')">
-      Book Your Appointment
+    <button id="stickyPayFeeBtn" class="sticky-payfee-button">
+      <span>Pay Your Fee</span>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M5 12h14M12 5l7 7-7 7"></path>
+      </svg>
     </button>
 
     <!-- Scroll Progress Bar -->
@@ -143,6 +146,11 @@
               class="text-sm lg:text-base text-off-white hover:text-accent-orange transition-colors duration-300"
               >Contact me</a
             >
+            <a
+              href="#footer-section"
+              class="text-sm lg:text-base text-off-white hover:text-accent-orange transition-colors duration-300 " data-open-payfee
+              >Pay Fee</a
+            >
           </div>
 
           <!-- Mobile Menu Button -->
@@ -180,12 +188,18 @@
               class="block text-off-white hover:text-accent-orange text-center py-2 transition-colors duration-300"
               >Philosophy</a
             >
+            
             <a
               href="#footer-section"
               class="block text-off-white hover:text-accent-orange text-center py-2 transition-colors duration-300"
               >Contact Me</a
             >
-          </div>
+            <a
+              
+              class="block text-off-white hover:text-accent-orange text-center py-2 transition-colors duration-300"data-open-payfee
+              >Pay Your Fee</a
+            >
+           
         </div>
       </div>
     </nav>
@@ -425,6 +439,7 @@
               >
                 Visit Grip&Grab →
               </a>
+              <button class="pricing-option__cta pricing-option__cta--secondary" data-open-payfee>Pay Your Fee →</button>
             </div>
           </div>
         </div>
@@ -636,7 +651,102 @@
       </div>
     </section>
     <!-- ==================== END WORKSHOP VIDEOS SECTION ==================== -->
+<!-- ==================== PAY YOUR FEE SECTION ==================== -->
+    <!-- ==================== PAY YOUR FEE MODAL ==================== -->
+    <div class="payfee-modal" id="payfee-modal">
+      <div class="payfee-modal__overlay" id="payfee-overlay"></div>
+      <div class="payfee-modal__container">
+        <button class="payfee-modal__close" id="payfee-close">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M18 6L6 18M6 6l12 12"></path>
+          </svg>
+        </button>
+        <div class="payfee-container">
+        <!-- Heading -->
+        <h2 class="payfee-heading">Pay Your Fee</h2>
+        <p class="payfee-subtitle">Quick and secure payment for your training sessions</p>
+        
+        <!-- Payment Form -->
+        <form class="payfee-form" id="payFeeForm">
+          <!-- Name Field -->
+          <div class="payfee-form__group">
+            <label for="payfeeName" class="payfee-form__label">Full Name</label>
+            <input 
+              type="text" 
+              id="payfeeName" 
+              class="payfee-form__input" 
+              placeholder="Enter your name"
+              required
+            >
+          </div>
+          
+          <!-- Phone Field -->
+          <div class="payfee-form__group">
+            <label for="payfeePhone" class="payfee-form__label">Phone Number</label>
+            <input 
+              type="tel" 
+              id="payfeePhone" 
+              class="payfee-form__input" 
+              placeholder="Enter your phone number"
+              pattern="[0-9+\- ]{10,15}"
+              required
+            >
+          </div>
 
+          <!-- Email Field -->
+          <div class="payfee-form__group">
+            <label for="payfeeEmail" class="payfee-form__label">Email Address</label>
+            <input 
+              type="email" 
+              id="payfeeEmail" 
+              class="payfee-form__input" 
+              placeholder="Enter your email"
+              required
+            >
+          </div>
+          
+          <!-- Amount Field -->
+          <div class="payfee-form__group">
+            <label for="payfeeAmount" class="payfee-form__label">Amount (₹)</label>
+            <input 
+              type="number" 
+              id="payfeeAmount" 
+              class="payfee-form__input" 
+              placeholder="Enter amount"
+              
+              required
+            >
+            <span class="payfee-form__hint"></span>
+            <span class="payfee-form__error" id="amountError">Please enter at least ₹4,000</span>
+          </div>
+          
+          <!-- Submit Button -->
+          <button type="submit" class="payfee-form__submit" id="payfeeSubmitBtn">
+            <span class="payfee-form__submit-text">Pay Now</span>
+            <span class="payfee-form__submit-loader"></span>
+          </button>
+        </form>
+        
+        <!-- Success Message -->
+        <div class="payfee-success" id="payfeeSuccess">
+          <div class="payfee-success__icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+              <polyline points="22 4 12 14.01 9 11.01"></polyline>
+            </svg>
+          </div>
+          <h3 class="payfee-success__title">Payment Successful!</h3>
+          <p class="payfee-success__message">Thank you for your payment.</p>
+          <p class="payfee-success__details">
+            <span>Amount: ₹<span id="successAmount"></span></span>
+            <span>Payment ID: <span id="successPaymentId"></span></span>
+          </p>
+        </div>
+      </div>
+      </div>
+    </div>
+    <!-- ==================== END PAY YOUR FEE MODAL ==================== -->
+    <!-- ==================== END PAY YOUR FEE SECTION ==================== -->
     <!-- ==================== FOOTER SECTION ==================== -->
     <footer class="footer-section" id="footer-section">
       <!-- Main Footer Content -->
@@ -647,13 +757,19 @@
           <h2 class="footer-title">Let's Discuss Your Vision With Me</h2> -->
 
           <div class="footer-contact footer-contact--centered">
-            <a href="https://www.gripandgrab.com" target="_blank" rel="noopener noreferrer" class="footer-gripgrab-btn">
-              <img src="./logo.png" alt="Grip&Grab" class="footer-gripgrab-btn__logo">
+            <a href="https://www.gripandgrab.com" target="_blank" class="footer-gripgrab-btn" rel="noopener noreferrer">
+              <img src="logo.png" alt="Grip&Grab" class="footer-gripgrab-btn__logo">
               <div class="footer-gripgrab-btn__content">
                 <span class="footer-gripgrab-btn__text">JOIN US AT</span>
                 <span class="footer-gripgrab-btn__name">Grip&Grab</span>
               </div>
             </a>
+            <button class="payfee-trigger-btn" data-open-payfee>
+              <span>Pay Your Fee</span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M5 12h14M12 5l7 7-7 7"></path>
+              </svg>
+            </button>
           </div>
         </div>
 
@@ -871,6 +987,7 @@
 
     <!-- JavaScript Files -->
     <script src="./main.js"></script>
+    <script src="./payfee.js"></script>
     <script src="./booking.js"></script>
   </body>
 </html>
