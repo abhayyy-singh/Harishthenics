@@ -18,7 +18,7 @@
         
         // EmailJS - 2nd Account (PLACEHOLDER - Replace with actual)
         emailjsPublicKey: 'tH2TNN9GskYvmvT62',
-        emailjsServiceId: 'service_6x3oavd',
+        emailjsServiceId: 'HARISH_EMAIL',
         emailjsTemplateId: 'FEE_CONFIRMATION'
     };
 
