@@ -198,11 +198,11 @@
 @media (min-width: 1024px) {
     #option1-icon,
     #option2-icon,
-    #option3-icon {
+    #option3-icon,
+    #option4-icon {
         display: none !important;
     }
 }
-
 /* ================================
    BOOKING MODAL
    ================================ */
@@ -804,10 +804,10 @@
     align-items: center;
     justify-content: center;
     gap: 10px;
-    padding: 14px 28px;
+    padding: 10px 20px;
     background: #7C9CB5;
     border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 50px;
+    border-radius: 80px;
     color: #ffffff;
     font-size: 15px;
     font-weight: 600;
@@ -818,7 +818,7 @@
 
 .payfee-trigger-btn:hover,
 .sticky-payfee-button:hover {
-    background: #7C9CB5
+    background: #7C9CB5;
     border-color: rgba(124, 156, 181, 0.3);
     transform: translateY(-2px);
     box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
