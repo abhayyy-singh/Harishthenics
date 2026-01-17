@@ -7,6 +7,13 @@
     'use strict';
 
     // ==========================================
+    // SUNDAY CLASS CONFIGURATION
+    // ==========================================
+    const SUNDAY_CLASS_CONFIG = {
+        isFullyBooked: true  // Change to false when slots available
+    };
+
+    // ==========================================
     // PAGE LOADER
     // ==========================================
     window.addEventListener('load', function() {
@@ -19,7 +26,21 @@
             }, 500);
         }
     });
-
+function closeSundayFullyBookedModal() {
+    const modal = document.getElementById('sunday-fullybooked-modal');
+    if (modal) {
+        modal.classList.remove('active');
+        document.body.style.overflow = '';
+        document.body.style.overflowX = 'hidden';
+        document.documentElement.style.overflowX = 'hidden';
+    }
+    
+    // Also close booking modal if open
+    const bookingModal = document.getElementById('booking-modal');
+    if (bookingModal && bookingModal.classList.contains('active')) {
+        bookingModal.classList.remove('active');
+    }
+}
     // ==========================================
     // MOBILE MENU TOGGLE
     // ==========================================
@@ -251,6 +272,100 @@
     };
 
     // ==========================================
+    // SUNDAY CLASS BOOKING HANDLER
+    // ==========================================
+window.handleSundayClassBooking = function(event) {
+    event.preventDefault();
+    event.stopPropagation();
+    
+    if (SUNDAY_CLASS_CONFIG.isFullyBooked) {
+        // Close booking modal if open
+        const bookingModal = document.getElementById('booking-modal');
+        if (bookingModal && bookingModal.classList.contains('active')) {
+            bookingModal.classList.remove('active');
+        }
+        
+        // Open fully booked modal
+        openSundayFullyBookedModal();
+    } else {
+        // Open normal booking modal
+        if (typeof openBookingModal === 'function') {
+            openBookingModal('Sunday Classes');
+        }
+    }
+};
+
+// Setup Sunday Class CTA button - REMOVE old event, ADD new
+function setupSundayClassButton() {
+    const sundayClassBtn = document.querySelector('#option2 .pricing-option__cta');
+    if (sundayClassBtn) {
+        // Remove any existing onclick attribute
+        sundayClassBtn.removeAttribute('onclick');
+        
+        // Remove old event listeners by cloning
+        const newBtn = sundayClassBtn.cloneNode(true);
+        sundayClassBtn.parentNode.replaceChild(newBtn, sundayClassBtn);
+        
+        // Add new event listener
+        newBtn.addEventListener('click', handleSundayClassBooking);
+    }
+}
+
+// Call setup after DOM loaded
+setTimeout(setupSundayClassButton, 500);
+
+    // ==========================================
+    // SUNDAY FULLY BOOKED MODAL
+    // ==========================================
+  function openSundayFullyBookedModal() {
+    const modal = document.getElementById('sunday-fullybooked-modal');
+    if (modal) {
+        modal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+        document.body.style.overflowX = 'hidden';
+        document.documentElement.style.overflowX = 'hidden';
+    }
+}
+ function closeSundayFullyBookedModal() {
+    const modal = document.getElementById('sunday-fullybooked-modal');
+    if (modal) {
+        modal.classList.remove('active');
+        document.body.style.overflow = '';
+        document.body.style.overflowX = 'hidden';
+        document.documentElement.style.overflowX = 'hidden';
+    }
+    
+    // Also close booking modal if open
+    const bookingModal = document.getElementById('booking-modal');
+    if (bookingModal && bookingModal.classList.contains('active')) {
+        bookingModal.classList.remove('active');
+    }
+}
+// Make it globally accessible
+window.closeSundayFullyBookedModal = closeSundayFullyBookedModal;
+    // Close button
+    const sundayCloseBtn = document.getElementById('sunday-fullybooked-close');
+    if (sundayCloseBtn) {
+        sundayCloseBtn.addEventListener('click', closeSundayFullyBookedModal);
+    }
+
+    // Overlay click
+    const sundayOverlay = document.getElementById('sunday-fullybooked-overlay');
+    if (sundayOverlay) {
+        sundayOverlay.addEventListener('click', closeSundayFullyBookedModal);
+    }
+
+    // ESC key for fully booked modal
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            const modal = document.getElementById('sunday-fullybooked-modal');
+            if (modal && modal.classList.contains('active')) {
+                closeSundayFullyBookedModal();
+            }
+        }
+    });
+
+    // ==========================================
     // NEXT SUNDAY DATE CALCULATOR
     // ==========================================
     function setNextSundayDate() {
@@ -277,11 +392,11 @@
     setNextSundayDate();
 
     console.log('✅ Main.js loaded successfully');
+    console.log('📅 Sunday Class Status:', SUNDAY_CLASS_CONFIG.isFullyBooked ? 'FULLY BOOKED' : 'SLOTS AVAILABLE');
 
 })();
 
 
-// ==========================================
 // ==========================================
 // AUTO OPEN PRICING CARD FROM URL
 // ==========================================

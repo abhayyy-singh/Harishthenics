@@ -541,6 +541,9 @@
             </div>
           </div>
         </div>
+      
+        
+
       </div>
     </section>
 
@@ -764,6 +767,7 @@
                 <span class="footer-gripgrab-btn__name">Grip&Grab</span>
               </div>
             </a>
+            
             <button class="payfee-trigger-btn" data-open-payfee>
               <span>Pay Your Fee</span>
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -984,6 +988,48 @@
         </div>
       </div>
     </div>
+
+    <!-- ================================================
+     SUNDAY FULLY BOOKED MODAL
+     Add this before closing </body> tag in index.html
+     ================================================ -->
+
+<!-- Sunday Fully Booked Modal -->
+<div id="sunday-fullybooked-modal" class="sunday-fullybooked-modal">
+    <div id="sunday-fullybooked-overlay" class="sunday-fullybooked-overlay"></div>
+    
+    <div class="sunday-fullybooked-container">
+        <button id="sunday-fullybooked-close" class="sunday-fullybooked-close">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+            </svg>
+        </button>
+        
+        <div class="sunday-fullybooked-icon">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+            </svg>
+        </div>
+        
+        <h2 class="sunday-fullybooked-title">Thank You for Your Interest!</h2>
+        
+        <p class="sunday-fullybooked-message">
+            We really appreciate your enthusiasm for joining our Sunday Classes. Unfortunately, all slots for this Sunday are fully booked.
+        </p>
+        
+        <p class="sunday-fullybooked-highlight">
+            📅 Try booking early for next Sunday to secure your spot!
+        </p>
+        
+        <a href="#pricing-section" class="sunday-fullybooked-btn sunday-fullybooked-btn--primary" onclick="closeSundayFullyBookedModal();">
+    View Other Options
+</a>
+<button class="sunday-fullybooked-btn sunday-fullybooked-btn--secondary" onclick="closeSundayFullyBookedModal();">
+    Got It, Thanks!
+</button>
+    </div>
+</div>
+
 
     <!-- JavaScript Files -->
     <script src="./main.js"></script>
