@@ -10,7 +10,7 @@
     // SUNDAY CLASS CONFIGURATION
     // ==========================================
     const SUNDAY_CLASS_CONFIG = {
-        isFullyBooked: true  // Change to false when slots available
+        isFullyBooked: false  // Change to false when slots available
     };
 
     // ==========================================
@@ -290,7 +290,7 @@ window.handleSundayClassBooking = function(event) {
     } else {
         // Open normal booking modal
         if (typeof openBookingModal === 'function') {
-            openBookingModal('Sunday Classes');
+            openBookingModal('sundayClass');
         }
     }
 };
