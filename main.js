@@ -349,7 +349,6 @@
     console.log('📅 Sunday Class Status:', SUNDAY_CLASS_CONFIG.isFullyBooked ? 'FULLY BOOKED' : 'SLOTS AVAILABLE');
 
 })();
-
 // ==========================================
 // AUTO OPEN PRICING CARD FROM URL
 // ==========================================
@@ -363,10 +362,7 @@ window.addEventListener('load', function() {
             if (option2 && typeof toggleOption === 'function') {
                 toggleOption('option2');
                 setTimeout(function() {
-                    const btn = option2.querySelector('.pricing-option__cta');
-                    if (btn) {
-                        btn.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                    }
+                    option2.scrollIntoView({ behavior: 'smooth', block: 'start' });
                 }, 500);
             }
         }, 300);
@@ -378,10 +374,7 @@ window.addEventListener('load', function() {
             if (option1 && typeof toggleOption === 'function') {
                 toggleOption('option1');
                 setTimeout(function() {
-                    const btn = option1.querySelector('.pricing-option__cta');
-                    if (btn) {
-                        btn.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                    }
+                    option1.scrollIntoView({ behavior: 'smooth', block: 'start' });
                 }, 500);
             }
         }, 300);
@@ -393,13 +386,9 @@ window.addEventListener('load', function() {
             if (option5 && typeof toggleOption === 'function') {
                 toggleOption('option5');
                 setTimeout(function() {
-                    const btn = option5.querySelector('.pricing-option__cta');
-                    if (btn) {
-                        btn.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                    }
+                    option5.scrollIntoView({ behavior: 'smooth', block: 'start' });
                 }, 500);
             }
         }, 300);
     }
 });
-
