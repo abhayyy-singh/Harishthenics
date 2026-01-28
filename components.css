@@ -103,7 +103,7 @@
 }
 
 .pricing-option.active .pricing-option__content {
-    max-height: 800px;
+     max-height: 1200px;
     margin-top: 20px;
 }
 
@@ -199,7 +199,9 @@
     #option1-icon,
     #option2-icon,
     #option3-icon,
-    #option4-icon {
+    #option4-icon,
+    #option5-icon
+     {
         display: none !important;
     }
 }
@@ -1244,4 +1246,103 @@
     background: rgba(255, 255, 255, 0.1);
     color: #ffffff;
     border-color: rgba(255, 255, 255, 0.2);
+}
+
+/* ================================================
+   OPTION 5: VIRTUAL CLASS - ADDITIONAL CSS
+   Add to END of components.css
+   ================================================ */
+
+/* ================================
+   OPTION 5 - VIRTUAL CLASS STYLES
+   ================================ */
+
+/* Content Heading */
+.pricing-option__content-heading {
+    font-size: 22px;
+    font-weight: 700;
+    color: #7C9CB5;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+/* Description Block */
+.pricing-option__description-block {
+    margin: 20px 0;
+}
+
+.pricing-option__description-block p {
+    margin-bottom: 16px;
+}
+
+.pricing-option__description-block p:last-child {
+    margin-bottom: 0;
+}
+
+/* CTA Text (with emoji) */
+.pricing-option__cta-text {
+    font-size: 16px;
+    font-weight: 600;
+    color: #7C9CB5;
+    text-align: center;
+    margin: 24px 0 20px;
+}
+
+/* Booking Form Note (Subtle) */
+.booking-form__note {
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.5);
+    text-align: center;
+    margin: -8px 0 16px;
+    font-style: italic;
+    line-height: 1.5;
+}
+
+/* Age Input Specific Styling */
+#virtualClassUserAge {
+    -moz-appearance: textfield;
+}
+
+#virtualClassUserAge::-webkit-outer-spin-button,
+#virtualClassUserAge::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* ================================
+   RESPONSIVE - VIRTUAL CLASS
+   ================================ */
+@media (max-width: 768px) {
+    .pricing-option__content-heading {
+        font-size: 20px;
+    }
+
+    .pricing-option__cta-text {
+        font-size: 15px;
+    }
+
+    .booking-form__note {
+        font-size: 12px;
+    }
+}
+
+@media (max-width: 480px) {
+    .pricing-option__content-heading {
+        font-size: 18px;
+        margin-bottom: 16px;
+    }
+
+    .pricing-option__description-block {
+        margin: 16px 0;
+    }
+
+    .pricing-option__cta-text {
+        font-size: 14px;
+        margin: 20px 0 16px;
+    }
+
+    .booking-form__note {
+        font-size: 11px;
+        margin: -6px 0 14px;
+    }
 }

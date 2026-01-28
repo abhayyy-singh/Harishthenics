@@ -444,25 +444,24 @@
           </div>
         </div>
 
-        <!-- OPTION 1: Assessment & Consultation -->
+        <!-- OPTION 1: Consultation / Workout Program -->
         <div
           id="option1"
           class="pricing-option"
           onclick="toggleOption('option1')"
         >
           <div class="pricing-option__header">
-            <h3 class="pricing-option__title">Assessment & Consultation</h3>
+            <h3 class="pricing-option__title">Consultation & Personalized Workout Program</h3>
             <span id="option1-icon" class="pricing-option__icon">▼</span>
           </div>
-          <p class="pricing-option__subtitle">(Non Grip&Grab members only)</p>
+          <!-- <p class="pricing-option__subtitle">(Non Grip&Grab members only)</p> -->
 
           <div id="option1-content" class="pricing-option__content">
             <div class="pricing-option__inner">
               <p class="pricing-option__description">
-                1-on-1 consultation with Harish. If you are facing any
-                challenges in your fitness journey, day-to-day movement, or any
-                chronic pain, you can book an appointment and Harish will
-                personally contact you over a call.
+               One-on-one consultation with me, available both online and offline. Whether you're facing challenges in your fitness journey, experiencing difficulties with daily movement, or dealing with chronic pain, you can book an appointment and I will personally reach out to schedule your session.
+
+During this consultation, we will thoroughly discuss your specific concerns and develop a personalized approach to address them. I will also walk you through my customized workout programs explaining how they function and how the pricing structure varies based on your individual goals and requirements.
               </p>
 
               <button
@@ -545,6 +544,86 @@
         
         
 
+        <!-- ================================================
+     OPTION 5: VIRTUAL CLASS
+     Add in index.html AFTER Option 3 (Workshop) 
+     BEFORE Option 4 (Pay Your Fee)
+     Location: Around line 544
+     ================================================ -->
+
+<!-- OPTION 5: Virtual Class -->
+<div
+  id="option5"
+  class="pricing-option"
+  onclick="toggleOption('option5')"
+>
+  <div class="pricing-option__header">
+    <h3 class="pricing-option__title">Virtual Class</h3>
+    <span id="option5-icon" class="pricing-option__icon">▼</span>
+  </div>
+  <p class="pricing-option__subtitle">
+    Group Online Sessions | Thu & Sun
+  </p>
+
+  <div id="option5-content" class="pricing-option__content">
+    <div class="pricing-option__inner">
+      <!-- Main Heading -->
+      <h4 class="pricing-option__content-heading">
+        Your Fitness Journey Starts Here
+      </h4>
+
+      <!-- Class Timings Box -->
+      <div class="pricing-option__details">
+        <div class="pricing-detail-item">
+          <span class="pricing-detail-icon">🕚</span>
+          <span>
+            <strong>Class Timings:</strong><br />
+            11:00 AM – 12:00 PM
+          </span>
+        </div>
+        <div class="pricing-detail-item">
+          <span class="pricing-detail-icon">📅</span>
+          <span>
+            <strong>Days:</strong><br />
+            Every Thursday & Sunday
+          </span>
+        </div>
+      </div>
+
+      <!-- Description Paragraphs -->
+      <div class="pricing-option__description-block">
+        <p class="pricing-option__description">
+          In this group class, I personally guide you through correct movement patterns and help you overcome fitness challenges, including joint pain and movement limitations.
+        </p>
+
+        <p class="pricing-option__description">
+          Once your enrollment is complete, I will personally call you to understand your goals, weaknesses, strengths, and any pain or issues you're facing. Based on this, I'll modify movements to suit your body—so you train safely, effectively, and with confidence.
+        </p>
+
+        <p class="pricing-option__description">
+          This program is not about random exercises.<br>
+          It's about transforming how your body moves.<br>
+         <strong> Give me your time, trust the process, and you'll become the best version of yourself.</strong>
+        </p>
+      </div>
+
+      <!-- CTA Text -->
+      <p class="pricing-option__cta-text">
+        👉 Enroll yourself now and start moving better
+      </p>
+
+      <!-- Enroll Button -->
+      <button
+  class="pricing-option__cta"
+  onclick="event.stopPropagation(); openBookingModal('virtualClass')"
+>
+  Enroll Now - ₹6,000
+</button>
+    </div>
+  </div>
+</div>
+
+
         <!-- Option 4: Pay Your Fee -->
         <div
           id="option4"
@@ -555,19 +634,19 @@
             <h3 class="pricing-option__title">Pay Your Fee</h3>
             <span id="option4-icon" class="pricing-option__icon">▼</span>
           </div>
-          <p class="pricing-option__subtitle">Complete payment for discussed services</p>
+          <p class="pricing-option__subtitle">Pay Your fee as per discussed Amount</p>
 
           <div id="option4-content" class="pricing-option__content">
             <div class="pricing-option__inner">
               <p class="pricing-option__description">
-                For enrolled members to complete payment for the amount discussed with Harish during consultation.
-                <strong>Flexible amount payment</strong> - pay any amount as per your discussion.
+               Enrolled members can complete the payment for the discussed amount.
+                <!-- <strong>pay amount as per your discussion.</strong>  -->
               </p>
 
-              <div class="pricing-option__details">
+              <!-- <div class="pricing-option__details">
                 <div class="pricing-detail-item">
                   <span class="pricing-detail-icon">💰</span>
-                  <span><strong>Flexible Amount</strong> - Enter your discussed amount</span>
+                  <span><strong>Flexible Amount</strong> - Pay your discussed amount</span>
                 </div>
                 <div class="pricing-detail-item">
                   <span class="pricing-detail-icon">🔒</span>
@@ -577,7 +656,7 @@
                   <span class="pricing-detail-icon">📧</span>
                   <span><strong>Instant Confirmation</strong> - Email receipt after payment</span>
                 </div>
-              </div>
+              </div> -->
 
               <button
                 class="pricing-option__cta"
@@ -999,6 +1078,22 @@
                 required
               />
             </div>
+            <!-- AGE INPUT (NEW - ADD THIS) -->
+<div class="booking-form__group">
+  <label class="booking-form__label" for="userPhone"
+                >Age</label
+              >
+  <input 
+    type="number" 
+    id="userAge" 
+    name="user_age"
+    class="booking-form__input"
+    placeholder="Age (in years)"
+    min="15"
+    max="80"
+  />
+</div>
+
 
             <button type="submit" class="booking-form__submit">
               <span class="booking-form__submit-text">Proceed to Payment</span>
@@ -1077,9 +1172,124 @@
 </div>
 
 
+
     <!-- JavaScript Files -->
     <script src="./main.js"></script>
     <script src="./payfee.js"></script>
     <script src="./booking.js"></script>
+    <script src="./virtualclass.js"></script>
+    <!-- ================================================
+     VIRTUAL CLASS BOOKING MODAL
+     Add AFTER Train Online Modal (around line 950+)
+     BEFORE closing </body> tag
+     ================================================ -->
+
+<!-- Virtual Class Modal -->
+<div id="virtualClassModal" class="booking-modal">
+    <div class="booking-modal__overlay" onclick="closeVirtualClassModal()"></div>
+    <div class="booking-modal__container">
+        <!-- Close Button -->
+        <button class="booking-modal__close" onclick="closeVirtualClassModal()">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+            </svg>
+        </button>
+        
+        <div class="booking-modal__content">
+            <!-- Modal Header -->
+            <h2 class="booking-modal__title">
+                Enroll in Virtual Class
+            </h2>
+            <p class="booking-modal__subtitle">
+                Complete your enrollment for ₹6,000
+            </p>
+            
+            <!-- Booking Form -->
+            <form id="virtualClassForm" class="booking-form">
+                <input type="hidden" id="virtualClassPlanType" value="virtualClass">
+                
+                <!-- Name Input -->
+                <div class="booking-form__group">
+                    <input 
+                        type="text" 
+                        id="virtualClassUserName" 
+                        class="booking-form__input" 
+                        placeholder="Full Name" 
+                        required
+                        autocomplete="name"
+                    >
+                </div>
+                
+                <!-- Email Input -->
+                <div class="booking-form__group">
+                    <input 
+                        type="email" 
+                        id="virtualClassUserEmail" 
+                        class="booking-form__input" 
+                        placeholder="Email Address" 
+                        required
+                        autocomplete="email"
+                    >
+                </div>
+                
+                <!-- Phone Input -->
+                <div class="booking-form__group">
+                    <input 
+                        type="tel" 
+                        id="virtualClassUserPhone" 
+                        class="booking-form__input" 
+                        placeholder="Phone Number (10 digits)" 
+                        required
+                        autocomplete="tel"
+                        pattern="[0-9]{10}"
+                    >
+                </div>
+
+               <!-- AGE INPUT (NEW - ADD THIS) -->
+<div class="booking-form__group">
+  <input 
+    type="number" 
+    id="userAge" 
+    name="user_age"
+    class="booking-form__input"
+    placeholder="Age (optional)"
+    min="15"
+    max="100"
+  />
+</div>
+                <!-- Note for Enrolled Members (Subtle) -->
+                <p class="booking-form__note">
+                    Enrolled members can complete the payment for the discussed amount using the BUTTON BELOW
+                </p>
+
+                
+                <!-- Submit Button -->
+                <button type="submit" class="booking-form__submit">
+                    <span class="button-text">Proceed to Payment</span>
+                    <span class="button-loader"></span>
+                </button>
+            </form>
+            
+            <!-- Success Message -->
+            <div id="virtualClassSuccess" class="booking-modal__success">
+                <svg class="success-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <circle cx="12" cy="12" r="10" stroke="#4CAF50" stroke-width="2"/>
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12L11 15L16 9" stroke="#4CAF50"/>
+                </svg>
+                <h3>Enrollment Successful!</h3>
+                <p>Harish will call you within 24 hours to understand your goals and customize your training plan.</p>
+            </div>
+            
+            <!-- Error Message -->
+            <div id="virtualClassError" class="booking-modal__error">
+                <svg class="error-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <circle cx="12" cy="12" r="10" stroke="#f44336" stroke-width="2"/>
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" stroke="#f44336"/>
+                </svg>
+                <span>Error message will appear here</span>
+            </div>
+        </div>
+    </div>
+</div>
   </body>
 </html>

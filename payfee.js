@@ -20,6 +20,7 @@
         emailjsPublicKey: 'tH2TNN9GskYvmvT62',
         emailjsServiceId: 'HARISH_EMAIL',
         emailjsTemplateId: 'FEE_CONFIRMATION'
+        
     };
 
     // ==========================================

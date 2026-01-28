@@ -9,17 +9,25 @@
 const BOOKING_CONFIG = {
     razorpayKey: 'rzp_live_RZDqqPc9XD0IjO',
     razorpayName: 'Haristhenics',
+    
+    // First EmailJS Account (for Consultation & Sunday Class)
     emailjsPublicKey: 'wwGXMDT6ekGDIkKNg',
     emailjsServiceId: 'harish@teamgng',
-   emailjsTemplates: {
-    sundayClass: 'template_1k0fnrn',
-    consultation: 'template_axjwehu'
-},
+    emailjsTemplates: {
+        sundayClass: 'template_1k0fnrn',
+        consultation: 'template_axjwehu'
+    },
+    
+    // Second EmailJS Account (for Virtual Class)
+    emailjsPublicKey2: 'tH2TNN9GskYvmvT62',
+    emailjsServiceId2: 'HARISH_EMAIL',
+    emailjsTemplateId2: 'virtual_class', // Replace with actual template ID
+    
     adminEmail: 'haristhenics06@gmail.com',
 
     bookingTypes: {
         consultation: {
-            name: 'Assessment & Consultation',
+            name: 'Consultation / Workout Program',
             amount: 200000,
             displayAmount: '₹2,000'
         },
@@ -27,7 +35,12 @@ const BOOKING_CONFIG = {
             name: 'Exclusive Sunday Class',
             amount: 100000,
             displayAmount: '₹1,000'
-        }
+        },
+        virtualClass: {
+            name: 'Virtual Class',
+             amount: 600000,
+              displayAmount: '₹6,000'
+             },
     }
 };
 
@@ -273,6 +286,32 @@ async function sendEmails(formData, paymentResponse) {
     }
     
     try {
+        // Virtual Class uses SECOND EmailJS Account
+        if (formData.planType === 'virtualClass') {
+            // Initialize 2nd EmailJS account
+            emailjs.init(BOOKING_CONFIG.emailjsPublicKey2);
+            
+            const templateParams = {
+                user_name: formData.name,
+                user_email: formData.email,
+                user_phone: formData.phone,
+                payment_id: paymentResponse.razorpay_payment_id
+            };
+            
+            await emailjs.send(
+                BOOKING_CONFIG.emailjsServiceId2,
+                BOOKING_CONFIG.emailjsTemplateId2,
+                templateParams
+            );
+            
+            console.log('✅ Virtual Class email sent (2nd account)');
+            return;
+        }
+        
+        // Consultation & Sunday Class use FIRST EmailJS Account
+        // Re-initialize first account (in case it was changed)
+        emailjs.init(BOOKING_CONFIG.emailjsPublicKey);
+        
         // Select template based on booking type
         const templateId = BOOKING_CONFIG.emailjsTemplates[formData.planType];
         
@@ -298,7 +337,7 @@ async function sendEmails(formData, paymentResponse) {
             templateParams
         );
         
-        console.log('✅ Email sent successfully');
+        console.log('✅ Email sent successfully (1st account)');
         
     } catch (error) {
         console.error('Email error:', error);
