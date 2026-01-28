@@ -1346,3 +1346,13 @@
         margin: -6px 0 14px;
     }
 }
+
+.highlighted-heading {
+    color: rgb(255, 255, 255);
+    background-color: #7C9CB5;
+    border-radius: 5px;
+    width: 300px;
+    font-weight: 900;
+    font-size: 17px;
+    /* 7C9CB5 */
+}
