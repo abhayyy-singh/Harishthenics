@@ -350,7 +350,6 @@
 
 })();
 
-
 // ==========================================
 // AUTO OPEN PRICING CARD FROM URL
 // ==========================================
@@ -387,4 +386,20 @@ window.addEventListener('load', function() {
             }
         }, 300);
     }
+    
+    if (openCard === 'virtualClass') {
+        setTimeout(function() {
+            const option5 = document.getElementById('option5');
+            if (option5 && typeof toggleOption === 'function') {
+                toggleOption('option5');
+                setTimeout(function() {
+                    const btn = option5.querySelector('.pricing-option__cta');
+                    if (btn) {
+                        btn.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }
+                }, 500);
+            }
+        }, 300);
+    }
 });
+
