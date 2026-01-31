@@ -217,7 +217,7 @@
         const isExpanded = option.classList.contains('active');
 
         // Close all other options first
-        ['option1', 'option2', 'option3', 'option4', 'option5'].forEach(id => {
+        ['option1', 'option2', 'option3', 'option4', 'option5','option6'].forEach(id => {
             if (id !== optionId) {
                 const otherContent = document.getElementById(id + '-content');
                 const otherIcon = document.getElementById(id + '-icon');

@@ -201,7 +201,8 @@
     #option2-icon,
     #option3-icon,
     #option4-icon,
-    #option5-icon
+    #option5-icon,
+    #option6-icon
      {
         display: none !important;
     }
@@ -1356,4 +1357,96 @@
     font-weight: 900;
     font-size: 17px;
     /* 7C9CB5 */
+}
+
+/* ================================================
+   WORKOUT PROGRAMS LIST - Add to components.css
+   ================================================ */
+
+/* Programs List Container */
+.workout-programs-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 20px;
+}
+
+/* Individual Program Link */
+.workout-program-link {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 16px 18px;
+    background: rgba(124, 156, 181, 0.08);
+    border: 1px solid rgba(124, 156, 181, 0.2);
+    border-radius: 12px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.workout-program-link:hover {
+    background: rgba(124, 156, 181, 0.15);
+    border-color: rgba(124, 156, 181, 0.4);
+    transform: translateX(4px);
+}
+
+/* Icon */
+.workout-program-link__icon {
+    font-size: 24px;
+    flex-shrink: 0;
+}
+
+/* Content (Name + Price) */
+.workout-program-link__content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.workout-program-link__name {
+    font-size: 15px;
+    font-weight: 600;
+    color: #ffffff;
+    line-height: 1.3;
+}
+
+.workout-program-link__price {
+    font-size: 14px;
+    font-weight: 500;
+    color: #7C9CB5;
+}
+
+/* Arrow */
+.workout-program-link__arrow {
+    font-size: 18px;
+    color: rgba(255, 255, 255, 0.4);
+    transition: all 0.3s ease;
+    flex-shrink: 0;
+}
+
+.workout-program-link:hover .workout-program-link__arrow {
+    color: #7C9CB5;
+    transform: translateX(4px);
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+    .workout-program-link {
+        padding: 14px 14px;
+        gap: 12px;
+    }
+    
+    .workout-program-link__icon {
+        font-size: 20px;
+    }
+    
+    .workout-program-link__name {
+        font-size: 14px;
+    }
+    
+    .workout-program-link__price {
+        font-size: 13px;
+    }
 }

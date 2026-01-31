@@ -1,0 +1,802 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Haristhenics Workout Programs - Fix your pain with structured exercise programs" />
+    <title id="pageTitle">Workout Program | Haristhenics</title>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" sizes="32x32" href="./favicon.jpg" />
+    <link rel="icon" type="image/png" sizes="16x16" href="./favicon.jpg" />
+    <link rel="apple-touch-icon" href="./favicon.jpg" />
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- EmailJS SDK -->
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+
+    <!-- Razorpay SDK -->
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
+    <!-- Google Fonts - Poppins -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+
+    <style>
+      * {
+        font-family: 'Poppins', sans-serif;
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        background: #000000;
+        color: #d1d1d1;
+        min-height: 100vh;
+      }
+
+      /* ================================
+         NAVBAR
+         ================================ */
+      .wp-navbar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 50;
+        background: rgba(0, 0, 0, 0.9);
+        backdrop-filter: blur(12px);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        padding: 16px 24px;
+      }
+
+      .wp-navbar__container {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .wp-navbar__logo {
+        font-size: 24px;
+        font-weight: 700;
+        color: #f5f5f5;
+        text-decoration: none;
+      }
+
+      .wp-navbar__logo span {
+        color: #7C9CB5;
+      }
+
+      .wp-navbar__back {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        color: rgba(255, 255, 255, 0.7);
+        text-decoration: none;
+        font-size: 14px;
+        transition: all 0.3s ease;
+      }
+
+      .wp-navbar__back:hover {
+        color: #ffffff;
+      }
+
+      .wp-navbar__back svg {
+        width: 20px;
+        height: 20px;
+      }
+
+      /* ================================
+         HERO SECTION
+         ================================ */
+      .wp-hero {
+        padding: 120px 24px 60px;
+        text-align: center;
+        background: linear-gradient(180deg, rgba(124, 156, 181, 0.1) 0%, transparent 100%);
+      }
+
+      .wp-hero__badge {
+        display: inline-block;
+        background: rgba(124, 156, 181, 0.2);
+        border: 1px solid rgba(124, 156, 181, 0.3);
+        padding: 8px 20px;
+        border-radius: 50px;
+        font-size: 14px;
+        color: #7C9CB5;
+        margin-bottom: 24px;
+      }
+
+      .wp-hero__title {
+        font-size: clamp(32px, 6vw, 48px);
+        font-weight: 700;
+        color: #ffffff;
+        margin-bottom: 16px;
+        line-height: 1.2;
+      }
+
+      .wp-hero__subtitle {
+        font-size: clamp(16px, 3vw, 20px);
+        color: rgba(255, 255, 255, 0.6);
+        max-width: 600px;
+        margin: 0 auto;
+        line-height: 1.6;
+      }
+
+      /* ================================
+         CONTENT SECTION
+         ================================ */
+      .wp-content {
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 0 24px 60px;
+      }
+
+      /* Video Section */
+      .wp-video {
+        margin-bottom: 48px;
+      }
+
+      .wp-video__container {
+        position: relative;
+        width: 100%;
+        padding-bottom: 56.25%; /* 16:9 */
+        border-radius: 16px;
+        overflow: hidden;
+        background: #111;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      .wp-video__container iframe {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+      }
+
+      /* Description Section */
+      .wp-description {
+        margin-bottom: 48px;
+      }
+
+      .wp-description__title {
+        font-size: 24px;
+        font-weight: 600;
+        color: #ffffff;
+        margin-bottom: 16px;
+      }
+
+      .wp-description__text {
+        font-size: 16px;
+        color: rgba(255, 255, 255, 0.7);
+        line-height: 1.8;
+        margin-bottom: 16px;
+      }
+
+      /* Benefits Section */
+      .wp-benefits {
+        margin-bottom: 48px;
+      }
+
+      .wp-benefits__title {
+        font-size: 24px;
+        font-weight: 600;
+        color: #ffffff;
+        margin-bottom: 24px;
+      }
+
+      .wp-benefits__grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 16px;
+      }
+
+      .wp-benefits__item {
+        display: flex;
+        align-items: flex-start;
+        gap: 12px;
+        background: rgba(124, 156, 181, 0.05);
+        border: 1px solid rgba(124, 156, 181, 0.15);
+        border-radius: 12px;
+        padding: 16px;
+      }
+
+      .wp-benefits__icon {
+        font-size: 24px;
+        flex-shrink: 0;
+      }
+
+      .wp-benefits__text {
+        font-size: 15px;
+        color: rgba(255, 255, 255, 0.8);
+        line-height: 1.5;
+      }
+
+      /* What's Included Section */
+      .wp-included {
+        margin-bottom: 48px;
+        background: rgba(124, 156, 181, 0.08);
+        border: 1px solid rgba(124, 156, 181, 0.2);
+        border-radius: 16px;
+        padding: 32px;
+      }
+
+      .wp-included__title {
+        font-size: 20px;
+        font-weight: 600;
+        color: #ffffff;
+        margin-bottom: 20px;
+        text-align: center;
+      }
+
+      .wp-included__list {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+
+      .wp-included__item {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        font-size: 15px;
+        color: rgba(255, 255, 255, 0.8);
+      }
+
+      .wp-included__item svg {
+        width: 20px;
+        height: 20px;
+        color: #7C9CB5;
+        flex-shrink: 0;
+      }
+
+      /* ================================
+         CTA SECTION
+         ================================ */
+      .wp-cta {
+        background: linear-gradient(135deg, rgba(124, 156, 181, 0.15) 0%, rgba(124, 156, 181, 0.05) 100%);
+        border: 1px solid rgba(124, 156, 181, 0.3);
+        border-radius: 20px;
+        padding: 40px 32px;
+        text-align: center;
+      }
+
+      .wp-cta__price-label {
+        font-size: 14px;
+        color: rgba(255, 255, 255, 0.5);
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        margin-bottom: 8px;
+      }
+
+      .wp-cta__price {
+        font-size: 48px;
+        font-weight: 700;
+        color: #ffffff;
+        margin-bottom: 8px;
+      }
+
+      .wp-cta__price-note {
+        font-size: 14px;
+        color: rgba(255, 255, 255, 0.5);
+        margin-bottom: 24px;
+      }
+
+      .wp-cta__button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        padding: 18px 48px;
+        background: linear-gradient(135deg, #7C9CB5 0%, #A3C1D8 100%);
+        color: #ffffff;
+        font-size: 18px;
+        font-weight: 600;
+        border: none;
+        border-radius: 12px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        width: 100%;
+        max-width: 400px;
+      }
+
+      .wp-cta__button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 12px 30px rgba(124, 156, 181, 0.4);
+      }
+
+      .wp-cta__button:disabled {
+        opacity: 0.7;
+        cursor: not-allowed;
+        transform: none;
+      }
+
+      .wp-cta__button.loading {
+        pointer-events: none;
+      }
+
+      .wp-cta__button.loading::after {
+        content: '';
+        width: 20px;
+        height: 20px;
+        border: 2px solid #ffffff;
+        border-top-color: transparent;
+        border-radius: 50%;
+        animation: spin 0.8s linear infinite;
+        margin-left: 10px;
+      }
+
+      @keyframes spin {
+        to { transform: rotate(360deg); }
+      }
+
+      .wp-cta__secure {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        margin-top: 16px;
+        font-size: 13px;
+        color: rgba(255, 255, 255, 0.5);
+      }
+
+      .wp-cta__secure svg {
+        width: 16px;
+        height: 16px;
+      }
+
+      /* ================================
+         FORM MODAL
+         ================================ */
+      .wp-modal {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 9999;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.3s ease;
+      }
+
+      .wp-modal.active {
+        opacity: 1;
+        visibility: visible;
+      }
+
+      .wp-modal__overlay {
+        position: absolute;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.9);
+        backdrop-filter: blur(8px);
+        cursor: pointer;
+      }
+
+      .wp-modal__container {
+        position: relative;
+        width: 100%;
+        max-width: 480px;
+        background: linear-gradient(135deg, #0a0a0a 0%, #141414 100%);
+        border-radius: 24px;
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        box-shadow: 0 24px 80px rgba(0, 0, 0, 0.8);
+        transform: scale(0.9) translateY(20px);
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        max-height: 90vh;
+        overflow-y: auto;
+      }
+
+      .wp-modal.active .wp-modal__container {
+        transform: scale(1) translateY(0);
+      }
+
+      .wp-modal__close {
+        position: absolute;
+        top: 16px;
+        right: 16px;
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        color: #ffffff;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s ease;
+        z-index: 10;
+      }
+
+      .wp-modal__close:hover {
+        background: rgba(255, 255, 255, 0.1);
+        transform: rotate(90deg);
+      }
+
+      .wp-modal__close svg {
+        width: 18px;
+        height: 18px;
+      }
+
+      .wp-modal__content {
+        padding: 40px 28px;
+      }
+
+      .wp-modal__title {
+        font-size: 24px;
+        font-weight: 700;
+        color: #ffffff;
+        text-align: center;
+        margin-bottom: 8px;
+      }
+
+      .wp-modal__subtitle {
+        font-size: 14px;
+        color: rgba(255, 255, 255, 0.5);
+        text-align: center;
+        margin-bottom: 28px;
+      }
+
+      .wp-form {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+      }
+
+      .wp-form__group {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+      }
+
+      .wp-form__label {
+        font-size: 13px;
+        font-weight: 500;
+        color: rgba(255, 255, 255, 0.7);
+      }
+
+      .wp-form__input {
+        width: 100%;
+        padding: 14px 16px;
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 10px;
+        color: #ffffff;
+        font-size: 15px;
+        transition: all 0.3s ease;
+      }
+
+      .wp-form__input:focus {
+        outline: none;
+        border-color: #7C9CB5;
+        background: rgba(124, 156, 181, 0.1);
+      }
+
+      .wp-form__input::placeholder {
+        color: rgba(255, 255, 255, 0.3);
+      }
+
+      .wp-form__submit {
+        width: 100%;
+        padding: 16px;
+        background: linear-gradient(135deg, #7C9CB5 0%, #A3C1D8 100%);
+        color: #ffffff;
+        font-size: 16px;
+        font-weight: 600;
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        margin-top: 8px;
+      }
+
+      .wp-form__submit:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(124, 156, 181, 0.4);
+      }
+
+      .wp-form__submit:disabled {
+        opacity: 0.7;
+        cursor: not-allowed;
+        transform: none;
+      }
+
+      .wp-form__submit.loading {
+        pointer-events: none;
+      }
+
+      .wp-form__submit.loading::after {
+        content: '';
+        display: inline-block;
+        width: 16px;
+        height: 16px;
+        border: 2px solid #ffffff;
+        border-top-color: transparent;
+        border-radius: 50%;
+        animation: spin 0.8s linear infinite;
+        margin-left: 10px;
+        vertical-align: middle;
+      }
+
+      /* Success Message */
+      .wp-success {
+        display: none;
+        text-align: center;
+        padding: 20px;
+      }
+
+      .wp-success.show {
+        display: block;
+      }
+
+      .wp-success__icon {
+        width: 64px;
+        height: 64px;
+        background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 20px;
+      }
+
+      .wp-success__icon svg {
+        width: 32px;
+        height: 32px;
+        color: #ffffff;
+      }
+
+      .wp-success__title {
+        font-size: 22px;
+        font-weight: 700;
+        color: #ffffff;
+        margin-bottom: 12px;
+      }
+
+      .wp-success__text {
+        font-size: 15px;
+        color: rgba(255, 255, 255, 0.7);
+        margin-bottom: 20px;
+        line-height: 1.6;
+      }
+
+      .wp-success__details {
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 12px;
+        padding: 16px;
+        text-align: left;
+      }
+
+      .wp-success__detail-item {
+        display: flex;
+        justify-content: space-between;
+        padding: 8px 0;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        font-size: 14px;
+      }
+
+      .wp-success__detail-item:last-child {
+        border-bottom: none;
+      }
+
+      .wp-success__detail-label {
+        color: rgba(255, 255, 255, 0.5);
+      }
+
+      .wp-success__detail-value {
+        color: #ffffff;
+        font-weight: 500;
+      }
+
+      /* ================================
+         FOOTER
+         ================================ */
+      .wp-footer {
+        text-align: center;
+        padding: 40px 24px;
+        border-top: 1px solid rgba(255, 255, 255, 0.05);
+      }
+
+      .wp-footer__text {
+        font-size: 14px;
+        color: rgba(255, 255, 255, 0.5);
+      }
+
+      .wp-footer__link {
+        color: #7C9CB5;
+        text-decoration: none;
+      }
+
+      .wp-footer__link:hover {
+        text-decoration: underline;
+      }
+
+      /* ================================
+         RESPONSIVE
+         ================================ */
+      @media (max-width: 640px) {
+        .wp-hero {
+          padding: 100px 20px 40px;
+        }
+
+        .wp-content {
+          padding: 0 20px 40px;
+        }
+
+        .wp-cta {
+          padding: 32px 24px;
+        }
+
+        .wp-cta__price {
+          font-size: 40px;
+        }
+
+        .wp-cta__button {
+          padding: 16px 32px;
+          font-size: 16px;
+        }
+
+        .wp-modal__content {
+          padding: 32px 20px;
+        }
+
+        .wp-included {
+          padding: 24px 20px;
+        }
+      }
+
+      /* ================================
+         ERROR STATE
+         ================================ */
+      .wp-error-page {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 40px 24px;
+        text-align: center;
+      }
+
+      .wp-error-page__icon {
+        font-size: 64px;
+        margin-bottom: 24px;
+      }
+
+      .wp-error-page__title {
+        font-size: 28px;
+        font-weight: 700;
+        color: #ffffff;
+        margin-bottom: 12px;
+      }
+
+      .wp-error-page__text {
+        font-size: 16px;
+        color: rgba(255, 255, 255, 0.6);
+        margin-bottom: 32px;
+      }
+
+      .wp-error-page__button {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 14px 28px;
+        background: #7C9CB5;
+        color: #ffffff;
+        font-size: 16px;
+        font-weight: 600;
+        border: none;
+        border-radius: 10px;
+        text-decoration: none;
+        transition: all 0.3s ease;
+      }
+
+      .wp-error-page__button:hover {
+        background: #A3C1D8;
+        transform: translateY(-2px);
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- Navbar -->
+    <nav class="wp-navbar">
+      <div class="wp-navbar__container">
+        <a href="index.html" class="wp-navbar__logo">HS<span>.</span></a>
+        <a href="index.html#pricing-section" class="wp-navbar__back">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M19 12H5M12 19l-7-7 7-7"></path>
+          </svg>
+          Back to Programs
+        </a>
+      </div>
+    </nav>
+
+    <!-- Main Content (will be populated by JS) -->
+    <main id="mainContent">
+      <!-- Loading state -->
+      <div class="wp-error-page" id="loadingState">
+        <div class="wp-error-page__icon">⏳</div>
+        <h1 class="wp-error-page__title">Loading Program...</h1>
+      </div>
+    </main>
+
+    <!-- Form Modal -->
+    <div class="wp-modal" id="wpModal">
+      <div class="wp-modal__overlay" id="wpModalOverlay"></div>
+      <div class="wp-modal__container">
+        <button class="wp-modal__close" id="wpModalClose">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M18 6L6 18M6 6l12 12"></path>
+          </svg>
+        </button>
+        
+        <div class="wp-modal__content">
+          <!-- Form -->
+          <div id="wpFormContainer">
+            <h2 class="wp-modal__title">Complete Your Purchase</h2>
+            <p class="wp-modal__subtitle" id="modalProgramName">Program Name - ₹999</p>
+            
+            <form class="wp-form" id="wpForm">
+              <div class="wp-form__group">
+                <label class="wp-form__label">Full Name</label>
+                <input type="text" class="wp-form__input" id="wpUserName" placeholder="Enter your name" required>
+              </div>
+              
+              <div class="wp-form__group">
+                <label class="wp-form__label">Email Address</label>
+                <input type="email" class="wp-form__input" id="wpUserEmail" placeholder="Enter your email" required>
+              </div>
+              
+              <div class="wp-form__group">
+                <label class="wp-form__label">Phone Number</label>
+                <input type="tel" class="wp-form__input" id="wpUserPhone" placeholder="Enter your phone" required>
+              </div>
+              
+              <button type="submit" class="wp-form__submit" id="wpSubmitBtn">
+                Proceed to Payment
+              </button>
+            </form>
+          </div>
+          
+          <!-- Success Message -->
+          <div class="wp-success" id="wpSuccess">
+            <div class="wp-success__icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                <path d="M5 13l4 4L19 7"></path>
+              </svg>
+            </div>
+            <h3 class="wp-success__title">Payment Successful! 🎉</h3>
+            <p class="wp-success__text">
+              Your workout program has been sent to your email. Check your inbox!
+            </p>
+            <div class="wp-success__details">
+              <div class="wp-success__detail-item">
+                <span class="wp-success__detail-label">Amount Paid</span>
+                <span class="wp-success__detail-value" id="successAmount">₹999</span>
+              </div>
+              <div class="wp-success__detail-item">
+                <span class="wp-success__detail-label">Payment ID</span>
+                <span class="wp-success__detail-value" id="successPaymentId">-</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Workout Program JS -->
+    <script src="./workout-program.js"></script>
+  </body>
+</html>
