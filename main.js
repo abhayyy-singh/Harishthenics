@@ -9,9 +9,13 @@
     // ==========================================
     // SUNDAY CLASS CONFIGURATION
     // ==========================================
-    const SUNDAY_CLASS_CONFIG = {
-        isFullyBooked: false  // Change to true when slots full
-    };
+  const SUNDAY_CLASS_CONFIG = {
+    isFullyBooked: false,
+    slots: {
+        morning:   { label: '9:00 AM – 10:30 AM', disabled: false },
+        afternoon: { label: '10:30 AM – 12:00 PM', disabled: false }
+    }
+};
 
     // ==========================================
     // PAGE LOADER
@@ -296,6 +300,7 @@
 
     // Make it globally accessible
     window.closeSundayFullyBookedModal = closeSundayFullyBookedModal;
+    window.SUNDAY_CLASS_CONFIG_EXPORT = SUNDAY_CLASS_CONFIG;
 
     // Close button
     const sundayCloseBtn = document.getElementById('sunday-fullybooked-close');

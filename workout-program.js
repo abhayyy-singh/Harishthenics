@@ -6,7 +6,7 @@
    All changes here will reflect everywhere automatically!
    ================================================ */
 
-(function() {
+   (function() {
     'use strict';
 
     // ==========================================
@@ -29,6 +29,50 @@
             templateId: 'WORKOUT_PROGRAM_TEMPLATE'  // Create this template
         },
 
+        // Google Form Link for Reviews
+        reviewFormLink: 'https://docs.google.com/forms/d/e/1FAIpQLSenVwnLgIzfOTRLryWYweE7LhoqAQA-wZUBDVBR8CEn6o3FTg/viewform',  // Replace with actual form link
+
+        // ==========================================
+        // ⭐ REVIEWS - Add/Edit reviews here
+        // ==========================================
+        reviews: [
+            {
+                name: 'Rahul Sharma',
+                photo: '',  // Leave empty for default avatar
+                rating: 5,
+                text: 'This program completely changed my life! My back pain reduced by 80% in just 3 weeks. Highly recommended for anyone suffering from chronic pain.',
+                location: 'Delhi'
+            },
+            {
+                name: 'Priya Mehta',
+                photo: '',
+                rating: 5,
+                text: 'Very detailed and easy to follow. The video demonstrations made everything clear. Worth every rupee!',
+                location: 'Mumbai'
+            },
+            {
+                name: 'Amit Kumar',
+                photo: '',
+                rating: 4,
+                text: 'Good program with effective exercises. Started seeing results in the second week itself.',
+                location: 'Bangalore'
+            },
+            {
+                name: 'Sneha Gupta',
+                photo: '',
+                rating: 5,
+                text: 'Finally found something that actually works! The exercises are simple but very effective. Thank you Harish!',
+                location: 'Pune'
+            },
+            {
+                name: 'Vikram Singh',
+                photo: '',
+                rating: 5,
+                text: 'I was skeptical at first, but this program exceeded my expectations. Professional approach and great results.',
+                location: 'Jaipur'
+            }
+        ],
+
         // ==========================================
         // 🏋️ PROGRAMS - Add/Edit/Remove programs here
         // ==========================================
@@ -39,7 +83,6 @@
                 name: 'Back Pain Relief Program',
                 shortName: 'Back Pain',
                 price: 999,
-                icon: '🔙',
                 tagline: 'Say goodbye to back pain forever',
                 videoId: 'dQw4w9WgXcQ',  // Replace with actual YouTube video ID
                 excelLink: 'https://drive.google.com/your-back-pain-program-link',  // Replace with actual link
@@ -48,21 +91,6 @@
                     'This comprehensive program is designed specifically for people suffering from chronic or occasional back pain. Whether you sit at a desk all day, lift heavy objects, or simply wake up with stiffness - this program addresses the root causes.',
                     'Through a combination of targeted stretches, strengthening exercises, and mobility work, you\'ll learn to release tension, build core stability, and create lasting relief.',
                     'The program is structured in phases, starting gentle and progressively building strength where you need it most.'
-                ],
-                
-                benefits: [
-                    { icon: '✅', text: 'Reduce back pain within 2-3 weeks' },
-                    { icon: '💪', text: 'Strengthen core muscles safely' },
-                    { icon: '🧘', text: 'Improve spine mobility & flexibility' },
-                    { icon: '🛡️', text: 'Prevent future back injuries' }
-                ],
-                
-                includes: [
-                    'Complete Exercise Guide (Excel/PDF)',
-                    '4-Week Progressive Program',
-                    'Video Demonstration Links',
-                    'Daily Routine Checklist',
-                    'Posture Correction Tips'
                 ]
             },
 
@@ -70,32 +98,26 @@
                 id: 'knee-pain',
                 name: 'Knee Pain Recovery Program',
                 shortName: 'Knee Pain',
-                price: 1299,
-                icon: '🦵',
+                price: 4999,
                 tagline: 'Rebuild strong, pain-free knees',
                 videoId: 'dQw4w9WgXcQ',  // Replace with actual YouTube video ID
-                excelLink: 'https://drive.google.com/your-knee-pain-program-link',  // Replace with actual link
+                excelLink: 'https://docs.google.com/spreadsheets/d/19O1fABG9o16UcXrGhrxrlVX0fOoLl9MNDu1ucpZik0Q/edit?usp=sharing',  // Replace with actual link
                 
                 description: [
-                    'Knee pain can be debilitating, affecting everything from walking to climbing stairs. This program takes a scientific approach to knee rehabilitation and strengthening.',
-                    'We focus on building the muscles that support your knee joint - quadriceps, hamstrings, and calves - while improving joint mobility and reducing inflammation through movement.',
-                    'Whether your knee pain is from injury, overuse, or age-related wear, this program will help you regain confidence in your movement.'
-                ],
-                
-                benefits: [
-                    { icon: '✅', text: 'Reduce knee pain significantly' },
-                    { icon: '💪', text: 'Build leg strength & stability' },
-                    { icon: '🚶', text: 'Walk & climb stairs pain-free' },
-                    { icon: '🛡️', text: 'Protect knees from further damage' }
-                ],
-                
-                includes: [
-                    'Complete Exercise Guide (Excel/PDF)',
-                    '6-Week Progressive Program',
-                    'Video Demonstration Links',
-                    'Knee-Friendly Modifications',
-                    'Progress Tracking Sheet'
+    'I built this knee pain program after years of dedicated work, hands-on experience, and careful movement selection — designed to help you achieve pain-free movement.',
+    'This program has already helped many people move better and reclaim their daily life. If you commit to it, it will do the same for you.',
+    // 'What makes this program different is that it is not static — it evolves over time. As we learn more, the program gets updated, so what you invest in today only gets better.',
+    // 'Whether your knee pain is from injury, overuse, or age-related wear, this program will guide you step by step back to confident, pain-free movement.',
+],
+                reviews: [
+                    { name: 'Mohan Patel', photo: '', rating: 5, text: 'Climbing stairs is no longer painful. Amazing program!', location: 'Ahmedabad' },
+                    { name: 'Kavita Sharma', photo: '', rating: 5, text: 'My knee surgery was avoided because of this. Thank you!', location: 'Delhi' },
+                    { name: 'Rajesh Kumar', photo: '', rating: 4, text: 'Gradual improvement, now I can walk without limping.', location: 'Chennai' },
+                    { name: 'Anita Desai', photo: '', rating: 5, text: 'Best investment for my knee health. Feeling 10 years younger!', location: 'Hyderabad' },
+                    { name: 'Suresh Nair', photo: '', rating: 5, text: 'Running again after 2 years of knee pain. Incredible results!', location: 'Kochi' }
                 ]
+
+
             },
 
             'shoulder-pain': {
@@ -103,7 +125,6 @@
                 name: 'Shoulder Pain Freedom Program',
                 shortName: 'Shoulder Pain',
                 price: 999,
-                icon: '💪',
                 tagline: 'Unlock pain-free shoulder movement',
                 videoId: 'dQw4w9WgXcQ',  // Replace with actual YouTube video ID
                 excelLink: 'https://drive.google.com/your-shoulder-pain-program-link',  // Replace with actual link
@@ -112,21 +133,6 @@
                     'Shoulder pain and stiffness can make even simple tasks like reaching overhead or sleeping on your side uncomfortable. This program addresses common shoulder issues including rotator cuff problems, frozen shoulder, and general tightness.',
                     'You\'ll learn exercises that restore range of motion, strengthen the small stabilizer muscles, and improve overall shoulder health.',
                     'The program is gentle yet effective, suitable for all fitness levels and ages.'
-                ],
-                
-                benefits: [
-                    { icon: '✅', text: 'Relieve shoulder pain & stiffness' },
-                    { icon: '🔄', text: 'Restore full range of motion' },
-                    { icon: '💪', text: 'Strengthen rotator cuff muscles' },
-                    { icon: '😴', text: 'Sleep comfortably again' }
-                ],
-                
-                includes: [
-                    'Complete Exercise Guide (Excel/PDF)',
-                    '4-Week Progressive Program',
-                    'Video Demonstration Links',
-                    'Office-Friendly Stretches',
-                    'Sleep Position Guide'
                 ]
             },
 
@@ -135,7 +141,6 @@
                 name: 'Ankle Stability Program',
                 shortName: 'Ankle Pain',
                 price: 799,
-                icon: '🦶',
                 tagline: 'Build bulletproof ankles',
                 videoId: 'dQw4w9WgXcQ',  // Replace with actual YouTube video ID
                 excelLink: 'https://drive.google.com/your-ankle-pain-program-link',  // Replace with actual link
@@ -144,21 +149,6 @@
                     'Weak or unstable ankles can lead to frequent sprains, balance issues, and pain that radiates up the leg. This program focuses on building ankle strength, improving mobility, and developing proprioception (body awareness).',
                     'Perfect for anyone who has suffered ankle injuries, feels unsteady on their feet, or wants to prevent future ankle problems.',
                     'The exercises progress from simple balance work to more challenging stability drills.'
-                ],
-                
-                benefits: [
-                    { icon: '✅', text: 'Reduce ankle pain & swelling' },
-                    { icon: '⚖️', text: 'Improve balance & stability' },
-                    { icon: '🏃', text: 'Run & jump with confidence' },
-                    { icon: '🛡️', text: 'Prevent future ankle sprains' }
-                ],
-                
-                includes: [
-                    'Complete Exercise Guide (Excel/PDF)',
-                    '4-Week Progressive Program',
-                    'Video Demonstration Links',
-                    'Balance Training Exercises',
-                    'Return to Activity Guidelines'
                 ]
             },
 
@@ -167,7 +157,6 @@
                 name: 'Neck Pain Relief Program',
                 shortName: 'Neck Pain',
                 price: 899,
-                icon: '🙆',
                 tagline: 'Release tension, restore mobility',
                 videoId: 'dQw4w9WgXcQ',  // Replace with actual YouTube video ID
                 excelLink: 'https://drive.google.com/your-neck-pain-program-link',  // Replace with actual link
@@ -176,21 +165,6 @@
                     'In our digital age, neck pain has become incredibly common. Hours of looking at screens, poor posture, and stress all contribute to chronic neck tension and pain.',
                     'This program combines stretching, strengthening, and postural correction to address the root causes of neck pain - not just the symptoms.',
                     'You\'ll learn techniques you can do at your desk, before bed, and throughout the day to keep your neck happy.'
-                ],
-                
-                benefits: [
-                    { icon: '✅', text: 'Relieve neck pain & headaches' },
-                    { icon: '📱', text: 'Fix "tech neck" posture' },
-                    { icon: '😌', text: 'Reduce tension & stress' },
-                    { icon: '🔄', text: 'Improve neck mobility' }
-                ],
-                
-                includes: [
-                    'Complete Exercise Guide (Excel/PDF)',
-                    '3-Week Progressive Program',
-                    'Video Demonstration Links',
-                    'Desk Stretches Guide',
-                    'Ergonomic Setup Tips'
                 ]
             }
         }
@@ -212,6 +186,33 @@
     }
 
     // ==========================================
+    // Generate Stars HTML
+    // ==========================================
+    function getStarsHTML(rating) {
+        let stars = '';
+        for (let i = 1; i <= 5; i++) {
+            if (i <= rating) {
+                stars += '<span class="wp-review__star filled">★</span>';
+            } else {
+                stars += '<span class="wp-review__star">☆</span>';
+            }
+        }
+        return stars;
+    }
+
+    // ==========================================
+    // Get Default Avatar
+    // ==========================================
+    function getAvatarHTML(name, photo) {
+        if (photo && photo.trim() !== '') {
+            return `<img src="${photo}" alt="${name}" class="wp-review__photo">`;
+        }
+        // Generate initials avatar
+        const initials = name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2);
+        return `<div class="wp-review__avatar">${initials}</div>`;
+    }
+
+    // ==========================================
     // Render Program Page
     // ==========================================
     function renderProgram(program) {
@@ -220,42 +221,38 @@
         // Update page title
         document.getElementById('pageTitle').textContent = `${program.name} | Haristhenics`;
         
-        // Build benefits HTML
-        const benefitsHTML = program.benefits.map(benefit => `
-            <div class="wp-benefits__item">
-                <span class="wp-benefits__icon">${benefit.icon}</span>
-                <span class="wp-benefits__text">${benefit.text}</span>
-            </div>
-        `).join('');
-        
-        // Build includes HTML
-        const includesHTML = program.includes.map(item => `
-            <div class="wp-included__item">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M5 13l4 4L19 7"></path>
-                </svg>
-                <span>${item}</span>
-            </div>
-        `).join('');
-        
         // Build description HTML
         const descriptionHTML = program.description.map(para => `
             <p class="wp-description__text">${para}</p>
         `).join('');
+
+        // Build reviews HTML
+        const reviewsHTML = program.reviews.map(review => `
+            <div class="wp-review__card">
+                <div class="wp-review__header">
+                    ${getAvatarHTML(review.name, review.photo)}
+                    <div class="wp-review__info">
+                        <div class="wp-review__name">${review.name}</div>
+                        <div class="wp-review__location">${review.location}</div>
+                    </div>
+                </div>
+                <div class="wp-review__stars">${getStarsHTML(review.rating)}</div>
+                <p class="wp-review__text">"${review.text}"</p>
+            </div>
+        `).join('');
         
-        // Render full page
+        // Render full page (minimal spacing, no badge, no benefits, no includes)
         mainContent.innerHTML = `
             <!-- Hero Section -->
-            <section class="wp-hero">
-                <span class="wp-hero__badge">${program.icon} Workout Program</span>
+            <section class="wp-hero wp-hero--compact">
                 <h1 class="wp-hero__title">${program.name}</h1>
                 <p class="wp-hero__subtitle">${program.tagline}</p>
             </section>
 
             <!-- Content Section -->
-            <section class="wp-content">
+            <section class="wp-content wp-content--compact">
                 <!-- Video -->
-                <div class="wp-video">
+                <div class="wp-video wp-video--compact">
                     <div class="wp-video__container">
                         <iframe 
                             src="https://www.youtube.com/embed/${program.videoId}" 
@@ -268,32 +265,16 @@
                 </div>
 
                 <!-- Description -->
-                <div class="wp-description">
+                <div class="wp-description wp-description--compact">
                     <h2 class="wp-description__title">About This Program</h2>
                     ${descriptionHTML}
                 </div>
 
-                <!-- Benefits -->
-                <div class="wp-benefits">
-                    <h2 class="wp-benefits__title">What You'll Achieve</h2>
-                    <div class="wp-benefits__grid">
-                        ${benefitsHTML}
-                    </div>
-                </div>
-
-                <!-- What's Included -->
-                <div class="wp-included">
-                    <h3 class="wp-included__title">📦 What's Included</h3>
-                    <div class="wp-included__list">
-                        ${includesHTML}
-                    </div>
-                </div>
-
                 <!-- CTA -->
-                <div class="wp-cta">
+                <div class="wp-cta wp-cta--compact">
                     <p class="wp-cta__price-label">One-Time Payment</p>
                     <p class="wp-cta__price">₹${program.price.toLocaleString('en-IN')}</p>
-                    <p class="wp-cta__price-note">Lifetime access • Instant delivery</p>
+                    <p class="wp-cta__price-note">Lifetime access</p>
                     <button class="wp-cta__button" id="buyNowBtn">
                         Get This Program
                         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -305,13 +286,21 @@
                             <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
                             <path d="M7 11V7a5 5 0 0110 0v4"></path>
                         </svg>
-                        Secure payment powered by Razorpay
+                        Secure payment via Razorpay
                     </p>
+                </div>
+
+                <!-- Reviews Section -->
+                
+                    <div class="wp-reviews__dots" id="reviewsDots"></div>
+                    <a href="${CONFIG.reviewFormLink}" target="_blank" class="wp-reviews__write-btn">
+                        ✍️ Write a Review
+                    </a>
                 </div>
             </section>
 
             <!-- Footer -->
-            <footer class="wp-footer">
+            <footer class="wp-footer wp-footer--compact">
                 <p class="wp-footer__text">
                     © ${new Date().getFullYear()} Haristhenics. 
                     <a href="index.html" class="wp-footer__link">Back to Home</a>
@@ -321,6 +310,97 @@
         
         // Attach buy button listener
         document.getElementById('buyNowBtn').addEventListener('click', () => openModal(program));
+        
+        // Initialize reviews slider
+        initReviewsSlider();
+    }
+
+    // ==========================================
+    // Reviews Slider Animation
+    // ==========================================
+    function initReviewsSlider() {
+        const track = document.getElementById('reviewsTrack');
+        const dotsContainer = document.getElementById('reviewsDots');
+        const cards = track.querySelectorAll('.wp-review__card');
+        const totalCards = cards.length;
+        
+        let currentIndex = 0;
+        let autoSlideInterval;
+
+        // Create dots
+        for (let i = 0; i < totalCards; i++) {
+            const dot = document.createElement('span');
+            dot.className = 'wp-reviews__dot' + (i === 0 ? ' active' : '');
+            dot.addEventListener('click', () => goToSlide(i));
+            dotsContainer.appendChild(dot);
+        }
+
+        const dots = dotsContainer.querySelectorAll('.wp-reviews__dot');
+
+        function updateSlider() {
+            const cardWidth = cards[0].offsetWidth + 16; // card width + gap
+            track.style.transform = `translateX(-${currentIndex * cardWidth}px)`;
+            
+            // Update dots
+            dots.forEach((dot, index) => {
+                dot.classList.toggle('active', index === currentIndex);
+            });
+        }
+
+        function goToSlide(index) {
+            currentIndex = index;
+            updateSlider();
+            resetAutoSlide();
+        }
+
+        function nextSlide() {
+            currentIndex = (currentIndex + 1) % totalCards;
+            updateSlider();
+        }
+
+        function resetAutoSlide() {
+            clearInterval(autoSlideInterval);
+            autoSlideInterval = setInterval(nextSlide, 4000);
+        }
+
+        // Start auto-slide
+        autoSlideInterval = setInterval(nextSlide, 4000);
+
+        // Pause on hover
+        track.addEventListener('mouseenter', () => clearInterval(autoSlideInterval));
+        track.addEventListener('mouseleave', resetAutoSlide);
+
+        // Touch/swipe support
+        let startX = 0;
+        let isDragging = false;
+
+        track.addEventListener('touchstart', (e) => {
+            startX = e.touches[0].clientX;
+            isDragging = true;
+            clearInterval(autoSlideInterval);
+        });
+
+        track.addEventListener('touchmove', (e) => {
+            if (!isDragging) return;
+        });
+
+        track.addEventListener('touchend', (e) => {
+            if (!isDragging) return;
+            const endX = e.changedTouches[0].clientX;
+            const diff = startX - endX;
+
+            if (Math.abs(diff) > 50) {
+                if (diff > 0 && currentIndex < totalCards - 1) {
+                    currentIndex++;
+                } else if (diff < 0 && currentIndex > 0) {
+                    currentIndex--;
+                }
+                updateSlider();
+            }
+
+            isDragging = false;
+            resetAutoSlide();
+        });
     }
 
     // ==========================================

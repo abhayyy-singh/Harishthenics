@@ -79,6 +79,19 @@ function openBookingModal(bookingType) {
     if (title) title.textContent = 'Book ' + booking.name;
     if (subtitle) subtitle.textContent = 'Complete your booking for ' + booking.displayAmount;
     if (planTypeInput) planTypeInput.value = bookingType;
+
+// Slot dropdown — sirf Sunday Class ke liye dikhao
+const slotGroup = document.getElementById('slotGroup');
+if (slotGroup) {
+    slotGroup.style.display = bookingType === 'sundayClass' ? 'block' : 'none';
+    
+    // Disabled slots update karo
+    const config = window.SUNDAY_CLASS_CONFIG_EXPORT;
+    if (config) {
+        document.getElementById('slot-morning').disabled = config.slots.morning.disabled;
+        document.getElementById('slot-afternoon').disabled = config.slots.afternoon.disabled;
+    }
+}
     
     // Show modal
     modal.classList.add('active');
@@ -167,6 +180,9 @@ if (bookingForm) {
         const userName = document.getElementById('userName').value.trim();
         const userEmail = document.getElementById('userEmail').value.trim();
         const userPhone = document.getElementById('userPhone').value.trim();
+    //     const userSlot = document.getElementById('userSlot') 
+    // ? document.getElementById('userSlot').value 
+    // : '';
         
         // Validate
         if (!userName || userName.length < 2) {
@@ -291,12 +307,13 @@ async function sendEmails(formData, paymentResponse) {
             // Initialize 2nd EmailJS account
             emailjs.init(BOOKING_CONFIG.emailjsPublicKey2);
             
-            const templateParams = {
-                user_name: formData.name,
-                user_email: formData.email,
-                user_phone: formData.phone,
-                payment_id: paymentResponse.razorpay_payment_id
-            };
+           let templateParams = {
+    user_name: formData.name,
+    user_email: formData.email,
+    user_phone: formData.phone,
+    payment_id: paymentResponse.razorpay_payment_id,
+    slot_time: formData.slotTime || ''
+};
             
             await emailjs.send(
                 BOOKING_CONFIG.emailjsServiceId2,
