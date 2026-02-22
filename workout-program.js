@@ -84,8 +84,8 @@
                 shortName: 'Back Pain',
                 price: 999,
                 tagline: 'Say goodbye to back pain forever',
-                videoId: 'dQw4w9WgXcQ',  // Replace with actual YouTube video ID
-                excelLink: 'https://drive.google.com/your-back-pain-program-link',  // Replace with actual link
+                videoId: '',  // Replace with actual YouTube video ID
+                excelLink: 'https://docs.google.com/spreadsheets/d/19O1fABG9o16UcXrGhrxrlVX0fOoLl9MNDu1ucpZik0Q/edit?usp=sharing',  // Replace with actual link
                 
                 description: [
                     'This comprehensive program is designed specifically for people suffering from chronic or occasional back pain. Whether you sit at a desk all day, lift heavy objects, or simply wake up with stiffness - this program addresses the root causes.',
@@ -100,7 +100,7 @@
                 shortName: 'Knee Pain',
                 price: 4999,
                 tagline: 'Rebuild strong, pain-free knees',
-                videoId: 'dQw4w9WgXcQ',  // Replace with actual YouTube video ID
+                videoId: 'Eunt7MMhel4',  // Updated with actual YouTube video ID
                 excelLink: 'https://docs.google.com/spreadsheets/d/19O1fABG9o16UcXrGhrxrlVX0fOoLl9MNDu1ucpZik0Q/edit?usp=sharing',  // Replace with actual link
                 
                 description: [
@@ -302,7 +302,7 @@
             <!-- Footer -->
             <footer class="wp-footer wp-footer--compact">
                 <p class="wp-footer__text">
-                    © ${new Date().getFullYear()} Haristhenics. 
+                    © ${new Date().getFullYear()} HS FutureWorld. ALL RIGHTS RESERVED. 
                     <a href="index.html" class="wp-footer__link">Back to Home</a>
                 </p>
             </footer>
