@@ -229,10 +229,23 @@ if (bookingForm) {
                 name: BOOKING_CONFIG.razorpayName,
                 description: booking.name,
                 handler: async function(response) {
-                    console.log('✅ Payment successful:', response.razorpay_payment_id);
-                    
-                    // Send confirmation emails
-                    await sendEmails({
+    console.log('✅ Payment successful:', response.razorpay_payment_id);
+    
+    // Google Sheet mein data bhejo
+    fetch('https://script.google.com/macros/s/AKfycbzwpNxC2MKwl9fn5GNIDMZeeWxHcreLynXsgR5ZnYyhnOyFCFs_Pc_lvy-5iDLW0U2aZw/exec', {
+        method: 'POST',
+        body: JSON.stringify({
+            user_name: userName,
+            user_email: userEmail,
+            user_phone: userPhone,
+            service_type: booking.name,
+            amount: booking.displayAmount,
+            payment_id: response.razorpay_payment_id
+        })
+    });
+    
+    // Send confirmation emails
+    await sendEmails({
     name: userName,
     email: userEmail,
     phone: userPhone,

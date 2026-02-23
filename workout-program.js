@@ -16,7 +16,7 @@
         
         // Razorpay Settings
         razorpay: {
-            keyId: 'rzp_live_RZDqqPc9XD0IjO',
+            keyId: 'rzp_test_RZG0vfhDgIuZYI',
             businessName: 'HS FutureWorld',
             currency: 'INR',
             themeColor: '#7C9CB5'
@@ -100,8 +100,8 @@
                 shortName: 'Knee Pain',
                 price: 4999,
                 tagline: 'Rebuild strong, pain-free knees',
-                videoId: 'Eunt7MMhel4',  // Updated with actual YouTube video ID
-                excelLink: 'https://docs.google.com/spreadsheets/d/19O1fABG9o16UcXrGhrxrlVX0fOoLl9MNDu1ucpZik0Q/edit?usp=sharing',  // Replace with actual link
+                videoId: 'uJUAl-HzkIQ',  // Updated with actual YouTube video ID
+                excelLink: 'https://docs.google.com/spreadsheets/d/1IRemM4xygSlbvOapEc71L2pD5SnCoVNEp11VkFqHxcg/edit?usp=sharing',  // Replace with actual link
                 
                 description: [
     'I built this knee pain program after years of dedicated work, hands-on experience, and careful movement selection — designed to help you achieve pain-free movement.',
