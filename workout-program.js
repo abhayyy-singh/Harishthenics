@@ -16,7 +16,7 @@
         
         // Razorpay Settings
         razorpay: {
-            keyId: 'rzp_test_RZG0vfhDgIuZYI',
+            keyId: 'rzp_live_RZDqqPc9XD0IjO',
             businessName: 'HS FutureWorld',
             currency: 'INR',
             themeColor: '#7C9CB5'
@@ -24,8 +24,8 @@
 
         // EmailJS Settings (3rd Account - use 2nd account credentials for now)
         emailjs: {
-            publicKey: 'tH2TNN9GskYvmvT62',
-            serviceId: 'HARISH_EMAIL',
+            publicKey: 'BFneCQi-ij58Ef_9C',
+            serviceId: 'ABHAYPVT',
             templateId: 'WORKOUT_PROGRAM_TEMPLATE'  // Create this template
         },
 
