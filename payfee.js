@@ -245,7 +245,7 @@
         // Send email notification
         await sendEmailNotification(formData, response);
         // Sheet + Email API
-fetch('https://script.google.com/macros/s/AKfycbyCNEnHecoFJpKvnLRZE_Y9EWIPsCGxN9zlf6tA1ijT0VFGnNY_-JRFbNYB1zFumRqsXg/exec', {
+fetch('https://script.google.com/macros/s/AKfycbxEIDDWY_52FbTtO4Ka67--aB4g2xXXFoyPRKk0wgSCLCz2OccFgljQNA7jHu2FF3WeWQ/exec ', {
     method: 'POST',
     body: JSON.stringify({
         service_type: 'payFee',

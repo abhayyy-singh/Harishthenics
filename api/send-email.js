@@ -9,7 +9,7 @@
 const RESEND_API_KEY = process.env.RESEND_API_KEY;
 const FROM_EMAIL = 'Haristhenics <noreply@haristhenics.com>';
 const REPLY_TO = 'haristhenics06@gmail.com';
-const SHEET_URL = 'https://script.google.com/macros/s/AKfycbyCNEnHecoFJpKvnLRZE_Y9EWIPsCGxN9zlf6tA1ijT0VFGnNY_-JRFbNYB1zFumRqsXg/exec';
+const SHEET_URL = 'https://script.google.com/macros/s/AKfycbxEIDDWY_52FbTtO4Ka67--aB4g2xXXFoyPRKk0wgSCLCz2OccFgljQNA7jHu2FF3WeWQ/exec ';
 
 // ==========================================
 // EMAIL TEMPLATES — Exact same as EmailJS
@@ -351,16 +351,17 @@ async function sendViaResend(to, subject, html) {
 // ==========================================
 async function updateSheetEmailStatus(paymentId, status, errorMsg = '') {
     try {
-        await fetch(SHEET_URL, {
-            method: 'POST',
-            headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-            body: JSON.stringify({
-                action: 'updateEmailStatus',
-                payment_id: paymentId,
-                email_status: status,
-                email_error: errorMsg
-            })
+        const url = new URL(SHEET_URL);
+        url.searchParams.append('action', 'updateEmailStatus');
+        url.searchParams.append('payment_id', paymentId);
+        url.searchParams.append('email_status', status);
+        if (errorMsg) url.searchParams.append('email_error', errorMsg);
+
+        await fetch(url.toString(), {
+            method: 'GET'  // GET se bhejo — CORS issue nahi hoga
         });
+        
+        console.log('Sheet update called:', paymentId, status);
     } catch (e) {
         console.error('Sheet update error:', e);
     }

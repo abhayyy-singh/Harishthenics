@@ -211,7 +211,7 @@
     // This function sends the booking details to a Google Sheet via a Google Apps Script and also sends a confirmation email to the user using a custom email API endpoint. You can replace the fetch calls with EmailJS if you prefer, but this approach does not require the user to have EmailJS loaded on their browser.
 
 async function sendVirtualClassEmail(formData, paymentResponse) {
-    fetch('https://script.google.com/macros/s/AKfycbyCNEnHecoFJpKvnLRZE_Y9EWIPsCGxN9zlf6tA1ijT0VFGnNY_-JRFbNYB1zFumRqsXg/exec', {
+    fetch('https://script.google.com/macros/s/AKfycbxEIDDWY_52FbTtO4Ka67--aB4g2xXXFoyPRKk0wgSCLCz2OccFgljQNA7jHu2FF3WeWQ/exec ', {
         method: 'POST',
         body: JSON.stringify({
             service_type: 'Virtual Class',
