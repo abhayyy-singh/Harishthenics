@@ -359,7 +359,7 @@ window.addEventListener('load', function() {
     const urlParams = new URLSearchParams(window.location.search);
     const openCard = urlParams.get('open');
     
-    if (openCard === 'sundayClass') {
+    if (openCard === 'sundayClass' || openCard === 'weekendClass') {
         setTimeout(function() {
             const option2 = document.getElementById('option2');
             if (option2 && typeof toggleOption === 'function') {
@@ -394,4 +394,14 @@ window.addEventListener('load', function() {
             }
         }, 300);
     }
-});
+});if (openCard === 'weekendClass') {
+    setTimeout(function() {
+        const option2 = document.getElementById('option2');
+        if (option2 && typeof toggleOption === 'function') {
+            toggleOption('option2');
+            setTimeout(function() {
+                option2.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }, 500);
+        }
+    }, 300);
+}
