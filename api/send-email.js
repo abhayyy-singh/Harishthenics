@@ -406,16 +406,14 @@ export default async function handler(req, res) {
             return res.status(400).json({ error: 'Unknown service_type: ' + service_type });
         }
 
-        // Email bhejo
+       
+       // Email bhejo
         await sendViaResend(recipientEmail, emailContent.subject, emailContent.html);
-        // Email bhej di — ab sheet update karo
-console.log('Attempting sheet update for:', payment_id);
-await updateSheetEmailStatus(payment_id, 'Sent');
-console.log('Sheet update done');
-
-        // Sheet mein Sent update karo
+        
+        // Sheet status update
+        console.log('Attempting sheet update for:', payment_id);
         await updateSheetEmailStatus(payment_id, 'Sent');
-
+        console.log('Sheet update done');
         console.log(`✅ Email sent | ${service_type} | ${recipientEmail}`);
         return res.status(200).json({ success: true });
 

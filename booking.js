@@ -231,18 +231,18 @@ if (bookingForm) {
                 handler: async function(response) {
     console.log('✅ Payment successful:', response.razorpay_payment_id);
     
-    // Google Sheet mein data bhejo
    fetch('https://script.google.com/macros/s/AKfycbxmTrjgKZ2PpEkr8C_KGft2xB2MGkKkUAI9DK3NZOEdxu-E7GvF3CiF1KMetxZdHALfQw/exec', {
-        method: 'POST',
-        body: JSON.stringify({
-            user_name: userName,
-            user_email: userEmail,
-            user_phone: userPhone,
-            service_type: booking.name,
-            amount: booking.displayAmount,
-            payment_id: response.razorpay_payment_id
-        })
-    });
+    method: 'POST',
+    body: JSON.stringify({
+        user_name: userName,
+        user_email: userEmail,
+        user_phone: userPhone,
+        service_type: booking.name,
+        amount: booking.displayAmount,
+        payment_id: response.razorpay_payment_id,
+        email_status: 'Pending'  // ← ye add karo
+    })
+});
     
     // Send confirmation emails
     await sendEmails({
