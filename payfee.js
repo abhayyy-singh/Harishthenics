@@ -243,41 +243,50 @@
         submitBtn.disabled = false;
 
         // Send email notification
-        await sendEmailNotification(formData, response);
-        // Sheet + Email API
-fetch('https://script.google.com/macros/s/AKfycbxmTrjgKZ2PpEkr8C_KGft2xB2MGkKkUAI9DK3NZOEdxu-E7GvF3CiF1KMetxZdHALfQw/exec', {
-    method: 'POST',
-    body: JSON.stringify({
-        service_type: 'payFee',
-        user_name: formData.name,
-        user_email: formData.email,
-        user_phone: formData.phone,
-        amount: `₹${formData.amount.toLocaleString('en-IN')}`,
-        payment_id: paymentResponse.razorpay_payment_id,
-        email_status: 'Pending'
-    })
-}).catch(e => console.warn('Sheet error:', e));
+        async function handlePaymentSuccess(response, formData) {
+    successAmount.textContent = formData.amount.toLocaleString('en-IN');
+    successPaymentId.textContent = response.razorpay_payment_id;
 
-fetch('/api/send-email', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-        service_type: 'payFee',
-        user_name: formData.name,
-        user_email: formData.email,
-        user_phone: formData.phone,
-        amount: formData.amount,
-        payment_id: paymentResponse.razorpay_payment_id,
-        payment_date: new Date().toLocaleDateString('en-IN', {
-            weekday: 'long', day: 'numeric',
-            month: 'long', year: 'numeric'
+    form.classList.add('hidden');
+    successDiv.classList.add('show');
+
+    submitBtn.classList.remove('loading');
+    submitBtn.disabled = false;
+
+    // Sheet mein save karo
+    fetch('https://script.google.com/macros/s/AKfycbxmTrjgKZ2PpEkr8C_KGft2xB2MGkKkUAI9DK3NZOEdxu-E7GvF3CiF1KMetxZdHALfQw/exec', {
+        method: 'POST',
+        body: JSON.stringify({
+            service_type: 'payFee',
+            user_name: formData.name,
+            user_email: formData.email,
+            user_phone: formData.phone,
+            amount: `₹${formData.amount.toLocaleString('en-IN')}`,
+            payment_id: response.razorpay_payment_id,
+            email_status: 'Pending'
         })
-    })
-}).catch(e => console.warn('Email API error:', e));
+    }).catch(e => console.warn('Sheet error:', e));
 
-        console.log('✅ Payment successful:', response.razorpay_payment_id);
-    }
+    // Email bhejo
+    fetch('/api/send-email', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            service_type: 'payFee',
+            user_name: formData.name,
+            user_email: formData.email,
+            user_phone: formData.phone,
+            amount: formData.amount,
+            payment_id: response.razorpay_payment_id,
+            payment_date: new Date().toLocaleDateString('en-IN', {
+                weekday: 'long', day: 'numeric',
+                month: 'long', year: 'numeric'
+            })
+        })
+    }).catch(e => console.warn('Email API error:', e));
 
+    console.log('✅ Payment successful:', response.razorpay_payment_id);
+}
     // ==========================================
     // EMAIL NOTIFICATION (2nd EmailJS Account)
     // ==========================================
