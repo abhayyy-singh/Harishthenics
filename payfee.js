@@ -233,17 +233,6 @@
     // PAYMENT SUCCESS
     // ==========================================
     async function handlePaymentSuccess(response, formData) {
-        successAmount.textContent = formData.amount.toLocaleString('en-IN');
-        successPaymentId.textContent = response.razorpay_payment_id;
-
-        form.classList.add('hidden');
-        successDiv.classList.add('show');
-
-        submitBtn.classList.remove('loading');
-        submitBtn.disabled = false;
-
-        // Send email notification
-        async function handlePaymentSuccess(response, formData) {
     successAmount.textContent = formData.amount.toLocaleString('en-IN');
     successPaymentId.textContent = response.razorpay_payment_id;
 
