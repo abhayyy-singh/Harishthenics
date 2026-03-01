@@ -232,7 +232,7 @@ if (bookingForm) {
     console.log('✅ Payment successful:', response.razorpay_payment_id);
     
     // Google Sheet mein data bhejo
-   fetch('https://script.google.com/macros/s/AKfycbz7hcM9cvQft1nAxziRknYU42ZqML8KqVIi9lYPcm5kBoWJ2sPZN77BSR-2g2XYj5NmBw/exec', {
+   fetch('https://script.google.com/macros/s/AKfycbyCNEnHecoFJpKvnLRZE_Y9EWIPsCGxN9zlf6tA1ijT0VFGnNY_-JRFbNYB1zFumRqsXg/exec', {
         method: 'POST',
         body: JSON.stringify({
             user_name: userName,

@@ -6,125 +6,315 @@
    Browser close hone se koi farak nahi
    ================================================ */
 
-const RESEND_API_KEY = process.env.RESEND_API_KEY; // Vercel environment variable
+const RESEND_API_KEY = process.env.RESEND_API_KEY;
 const FROM_EMAIL = 'Haristhenics <noreply@haristhenics.com>';
-const ADMIN_EMAIL = 'haristhenics06@gmail.com';
-const SHEET_URL = 'https://script.google.com/macros/s/AKfycbz7hcM9cvQft1nAxziRknYU42ZqML8KqVIi9lYPcm5kBoWJ2sPZN77BSR-2g2XYj5NmBw/exec';
+const REPLY_TO = 'haristhenics06@gmail.com';
+const SHEET_URL = 'https://script.google.com/macros/s/AKfycbyCNEnHecoFJpKvnLRZE_Y9EWIPsCGxN9zlf6tA1ijT0VFGnNY_-JRFbNYB1zFumRqsXg/exec';
 
 // ==========================================
-// EMAIL TEMPLATES
+// EMAIL TEMPLATES — Exact same as EmailJS
 // ==========================================
 const templates = {
 
-    consultation: (data) => ({
-        subject: `Booking Confirmed — Consultation with Harish`,
+    // ------------------------------------------
+    // CONSULTATION
+    // ------------------------------------------
+    consultation: (d) => ({
+        subject: `Consultation Booking Confirmed - ${d.user_name}`,
         html: `
-        <div style="font-family:'Poppins',Arial,sans-serif;background:#000;color:#ededed;padding:40px 20px;max-width:600px;margin:0 auto;">
-            <div style="text-align:center;margin-bottom:32px;">
-                <div style="display:inline-block;background:#7C9CB5;color:#fff;font-size:18px;font-weight:700;padding:8px 16px;border-radius:8px;">H.</div>
-                <h1 style="color:#fff;font-size:24px;margin:16px 0 4px;">Haristhenics</h1>
-            </div>
-            <h2 style="color:#7C9CB5;font-size:20px;margin-bottom:8px;">Booking Confirmed ✅</h2>
-            <p style="color:rgba(255,255,255,0.7);margin-bottom:24px;">Hi ${data.name}, your consultation has been booked successfully.</p>
-            <div style="background:#111;border:1px solid rgba(255,255,255,0.1);border-radius:12px;padding:24px;margin-bottom:24px;">
-                <p style="margin:0 0 8px;"><span style="color:rgba(255,255,255,0.5);font-size:12px;">SERVICE</span><br><strong style="color:#fff;">Consultation / Workout Program</strong></p>
-                <p style="margin:8px 0;"><span style="color:rgba(255,255,255,0.5);font-size:12px;">AMOUNT</span><br><strong style="color:#fff;">₹2,000</strong></p>
-                <p style="margin:8px 0;"><span style="color:rgba(255,255,255,0.5);font-size:12px;">DATE</span><br><strong style="color:#fff;">${data.booking_date}</strong></p>
-                <p style="margin:8px 0 0;"><span style="color:rgba(255,255,255,0.5);font-size:12px;">PAYMENT ID</span><br><strong style="color:#fff;font-size:12px;">${data.payment_id}</strong></p>
-            </div>
-            <p style="color:rgba(255,255,255,0.6);font-size:14px;line-height:1.6;">Harish will reach out to you shortly to schedule your consultation call. Please keep your phone accessible.</p>
-            <hr style="border:none;border-top:1px solid rgba(255,255,255,0.1);margin:24px 0;">
-            <p style="color:rgba(255,255,255,0.4);font-size:12px;text-align:center;">Questions? Email us at haristhenics06@gmail.com</p>
-        </div>`
+        <div style="font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif; background-color:#f4f7fa; padding:40px 20px;">
+        <table width="100%" cellpadding="0" cellspacing="0"><tr><td align="center">
+        <table width="600" cellpadding="0" cellspacing="0" style="background:#ffffff; border-radius:16px; overflow:hidden; box-shadow:0 4px 20px rgba(0,0,0,0.08);">
+            <tr><td style="background:linear-gradient(135deg,#7C9CB5 0%,#5a7a91 100%); padding:40px 30px; text-align:center;">
+                <div style="font-size:32px; margin-bottom:16px;">✅</div>
+                <h1 style="color:#fff; margin:0; font-size:26px; font-weight:600;">Consultation Booking Confirmed!</h1>
+            </td></tr>
+            <tr><td style="padding:40px 40px 20px 40px;">
+                <p style="margin:0; font-size:16px; color:#1a1a1a;">Hi ${d.user_name},</p>
+                <p style="margin:12px 0 0 0; font-size:15px; color:#666; line-height:1.6;">Your consultation booking is confirmed! ✅</p>
+            </td></tr>
+            <tr><td style="padding:0 40px 30px 40px;">
+                <table width="100%" cellpadding="0" cellspacing="0" style="background:#f8f9fc; border-radius:12px; border-left:4px solid #7C9CB5;">
+                    <tr><td style="padding:20px 25px; border-bottom:1px solid #e5e7eb;">
+                        <span style="color:#6b7280; font-size:13px;">📋 Service</span><br>
+                        <strong style="color:#1f2937;">Assessment &amp; Consultation</strong>
+                    </td></tr>
+                    <tr><td style="padding:20px 25px; border-bottom:1px solid #e5e7eb;">
+                        <span style="color:#6b7280; font-size:13px;">💰 Amount Paid</span><br>
+                        <strong style="color:#7C9CB5; font-size:22px;">₹2,000</strong>
+                    </td></tr>
+                    <tr><td style="padding:20px 25px; border-bottom:1px solid #e5e7eb;">
+                        <span style="color:#6b7280; font-size:13px;">🧾 Payment ID</span><br>
+                        <span style="color:#1f2937; font-family:monospace;">${d.payment_id}</span>
+                    </td></tr>
+                    <tr><td style="padding:20px 25px;">
+                        <span style="color:#6b7280; font-size:13px;">📅 Booking Date</span><br>
+                        <strong style="color:#1f2937;">${d.booking_date}</strong>
+                    </td></tr>
+                </table>
+            </td></tr>
+            <tr><td style="padding:0 40px 30px 40px;">
+                <div style="background:#e0f2fe; border-left:4px solid #0284c7; padding:20px; border-radius:8px;">
+                    <p style="margin:0; color:#075985; font-size:14px; line-height:1.6;">
+                        📞 I (Harish Sharma) will call you within a few hours to schedule your consultation.
+                    </p>
+                </div>
+            </td></tr>
+            <tr><td style="padding:0 40px 30px 40px; text-align:center; background:#f8f9fc; border-top:1px solid #e5e7eb;">
+                <p style="margin:16px 0 4px; color:#374151; font-weight:600;">Haristhenics</p>
+                <p style="margin:0; color:#6b7280; font-size:13px;">
+                    <a href="https://www.instagram.com/haristhenics/" style="color:#7C9CB5;">Instagram</a> &nbsp;|&nbsp;
+                    <a href="https://www.youtube.com/@haristhenics06" style="color:#7C9CB5;">YouTube</a> &nbsp;|&nbsp;
+                    <a href="https://www.facebook.com/share/1AKMo1YcmU/" style="color:#7C9CB5;">Facebook</a>
+                </p>
+                <p style="margin:8px 0 0; color:#9ca3af; font-size:11px;">© HS FutureWorld. All rights reserved.</p>
+            </td></tr>
+        </table>
+        </td></tr></table></div>`
     }),
 
-    sundayClass: (data) => ({
-        subject: `Sunday Class Booked — ${data.class_date}`,
+    // ------------------------------------------
+    // SUNDAY CLASS
+    // ------------------------------------------
+    sundayClass: (d) => ({
+        subject: `Sunday Class Booking Confirmed - ${d.user_name}`,
         html: `
-        <div style="font-family:'Poppins',Arial,sans-serif;background:#000;color:#ededed;padding:40px 20px;max-width:600px;margin:0 auto;">
-            <div style="text-align:center;margin-bottom:32px;">
-                <div style="display:inline-block;background:#7C9CB5;color:#fff;font-size:18px;font-weight:700;padding:8px 16px;border-radius:8px;">H.</div>
-                <h1 style="color:#fff;font-size:24px;margin:16px 0 4px;">Haristhenics</h1>
-            </div>
-            <h2 style="color:#7C9CB5;font-size:20px;margin-bottom:8px;">Sunday Class Confirmed ✅</h2>
-            <p style="color:rgba(255,255,255,0.7);margin-bottom:24px;">Hi ${data.name}, your Sunday Class slot has been booked!</p>
-            <div style="background:#111;border:1px solid rgba(255,255,255,0.1);border-radius:12px;padding:24px;margin-bottom:24px;">
-                <p style="margin:0 0 8px;"><span style="color:rgba(255,255,255,0.5);font-size:12px;">CLASS DATE</span><br><strong style="color:#7C9CB5;font-size:16px;">${data.class_date}</strong></p>
-                <p style="margin:8px 0;"><span style="color:rgba(255,255,255,0.5);font-size:12px;">LOCATION</span><br><strong style="color:#fff;">Lajpat Nagar, New Delhi</strong></p>
-                <p style="margin:8px 0;"><span style="color:rgba(255,255,255,0.5);font-size:12px;">AMOUNT</span><br><strong style="color:#fff;">₹1,000</strong></p>
-                <p style="margin:8px 0 0;"><span style="color:rgba(255,255,255,0.5);font-size:12px;">PAYMENT ID</span><br><strong style="color:#fff;font-size:12px;">${data.payment_id}</strong></p>
-            </div>
-            <p style="color:rgba(255,255,255,0.6);font-size:14px;line-height:1.6;">Please arrive 10 minutes early. Harish will share further details before the class.</p>
-            <hr style="border:none;border-top:1px solid rgba(255,255,255,0.1);margin:24px 0;">
-            <p style="color:rgba(255,255,255,0.4);font-size:12px;text-align:center;">Questions? Email us at haristhenics06@gmail.com</p>
-        </div>`
+        <div style="font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif; background-color:#f4f7fa; padding:40px 20px;">
+        <table width="100%" cellpadding="0" cellspacing="0"><tr><td align="center">
+        <table width="600" cellpadding="0" cellspacing="0" style="background:#ffffff; border-radius:16px; overflow:hidden; box-shadow:0 4px 20px rgba(0,0,0,0.08);">
+            <tr><td style="background:linear-gradient(135deg,#7C9CB5 0%,#5a7a91 100%); padding:40px 30px; text-align:center;">
+                <div style="font-size:32px; margin-bottom:16px;">🎯</div>
+                <h1 style="color:#fff; margin:0; font-size:26px; font-weight:600;">Sunday Class Booking Confirmed!</h1>
+            </td></tr>
+            <tr><td style="padding:40px 40px 20px 40px;">
+                <p style="margin:0; font-size:16px; color:#1a1a1a;">Hi ${d.user_name},</p>
+                <p style="margin:12px 0 0 0; font-size:15px; color:#666; line-height:1.6;">Your Sunday Class booking is confirmed! 🎯</p>
+            </td></tr>
+            <tr><td style="padding:0 40px 30px 40px;">
+                <table width="100%" cellpadding="0" cellspacing="0" style="background:#f8f9fc; border-radius:12px; border-left:4px solid #7C9CB5;">
+                    <tr><td style="padding:20px 25px; border-bottom:1px solid #e5e7eb;">
+                        <span style="color:#6b7280; font-size:13px;">📅 Date</span><br>
+                        <strong style="color:#7C9CB5; font-size:18px;">${d.class_date}</strong>
+                    </td></tr>
+                    <tr><td style="padding:20px 25px; border-bottom:1px solid #e5e7eb;">
+                        <span style="color:#6b7280; font-size:13px;">⏰ Time</span><br>
+                        <strong style="color:#1f2937;">9:00 AM - 11:00 AM</strong>
+                    </td></tr>
+                    <tr><td style="padding:20px 25px; border-bottom:1px solid #e5e7eb;">
+                        <span style="color:#6b7280; font-size:13px;">📍 Location</span><br>
+                        <strong style="color:#1f2937;">B-32, 3rd Floor, Lajpat Nagar, New Delhi</strong><br>
+                        <a href="https://maps.app.goo.gl/qLY9BBGNsWx9MEoU7" style="color:#7C9CB5; font-size:13px;">View on Google Maps</a>
+                    </td></tr>
+                    <tr><td style="padding:20px 25px; border-bottom:1px solid #e5e7eb;">
+                        <span style="color:#6b7280; font-size:13px;">💰 Amount Paid</span><br>
+                        <strong style="color:#7C9CB5; font-size:22px;">₹1,000</strong>
+                    </td></tr>
+                    <tr><td style="padding:20px 25px;">
+                        <span style="color:#6b7280; font-size:13px;">🧾 Payment ID</span><br>
+                        <span style="color:#1f2937; font-family:monospace;">${d.payment_id}</span>
+                    </td></tr>
+                </table>
+            </td></tr>
+            <tr><td style="padding:0 40px 30px 40px;">
+                <div style="background:#fef3c7; border-left:4px solid #f59e0b; padding:16px 20px; border-radius:8px;">
+                    <p style="margin:0; color:#92400e; font-size:14px;">⏳ Please arrive 15 minutes prior to the class.</p>
+                </div>
+            </td></tr>
+            <tr><td style="padding:0 40px 30px 40px; text-align:center; background:#f8f9fc; border-top:1px solid #e5e7eb;">
+                <p style="margin:16px 0 4px; color:#374151; font-weight:600;">Haristhenics</p>
+                <p style="margin:0; color:#6b7280; font-size:13px;">
+                    Questions? <a href="mailto:haristhenics06@gmail.com" style="color:#7C9CB5;">haristhenics06@gmail.com</a>
+                </p>
+                <p style="margin:8px 0; color:#6b7280; font-size:13px;">
+                    <a href="https://www.instagram.com/haristhenics/" style="color:#7C9CB5;">Instagram</a> &nbsp;|&nbsp;
+                    <a href="https://www.youtube.com/@haristhenics06" style="color:#7C9CB5;">YouTube</a> &nbsp;|&nbsp;
+                    <a href="https://www.facebook.com/share/1AKMo1YcmU/" style="color:#7C9CB5;">Facebook</a>
+                </p>
+                <p style="margin:8px 0 0; color:#9ca3af; font-size:11px;">© HS FutureWorld. All rights reserved.</p>
+            </td></tr>
+        </table>
+        </td></tr></table></div>`
     }),
 
-    virtualClass: (data) => ({
-        subject: `Virtual Class Booking Confirmed`,
+    // ------------------------------------------
+    // VIRTUAL CLASS — Exact template from EmailJS
+    // ------------------------------------------
+    virtualClass: (d) => ({
+        subject: `Virtual Class Payment CONFIRMATION - ${d.user_name}`,
         html: `
-        <div style="font-family:'Poppins',Arial,sans-serif;background:#000;color:#ededed;padding:40px 20px;max-width:600px;margin:0 auto;">
-            <div style="text-align:center;margin-bottom:32px;">
-                <div style="display:inline-block;background:#7C9CB5;color:#fff;font-size:18px;font-weight:700;padding:8px 16px;border-radius:8px;">H.</div>
-                <h1 style="color:#fff;font-size:24px;margin:16px 0 4px;">Haristhenics</h1>
-            </div>
-            <h2 style="color:#7C9CB5;font-size:20px;margin-bottom:8px;">Virtual Class Confirmed ✅</h2>
-            <p style="color:rgba(255,255,255,0.7);margin-bottom:24px;">Hi ${data.name}, your Virtual Class has been booked successfully.</p>
-            <div style="background:#111;border:1px solid rgba(255,255,255,0.1);border-radius:12px;padding:24px;margin-bottom:24px;">
-                <p style="margin:0 0 8px;"><span style="color:rgba(255,255,255,0.5);font-size:12px;">SERVICE</span><br><strong style="color:#fff;">Virtual Class — Group Sessions</strong></p>
-                <p style="margin:8px 0;"><span style="color:rgba(255,255,255,0.5);font-size:12px;">AMOUNT</span><br><strong style="color:#fff;">₹6,000</strong></p>
-                <p style="margin:8px 0;"><span style="color:rgba(255,255,255,0.5);font-size:12px;">AGE</span><br><strong style="color:#fff;">${data.age}</strong></p>
-                <p style="margin:8px 0 0;"><span style="color:rgba(255,255,255,0.5);font-size:12px;">PAYMENT ID</span><br><strong style="color:#fff;font-size:12px;">${data.payment_id}</strong></p>
-            </div>
-            <p style="color:rgba(255,255,255,0.6);font-size:14px;line-height:1.6;">Harish will contact you with the class schedule and joining details shortly.</p>
-            <hr style="border:none;border-top:1px solid rgba(255,255,255,0.1);margin:24px 0;">
-            <p style="color:rgba(255,255,255,0.4);font-size:12px;text-align:center;">Questions? Email us at haristhenics06@gmail.com</p>
-        </div>`
+        <div style="font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif; background-color:#f4f7fa; padding:40px 20px;">
+        <table width="100%" cellpadding="0" cellspacing="0"><tr><td align="center">
+        <table width="600" cellpadding="0" cellspacing="0" style="background:#ffffff; border-radius:16px; overflow:hidden; box-shadow:0 4px 20px rgba(0,0,0,0.08);">
+            <tr><td style="background:linear-gradient(135deg,#7C9CB5 0%,#5a7a91 100%); padding:40px 30px; text-align:center;">
+                <div style="background:rgba(255,255,255,0.2); display:inline-block; padding:12px 20px; border-radius:50px; margin-bottom:20px;">
+                    <span style="font-size:32px;">🎯</span>
+                </div>
+                <h1 style="color:#fff; margin:0; font-size:28px; font-weight:600;">Virtual Class Booking Confirmed!</h1>
+                <p style="color:rgba(255,255,255,0.9); margin:10px 0 0; font-size:16px;">Your journey to fitness excellence begins here</p>
+            </td></tr>
+            <tr><td style="padding:40px 40px 20px 40px;">
+                <h2 style="color:#1a1a1a; margin:0; font-size:22px; font-weight:600;">Hi ${d.user_name},</h2>
+                <p style="color:#666; margin:15px 0 0; font-size:16px; line-height:1.6;">Thank you for booking our Virtual Class! Your payment has been successfully processed.</p>
+            </td></tr>
+            <tr><td style="padding:0 40px 30px 40px;">
+                <table width="100%" cellpadding="0" cellspacing="0" style="background:#f8f9fc; border-radius:12px; border-left:4px solid #7C9CB5;">
+                    <tr><td colspan="2" style="padding:25px; text-align:center; border-bottom:1px solid #e5e7eb;">
+                        <p style="margin:0; color:#6b7280; font-size:14px; text-transform:uppercase; letter-spacing:1px;">Amount Paid</p>
+                        <h2 style="margin:10px 0 0; color:#7C9CB5; font-size:36px; font-weight:700;">₹6,000</h2>
+                    </td></tr>
+                    <tr>
+                        <td style="padding:20px 25px; width:40%; color:#6b7280; font-size:14px; font-weight:600;">📋 Payment ID</td>
+                        <td style="padding:20px 25px; color:#1f2937; font-family:monospace; font-size:14px;">${d.payment_id}</td>
+                    </tr>
+                    <tr>
+                        <td style="padding:20px 25px; color:#6b7280; font-size:14px; font-weight:600; border-top:1px solid #e5e7eb;">💻 Program</td>
+                        <td style="padding:20px 25px; color:#1f2937; font-size:14px; border-top:1px solid #e5e7eb;">Virtual Class</td>
+                    </tr>
+                    <tr>
+                        <td style="padding:20px 25px; color:#6b7280; font-size:14px; font-weight:600; border-top:1px solid #e5e7eb;">👤 Name</td>
+                        <td style="padding:20px 25px; color:#1f2937; font-size:14px; border-top:1px solid #e5e7eb;">${d.user_name}</td>
+                    </tr>
+                    <tr>
+                        <td style="padding:20px 25px 25px; color:#6b7280; font-size:14px; font-weight:600; border-top:1px solid #e5e7eb;">📱 Phone</td>
+                        <td style="padding:20px 25px 25px; color:#1f2937; font-size:14px; border-top:1px solid #e5e7eb;">${d.user_phone}</td>
+                    </tr>
+                </table>
+            </td></tr>
+            <tr><td style="padding:0 40px 30px 40px;">
+                <div style="background:#e0f2fe; border-left:4px solid #0284c7; padding:20px; border-radius:8px;">
+                    <h3 style="margin:0 0 12px; color:#075985; font-size:16px;">🚀 What Happens Next?</h3>
+                    <ul style="margin:0; padding-left:20px; color:#0c4a6e; font-size:14px; line-height:1.8;">
+                        <li>Our team will contact you to confirm the class link and timings</li>
+                    </ul>
+                </div>
+            </td></tr>
+            <tr><td style="padding:0 40px 30px 40px;">
+                <div style="background:#fef3c7; border-left:4px solid #f59e0b; padding:16px 20px; border-radius:8px;">
+                    <p style="margin:0; color:#92400e; font-size:14px; line-height:1.6;">
+                        <strong>📌 Important:</strong> Please keep this email for your records. Make sure you have a stable internet connection and a quiet space for your virtual sessions.
+                    </p>
+                </div>
+            </td></tr>
+            <tr><td style="padding:20px 40px 30px; text-align:center; background:#f8f9fc; border-top:1px solid #e5e7eb;">
+                <p style="margin:0 0 4px; color:#374151; font-weight:600;">Haristhenics</p>
+                <p style="margin:0; color:#6b7280; font-size:13px;">
+                    Questions? <a href="mailto:haristhenics06@gmail.com" style="color:#7C9CB5;">haristhenics06@gmail.com</a>
+                </p>
+                <p style="margin:8px 0 0; color:#9ca3af; font-size:11px;">© HS FutureWorld. All rights reserved.</p>
+            </td></tr>
+        </table>
+        </td></tr></table></div>`
     }),
 
-    kneePain: (data) => ({
-        subject: `Your Knee Pain Program is Ready 🎉`,
+    // ------------------------------------------
+    // KNEE PAIN / WORKOUT PROGRAM
+    // Exact same as EmailJS dark template
+    // ------------------------------------------
+    kneePain: (d) => ({
+        subject: `Your ${d.program_name} is Ready!`,
         html: `
-        <div style="font-family:'Poppins',Arial,sans-serif;background:#000;color:#ededed;padding:40px 20px;max-width:600px;margin:0 auto;">
-            <div style="text-align:center;margin-bottom:32px;">
-                <div style="display:inline-block;background:#7C9CB5;color:#fff;font-size:18px;font-weight:700;padding:8px 16px;border-radius:8px;">H.</div>
-                <h1 style="color:#fff;font-size:24px;margin:16px 0 4px;">Haristhenics</h1>
-            </div>
-            <h2 style="color:#7C9CB5;font-size:20px;margin-bottom:8px;">Payment Successful ✅</h2>
-            <p style="color:rgba(255,255,255,0.7);margin-bottom:24px;">Hi ${data.name}, your ${data.program_name} is ready to access!</p>
-            <div style="background:#111;border:1px solid rgba(255,255,255,0.1);border-radius:12px;padding:24px;margin-bottom:24px;">
-                <p style="margin:0 0 8px;"><span style="color:rgba(255,255,255,0.5);font-size:12px;">PROGRAM</span><br><strong style="color:#fff;">${data.program_name}</strong></p>
-                <p style="margin:8px 0;"><span style="color:rgba(255,255,255,0.5);font-size:12px;">AMOUNT</span><br><strong style="color:#fff;">₹${data.amount}</strong></p>
-                <p style="margin:8px 0 0;"><span style="color:rgba(255,255,255,0.5);font-size:12px;">PAYMENT ID</span><br><strong style="color:#fff;font-size:12px;">${data.payment_id}</strong></p>
-            </div>
-            <div style="text-align:center;margin:32px 0;">
-                <a href="${data.claim_link}" style="display:inline-block;background:#7C9CB5;color:#fff;text-decoration:none;padding:14px 32px;border-radius:8px;font-weight:600;font-size:16px;">Access Your Program →</a>
-            </div>
-            <p style="color:rgba(255,255,255,0.5);font-size:13px;text-align:center;">This link is valid for 30 days. Login with Google to unlock your course.</p>
-            <hr style="border:none;border-top:1px solid rgba(255,255,255,0.1);margin:24px 0;">
-            <p style="color:rgba(255,255,255,0.4);font-size:12px;text-align:center;">Questions? Email us at haristhenics06@gmail.com</p>
-        </div>`
+        <div style="font-family:'Segoe UI',Arial,sans-serif; background:#000; padding:20px;">
+        <table style="background-color:#000; padding:0 20px; max-width:600px; margin:0 auto;" width="100%" cellspacing="0" cellpadding="0">
+            <tbody>
+            <tr><td style="padding:40px 40px 20px; text-align:center;">
+                <div style="font-size:48px; margin-bottom:16px;">✅</div>
+                <h2 style="margin:0; font-size:24px; font-weight:600; color:#fff;">Payment Successful!</h2>
+            </td></tr>
+            <tr><td style="padding:0 40px 30px;">
+                <p style="margin:0; font-size:16px; color:#fff; line-height:1.6;">Hi ${d.user_name},</p>
+                <p style="margin:12px 0 0; font-size:15px; color:#888; line-height:1.6;">Your workout program is ready! Access it using the button below.</p>
+            </td></tr>
+            <tr><td style="padding:0 40px 30px;">
+                <table style="background:#111; border:1px solid #1a1a1a; border-radius:8px;" width="100%" cellspacing="0" cellpadding="0">
+                    <tbody>
+                    <tr><td style="padding:16px 20px; border-bottom:1px solid #1a1a1a;">
+                        <p style="margin:0; font-size:12px; color:#888; text-transform:uppercase; letter-spacing:1px;">Program</p>
+                        <p style="margin:4px 0 0; font-size:16px; color:#fff; font-weight:600;">${d.program_name}</p>
+                    </td></tr>
+                    <tr><td style="padding:16px 20px; border-bottom:1px solid #1a1a1a;">
+                        <p style="margin:0; font-size:12px; color:#888; text-transform:uppercase; letter-spacing:1px;">Amount Paid</p>
+                        <p style="margin:4px 0 0; font-size:20px; color:#7C9CB5; font-weight:bold;">₹${d.amount}</p>
+                    </td></tr>
+                    <tr><td style="padding:16px 20px; border-bottom:1px solid #1a1a1a;">
+                        <p style="margin:0; font-size:12px; color:#888; text-transform:uppercase; letter-spacing:1px;">Payment ID</p>
+                        <p style="margin:4px 0 0; font-size:14px; color:#fff; font-family:monospace;">${d.payment_id}</p>
+                    </td></tr>
+                    <tr><td style="padding:16px 20px;">
+                        <p style="margin:0; font-size:12px; color:#888; text-transform:uppercase; letter-spacing:1px;">Date</p>
+                        <p style="margin:4px 0 0; font-size:14px; color:#fff;">${d.payment_date}</p>
+                    </td></tr>
+                    </tbody>
+                </table>
+            </td></tr>
+            <tr><td style="padding:0 40px 40px; text-align:center;">
+                <p style="margin:0 0 16px; font-size:14px; color:#888;">👇 Click below to access your program</p>
+                <a href="${d.claim_link}" style="display:inline-block; padding:16px 40px; background-color:#7C9CB5; color:#fff; font-size:16px; font-weight:600; text-decoration:none; border-radius:8px;">
+                    Access Your Program →
+                </a>
+                <p style="margin:12px 0 0; font-size:12px; color:#555;">This link is valid for 30 days. Login with Google to unlock.</p>
+            </td></tr>
+            <tr><td style="padding:30px 40px; border-top:1px solid #1a1a1a; text-align:center;">
+                <p style="margin:0; font-size:14px; color:#888;">Questions? Reply to this email.</p>
+                <p style="margin:16px 0 0; font-size:13px; color:#555;">© HS FutureWorld. All rights reserved.</p>
+            </td></tr>
+            </tbody>
+        </table></div>`
     }),
 
-    payFee: (data) => ({
-        subject: `Payment Received — ₹${data.amount}`,
+    // ------------------------------------------
+    // PAY YOUR FEE — Exact template from EmailJS
+    // ------------------------------------------
+    payFee: (d) => ({
+        subject: `Payment Received - ₹${Number(d.amount).toLocaleString('en-IN')} | Haristhenics`,
         html: `
-        <div style="font-family:'Poppins',Arial,sans-serif;background:#000;color:#ededed;padding:40px 20px;max-width:600px;margin:0 auto;">
-            <div style="text-align:center;margin-bottom:32px;">
-                <div style="display:inline-block;background:#7C9CB5;color:#fff;font-size:18px;font-weight:700;padding:8px 16px;border-radius:8px;">H.</div>
-                <h1 style="color:#fff;font-size:24px;margin:16px 0 4px;">Haristhenics</h1>
-            </div>
-            <h2 style="color:#7C9CB5;font-size:20px;margin-bottom:8px;">Payment Received ✅</h2>
-            <p style="color:rgba(255,255,255,0.7);margin-bottom:24px;">Hi ${data.name}, your payment has been received successfully.</p>
-            <div style="background:#111;border:1px solid rgba(255,255,255,0.1);border-radius:12px;padding:24px;margin-bottom:24px;">
-                <p style="margin:0 0 8px;"><span style="color:rgba(255,255,255,0.5);font-size:12px;">AMOUNT PAID</span><br><strong style="color:#7C9CB5;font-size:20px;">₹${Number(data.amount).toLocaleString('en-IN')}</strong></p>
-                <p style="margin:8px 0;"><span style="color:rgba(255,255,255,0.5);font-size:12px;">DATE</span><br><strong style="color:#fff;">${data.payment_date}</strong></p>
-                <p style="margin:8px 0 0;"><span style="color:rgba(255,255,255,0.5);font-size:12px;">PAYMENT ID</span><br><strong style="color:#fff;font-size:12px;">${data.payment_id}</strong></p>
-            </div>
-            <p style="color:rgba(255,255,255,0.6);font-size:14px;line-height:1.6;">Keep this email as your payment receipt.</p>
-            <hr style="border:none;border-top:1px solid rgba(255,255,255,0.1);margin:24px 0;">
-            <p style="color:rgba(255,255,255,0.4);font-size:12px;text-align:center;">Questions? Email us at haristhenics06@gmail.com</p>
-        </div>`
+        <div style="font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif; background:#f4f7fa; padding:40px 20px;">
+        <table width="100%" cellpadding="0" cellspacing="0"><tr><td align="center">
+        <table width="600" cellpadding="0" cellspacing="0" style="background:#fff; border-radius:16px; overflow:hidden; box-shadow:0 4px 20px rgba(0,0,0,0.08);">
+            <tr><td style="background:linear-gradient(135deg,#7C9CB5 0%,#5a7a91 100%); padding:40px 30px; text-align:center;">
+                <div style="background:rgba(255,255,255,0.2); display:inline-block; padding:12px 20px; border-radius:50px; margin-bottom:20px;">
+                    <span style="font-size:32px;">✅</span>
+                </div>
+                <h1 style="color:#fff; margin:0; font-size:28px; font-weight:600;">Payment Successful!</h1>
+            </td></tr>
+            <tr><td style="padding:40px 40px 20px;">
+                <h2 style="color:#1a1a1a; margin:0; font-size:22px;">Hi ${d.user_name},</h2>
+                <p style="color:#666; margin:15px 0 0; font-size:16px; line-height:1.6;">Thank you for making the payment. Your transaction has been successfully processed.</p>
+            </td></tr>
+            <tr><td style="padding:0 40px 30px;">
+                <table width="100%" cellpadding="0" cellspacing="0" style="background:#f8f9fc; border-radius:12px; border-left:4px solid #7C9CB5;">
+                    <tr><td colspan="2" style="padding:25px; text-align:center; border-bottom:1px solid #e5e7eb;">
+                        <p style="margin:0; color:#6b7280; font-size:14px; text-transform:uppercase; letter-spacing:1px;">Amount Paid</p>
+                        <h2 style="margin:10px 0 0; color:#7C9CB5; font-size:36px; font-weight:700;">₹${Number(d.amount).toLocaleString('en-IN')}</h2>
+                    </td></tr>
+                    <tr>
+                        <td style="padding:20px 25px; color:#6b7280; font-size:14px; font-weight:600;">📋 Payment ID</td>
+                        <td style="padding:20px 25px; color:#1f2937; font-family:monospace; font-size:14px;">${d.payment_id}</td>
+                    </tr>
+                    <tr>
+                        <td style="padding:20px 25px; color:#6b7280; font-size:14px; font-weight:600; border-top:1px solid #e5e7eb;">📅 Date</td>
+                        <td style="padding:20px 25px; color:#1f2937; font-size:14px; border-top:1px solid #e5e7eb;">${d.payment_date}</td>
+                    </tr>
+                    <tr>
+                        <td style="padding:20px 25px 25px; color:#6b7280; font-size:14px; font-weight:600; border-top:1px solid #e5e7eb;">👤 Name</td>
+                        <td style="padding:20px 25px 25px; color:#1f2937; font-size:14px; border-top:1px solid #e5e7eb;">${d.user_name}</td>
+                    </tr>
+                </table>
+            </td></tr>
+            <tr><td style="padding:0 40px 30px; text-align:center;">
+                <div style="background:#f3f4f6; padding:20px; border-radius:8px;">
+                    <p style="margin:0 0 8px; color:#374151; font-size:14px; font-weight:600;">Need Help?</p>
+                    <p style="margin:0; color:#6b7280; font-size:13px;">
+                        Contact us at <a href="mailto:haristhenics06@gmail.com" style="color:#7C9CB5;">haristhenics06@gmail.com</a>
+                    </p>
+                </div>
+            </td></tr>
+            <tr><td style="padding:20px 40px 30px; background:#f8f9fc; border-top:1px solid #e5e7eb; text-align:center;">
+                <p style="margin:0 0 4px; color:#1f2937; font-weight:600;">Haristhenics</p>
+                <p style="margin:0; color:#6b7280; font-size:13px;">This is an automated payment confirmation.</p>
+                <p style="margin:8px 0 0; color:#9ca3af; font-size:11px;">© HS FutureWorld. All rights reserved.</p>
+            </td></tr>
+        </table>
+        </td></tr></table></div>`
     })
 };
 
@@ -138,7 +328,13 @@ async function sendViaResend(to, subject, html) {
             'Authorization': `Bearer ${RESEND_API_KEY}`,
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ from: FROM_EMAIL, to, subject, html })
+        body: JSON.stringify({
+            from: FROM_EMAIL,
+            to,
+            reply_to: REPLY_TO,
+            subject,
+            html
+        })
     });
 
     if (!response.ok) {
@@ -150,17 +346,19 @@ async function sendViaResend(to, subject, html) {
 }
 
 // ==========================================
-// UPDATE SHEET WITH EMAIL STATUS
+// UPDATE SHEET EMAIL STATUS
+// Sheet mein Email Status column update karo
 // ==========================================
-async function updateSheetEmailStatus(paymentId, status, error = '') {
+async function updateSheetEmailStatus(paymentId, status, errorMsg = '') {
     try {
         await fetch(SHEET_URL, {
             method: 'POST',
+            headers: { 'Content-Type': 'text/plain;charset=utf-8' },
             body: JSON.stringify({
                 action: 'updateEmailStatus',
                 payment_id: paymentId,
                 email_status: status,
-                email_error: error
+                email_error: errorMsg
             })
         });
     } catch (e) {
@@ -172,7 +370,6 @@ async function updateSheetEmailStatus(paymentId, status, error = '') {
 // MAIN HANDLER
 // ==========================================
 export default async function handler(req, res) {
-    // CORS
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
@@ -180,45 +377,44 @@ export default async function handler(req, res) {
     if (req.method === 'OPTIONS') return res.status(200).end();
     if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
 
-    const data = req.body;
-    const { service_type, payment_id } = data;
+    const d = req.body;
+    const { service_type, payment_id } = d;
 
     if (!service_type || !payment_id) {
-        return res.status(400).json({ error: 'Missing required fields' });
+        return res.status(400).json({ error: 'Missing service_type or payment_id' });
     }
 
     try {
-        // Select template based on service
         let emailContent;
-        let recipientEmail = data.user_email || data.email;
+        const recipientEmail = d.user_email || d.email;
 
         if (service_type === 'consultation') {
-            emailContent = templates.consultation(data);
+            emailContent = templates.consultation(d);
         } else if (service_type === 'sundayClass') {
-            emailContent = templates.sundayClass(data);
+            emailContent = templates.sundayClass(d);
         } else if (service_type === 'virtualClass') {
-            emailContent = templates.virtualClass(data);
-        } else if (service_type === 'knee-pain' || service_type === 'workout') {
-            emailContent = templates.kneePain(data);
+            emailContent = templates.virtualClass(d);
+        } else if (['knee-pain','back-pain','shoulder-pain','ankle-pain','neck-pain','workout'].includes(service_type)) {
+            emailContent = templates.kneePain(d);
         } else if (service_type === 'payFee') {
-            emailContent = templates.payFee(data);
+            emailContent = templates.payFee(d);
         } else {
-            return res.status(400).json({ error: 'Unknown service type' });
+            return res.status(400).json({ error: 'Unknown service_type: ' + service_type });
         }
 
-        // Send to user
+        // Email bhejo
         await sendViaResend(recipientEmail, emailContent.subject, emailContent.html);
 
-        // Update Sheet — email sent ✅
+        // Sheet mein Sent update karo
         await updateSheetEmailStatus(payment_id, 'Sent');
 
-        console.log(`✅ Email sent to ${recipientEmail} for ${service_type}`);
+        console.log(`✅ Email sent | ${service_type} | ${recipientEmail}`);
         return res.status(200).json({ success: true });
 
     } catch (error) {
-        console.error('Email send error:', error);
+        console.error('Email error:', error.message);
 
-        // Update Sheet — email failed ❌
+        // Sheet mein Failed update karo
         await updateSheetEmailStatus(payment_id, 'Failed', error.message);
 
         return res.status(500).json({ error: error.message });
