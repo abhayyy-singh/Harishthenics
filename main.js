@@ -9,12 +9,10 @@
     // ==========================================
     // SUNDAY CLASS CONFIGURATION
     // ==========================================
-  const SUNDAY_CLASS_CONFIG = {
+const SUNDAY_CLASS_CONFIG = {
     isFullyBooked: false,
-    slots: {
-        morning:   { label: '9:00 AM – 10:30 AM', disabled: false },
-        afternoon: { label: '10:30 AM – 12:00 PM', disabled: false }
-    }
+    saturday: { isFullyBooked: false },
+    sunday:   { isFullyBooked: false }
 };
 
     // ==========================================
@@ -261,7 +259,7 @@
         } else {
             // Open normal booking modal
             if (typeof openBookingModal === 'function') {
-                openBookingModal('sundayClass');
+               openWeekendClassBooking();
             }
         }
     };

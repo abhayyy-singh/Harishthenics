@@ -134,7 +134,7 @@
             <a
               href="#pricing-section"
               class="text-sm lg:text-base text-off-white hover:text-accent-orange transition-colors duration-300"
-              >Services</a
+              >Pricings</a
             >
             <a
               href="#whoisharish"
@@ -181,7 +181,7 @@
             <a
               href="#pricing-section"
               class="block text-off-white hover:text-accent-orange text-center py-2 transition-colors duration-300"
-              >Services</a
+              >Pricing</a
             >
             <a
               href="#whoisharish"
@@ -481,7 +481,8 @@ During this consultation, we will thoroughly discuss your specific concerns and 
           onclick="toggleOption('option2')"
         >
           <div class="pricing-option__header">
-            <h3 class="pricing-option__title">Exclusive Sunday Class</h3>
+            <h3 class="pricing-option__title">Exclusive Weekend Class</h3>
+
             <span id="option2-icon" class="pricing-option__icon">▼</span>
           </div>
           <p class="pricing-option__subtitle">
@@ -491,7 +492,7 @@ During this consultation, we will thoroughly discuss your specific concerns and 
           <div id="option2-content" class="pricing-option__content">
             <div class="pricing-option__inner">
               <p class="pricing-option__description">
-               Perfect for those who can only train on weekends. After running successful workshops, we're now organizing monthly Sunday classes. Whether you're dealing with pain, stuck with a specific skill, need guidance on technique, or struggling with motivation - you'll get a chance to train with Me.
+               Perfect for those who can only train on weekends. After running successful workshops, we're now organizing monthly Weekend classes. Whether you're dealing with pain, stuck with a specific skill, need guidance on technique, or struggling with motivation - you'll get a chance to train with Me.
 
                 <strong>This is exclusively for Non Grip&Grab members.</strong>
               </p>
@@ -502,12 +503,12 @@ During this consultation, we will thoroughly discuss your specific concerns and 
                   <span class="pricing-detail-icon">📅</span>
                   <span
                     ><strong>Class Schedule:</strong>
-                    <span id="nextSundayDatex">Every Sunday</span></span
+                    <span id="nextSundayDatex">Every Saturday & Sunday</span></span
                   >
                 </div>
                 <div class="pricing-detail-item">
                   <span class="pricing-detail-icon">⏰</span>
-                  <span><strong>Time:</strong> 9:00 AM - 11:00 AM</span>
+                  <span><strong>Time:</strong> 9:00 AM - 10:30 AM</span>
                 </div>
                 <div class="pricing-detail-item">
                   <span class="pricing-detail-icon">📍</span>
@@ -526,15 +527,56 @@ During this consultation, we will thoroughly discuss your specific concerns and 
                   <span class="pricing-detail-icon">🎯</span>
                   <span>Limited Slots Available Only</span>
                 </div>
-                <span>Missed classes are non-compensable  no refunds or substitute sessions will be provided.</span>
+                <span>Missed classes are non-compensable  no refunds and substitute sessions will be provided.</span>
               </div>
 
-              <button
-                class="pricing-option__cta"
-                onclick="event.stopPropagation(); openBookingModal('sundayClass')"
-              >
-                Book Your Spot - ₹4,000
-              </button>
+             <div class="weekend-plan-selector" onclick="event.stopPropagation()">
+  <p class="weekend-plan-title">📅 Choose Your Weekend Plan</p>
+
+  <!-- 1 Class Option -->
+  <div class="weekend-plan-card active" id="plan-1class" onclick="selectWeekendPlan('1class')">
+    <div class="wpc-top">
+      <div>
+        <span class="wpc-heading">1 Class / Week</span>
+        <span class="wpc-sub">Saturday or Sunday — your choice</span>
+      </div>
+      <span class="wpc-price">₹4,000</span>
+    </div>
+    <ul class="wpc-details">
+      <li>Pick the day that suits you</li>
+      <!-- <li>1 session per week</li> -->
+    </ul>
+    <!-- Day picker — only shows when 1class is selected -->
+    <div class="wpc-day-picker" id="dayPicker">
+      <button class="wpc-day-btn active" id="dayBtn-saturday" onclick="event.stopPropagation(); selectWeekendDay('saturday')">Saturday</button>
+      <button class="wpc-day-btn" id="dayBtn-sunday" onclick="event.stopPropagation(); selectWeekendDay('sunday')">Sunday</button>
+    </div>
+  </div>
+
+  <!-- 2 Classes Option -->
+  <div class="weekend-plan-card" id="plan-2class" onclick="selectWeekendPlan('2class')">
+    <div class="wpc-top">
+      <div>
+        <span class="wpc-heading">2 Classes / Week </span>
+        <span class="wpc-sub">Saturday and Sunday both</span>
+      </div>
+      <span class="wpc-price">₹6,000</span>
+    </div>
+    <ul class="wpc-details">
+      <li>Train both days</li>
+      <!-- <li>2 sessions per week</li> -->
+    </ul>
+  </div>
+</div>
+
+<!-- Book button -->
+<button
+  class="pricing-option__cta"
+  id="weekendBookBtn"
+  onclick="event.stopPropagation(); openWeekendClassBooking()"
+>
+  Book Now — ₹4,000
+</button>
             </div>
           </div>
         </div>
@@ -1245,11 +1287,11 @@ During this consultation, we will thoroughly discuss your specific concerns and 
         <h2 class="sunday-fullybooked-title">Thank You for Your Interest!</h2>
         
         <p class="sunday-fullybooked-message">
-            We really appreciate your enthusiasm for joining our Sunday Classes. Unfortunately, all slots for this Sunday are fully booked.
+            We really appreciate your enthusiasm for joining our Weekend Classes...all slots are fully booked.
         </p>
         
         <p class="sunday-fullybooked-highlight">
-            📅 Try booking early for next Sunday to secure your spot!
+            📅 Try booking early for the next session to secure your spot!
         </p>
         
         <a href="#pricing-section" class="sunday-fullybooked-btn sunday-fullybooked-btn--primary" onclick="closeSundayFullyBookedModal();">

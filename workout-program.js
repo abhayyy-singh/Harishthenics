@@ -16,7 +16,7 @@
         
         // Razorpay Settings
         razorpay: {
-            keyId: 'rzp_live_RZDqqPc9XD0IjO',
+            keyId: 'rzp_live_SLytjftdf8NDpx',
             businessName: 'HS FutureWorld',
             currency: 'INR',
             themeColor: '#7C9CB5'
