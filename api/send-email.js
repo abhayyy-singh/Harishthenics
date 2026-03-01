@@ -351,19 +351,22 @@ async function sendViaResend(to, subject, html) {
 // ==========================================
 async function updateSheetEmailStatus(paymentId, status, errorMsg = '') {
     try {
-        const url = new URL(SHEET_URL);
-        url.searchParams.append('action', 'updateEmailStatus');
-        url.searchParams.append('payment_id', paymentId);
-        url.searchParams.append('email_status', status);
-        if (errorMsg) url.searchParams.append('email_error', errorMsg);
-
-        await fetch(url.toString(), {
-            method: 'GET'  // GET se bhejo — CORS issue nahi hoga
+        const params = new URLSearchParams({
+            action: 'updateEmailStatus',
+            payment_id: paymentId,
+            email_status: status,
+            email_error: errorMsg
         });
-        
-        console.log('Sheet update called:', paymentId, status);
+
+        const res = await fetch(`${SHEET_URL}?${params.toString()}`, {
+            method: 'GET',
+            redirect: 'follow'
+        });
+
+        const text = await res.text();
+        console.log('Sheet update response:', text);
     } catch (e) {
-        console.error('Sheet update error:', e);
+        console.error('Sheet update error:', e.message);
     }
 }
 
