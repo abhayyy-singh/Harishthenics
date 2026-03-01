@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Course Player — Haristhenics</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="player.css">
+</head>
+<body>
+
+    <!-- ==========================================
+         NAVBAR
+    =========================================== -->
+    <nav class="player-nav">
+        <a href="../index.html" class="player-nav__logo">
+            <div class="player-nav__logo-mark">H.</div>
+            <span class="player-nav__logo-text">Haristhenics</span>
+        </a>
+
+        <div class="player-nav__center" id="navCourseTitle">
+            Knee Pain Recovery Program
+        </div>
+
+        <div class="player-nav__right">
+            <div class="player-nav__user" id="navUser" style="display:none;">
+                <img id="navUserPhoto" src="" alt="Profile" class="player-nav__avatar">
+                <span id="navUserName" class="player-nav__username"></span>
+            </div>
+            <a href="../index.html" class="player-nav__back">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M19 12H5M12 19l-7-7 7-7"/>
+                </svg>
+                Home
+            </a>
+        </div>
+    </nav>
+
+    <!-- ==========================================
+         MOBILE HEADER (chapters toggle)
+    =========================================== -->
+    <div class="mobile-header">
+        <div class="mobile-header__title" id="mobileVideoTitle">Select a lesson</div>
+        <button class="mobile-header__chapters-btn" id="chaptersToggleBtn" onclick="toggleMobileSidebar()">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="8" y1="6" x2="21" y2="6"/>
+                <line x1="8" y1="12" x2="21" y2="12"/>
+                <line x1="8" y1="18" x2="21" y2="18"/>
+                <line x1="3" y1="6" x2="3.01" y2="6"/>
+                <line x1="3" y1="12" x2="3.01" y2="12"/>
+                <line x1="3" y1="18" x2="3.01" y2="18"/>
+            </svg>
+            Chapters
+        </button>
+    </div>
+
+    <!-- ==========================================
+         MAIN LAYOUT
+    =========================================== -->
+    <div class="player-layout">
+
+        <!-- SIDEBAR -->
+        <aside class="player-sidebar" id="playerSidebar">
+
+            <!-- Mobile close -->
+            <div class="sidebar-mobile-header">
+                <span>Course Content</span>
+                <button class="sidebar-close-btn" onclick="toggleMobileSidebar()">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M18 6L6 18M6 6l12 12"/>
+                    </svg>
+                </button>
+            </div>
+
+            <!-- Course info -->
+            <div class="sidebar-course-info">
+                <div class="sidebar-course-title" id="sidebarCourseTitle">Knee Pain Recovery Program</div>
+                <div class="sidebar-course-meta" id="sidebarCourseMeta">Loading...</div>
+            </div>
+
+            <!-- Chapters list — populated by JS -->
+            <div class="sidebar-chapters" id="sidebarChapters">
+                <div class="sidebar-loading">
+                    <div class="sidebar-loading__dot"></div>
+                    <div class="sidebar-loading__dot"></div>
+                    <div class="sidebar-loading__dot"></div>
+                </div>
+            </div>
+
+        </aside>
+
+        <!-- SIDEBAR OVERLAY (mobile) -->
+        <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleMobileSidebar()"></div>
+
+        <!-- MAIN CONTENT -->
+        <main class="player-main">
+
+            <!-- Video Player -->
+            <div class="player-video-wrap" id="playerVideoWrap">
+                <div class="player-video-placeholder" id="videoPlaceholder">
+                    <div class="placeholder-icon">
+                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <polygon points="5 3 19 12 5 21 5 3"/>
+                        </svg>
+                    </div>
+                    <p class="placeholder-text">Select a lesson from the sidebar to begin</p>
+                </div>
+                <div class="player-video-container" id="videoContainer" style="display:none;">
+                    <iframe
+                        id="videoIframe"
+                        src=""
+                        title="Course Video"
+                        frameborder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen"
+                        allowfullscreen>
+                    </iframe>
+                </div>
+            </div>
+
+            <!-- Video Info -->
+            <div class="player-video-info" id="playerVideoInfo" style="display:none;">
+                <div class="video-info-header">
+                    <div>
+                        <h1 class="video-title" id="videoTitle">Video Title</h1>
+                        <p class="video-chapter" id="videoChapter">Chapter</p>
+                    </div>
+                    <div class="video-actions">
+                        <!-- Future: notes, bookmark etc -->
+                        <button class="video-action-btn" id="markWatchedBtn" onclick="markCurrentWatched()">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="20 6 9 17 4 12"/>
+                            </svg>
+                            Mark Complete
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Nav buttons -->
+                <div class="video-nav-btns">
+                    <button class="video-nav-btn" id="prevBtn" onclick="playPrevVideo()" style="display:none;">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M19 12H5M12 19l-7-7 7-7"/>
+                        </svg>
+                        Previous
+                    </button>
+                    <button class="video-nav-btn video-nav-btn--next" id="nextBtn" onclick="playNextVideo()" style="display:none;">
+                        Next
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M5 12h14M12 5l7 7-7 7"/>
+                        </svg>
+                    </button>
+                </div>
+
+                <!-- Notes section — placeholder, not triggered yet -->
+                <div class="video-notes" id="videoNotes" style="display:none;">
+                    <!-- Future: onVideoComplete() will populate this -->
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <!-- ==========================================
+         ACCESS DENIED (not logged in / no purchase)
+    =========================================== -->
+    <div class="access-denied" id="accessDenied" style="display:none;">
+        <div class="access-denied__card">
+            <div class="access-denied__icon">🔒</div>
+            <h2 class="access-denied__title">Access Required</h2>
+            <p class="access-denied__text">Please sign in and purchase this program to access the content.</p>
+            <a href="../index.html#pricing-section" class="access-denied__btn">View Programs</a>
+            <button class="access-denied__login" onclick="window.location.href='../claim/index.html'">Sign In</button>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="player.js" type="module"></script>
+
+</body>
+</html>

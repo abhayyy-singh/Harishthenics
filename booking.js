@@ -308,71 +308,100 @@ if (bookingForm) {
 // ==========================================
 // SEND CONFIRMATION EMAILS
 // ==========================================
+
 async function sendEmails(formData, paymentResponse) {
-    if (typeof emailjs === 'undefined') {
-        console.warn('EmailJS not available');
-        return;
-    }
-    
     try {
-        // Virtual Class uses SECOND EmailJS Account
-        if (formData.planType === 'virtualClass') {
-            // Initialize 2nd EmailJS account
-            emailjs.init(BOOKING_CONFIG.emailjsPublicKey2);
-            
-           let templateParams = {
-    user_name: formData.name,
-    user_email: formData.email,
-    user_phone: formData.phone,
-    payment_id: paymentResponse.razorpay_payment_id,
-    slot_time: formData.slotTime || ''
-};
-            
-            await emailjs.send(
-                BOOKING_CONFIG.emailjsServiceId2,
-                BOOKING_CONFIG.emailjsTemplateId2,
-                templateParams
-            );
-            
-            console.log('✅ Virtual Class email sent (2nd account)');
-            return;
-        }
-        
-        // Consultation & Sunday Class use FIRST EmailJS Account
-        // Re-initialize first account (in case it was changed)
-        emailjs.init(BOOKING_CONFIG.emailjsPublicKey);
-        
-        // Select template based on booking type
-        const templateId = BOOKING_CONFIG.emailjsTemplates[formData.planType];
-        
-        // Prepare template params
-        let templateParams = {
+        const emailData = {
+            service_type: formData.planType,
             user_name: formData.name,
             user_email: formData.email,
             user_phone: formData.phone,
-            payment_id: paymentResponse.razorpay_payment_id
+            payment_id: paymentResponse.razorpay_payment_id,
+            booking_date: getTodayFormatted(),
+            class_date: getNextSundayFormatted()
         };
-        
-        // Add specific fields based on booking type
-        if (formData.planType === 'sundayClass') {
-            templateParams.class_date = getNextSundayFormatted();
-        } else if (formData.planType === 'consultation') {
-            templateParams.booking_date = getTodayFormatted();
-        }
-        
-        // Send email
-        await emailjs.send(
-            BOOKING_CONFIG.emailjsServiceId,
-            templateId,
-            templateParams
-        );
-        
-        console.log('✅ Email sent successfully (1st account)');
-        
+
+        await fetch('/api/send-email', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(emailData)
+        });
+
+        console.log('✅ Email API called');
     } catch (error) {
         console.error('Email error:', error);
     }
 }
+//ye values ko backend me bhejega aur backend se emailjs ke through email jayega. Isse frontend me emailjs ka code nahi rakhna padega, aur security bhi badh jayegi kyunki emailjs keys backend me rahengi.
+//or neeche vala code phele ka hai emailjs ke liye, jise ab hum backend me shift kar rahe hain. Isliye is code ko comment kar diya hai.
+
+// async function sendEmails(formData, paymentResponse) {
+//     if (typeof emailjs === 'undefined') {
+//         console.warn('EmailJS not available');
+//         return;
+//     }
+    
+//     try {
+//         // Virtual Class uses SECOND EmailJS Account
+//         if (formData.planType === 'virtualClass') {
+//             // Initialize 2nd EmailJS account
+//             emailjs.init(BOOKING_CONFIG.emailjsPublicKey2);
+            
+//            let templateParams = {
+//     user_name: formData.name,
+//     user_email: formData.email,
+//     user_phone: formData.phone,
+//     payment_id: paymentResponse.razorpay_payment_id,
+//     slot_time: formData.slotTime || ''
+// };
+            
+//             await emailjs.send(
+//                 BOOKING_CONFIG.emailjsServiceId2,
+//                 BOOKING_CONFIG.emailjsTemplateId2,
+//                 templateParams
+//             );
+            
+//             console.log('✅ Virtual Class email sent (2nd account)');
+//             return;
+//         }
+        
+//         // Consultation & Sunday Class use FIRST EmailJS Account
+//         // Re-initialize first account (in case it was changed)
+//         emailjs.init(BOOKING_CONFIG.emailjsPublicKey);
+        
+//         // Select template based on booking type
+//         const templateId = BOOKING_CONFIG.emailjsTemplates[formData.planType];
+        
+//         // Prepare template params
+//         let templateParams = {
+//             user_name: formData.name,
+//             user_email: formData.email,
+//             user_phone: formData.phone,
+//             payment_id: paymentResponse.razorpay_payment_id
+//         };
+        
+//         // Add specific fields based on booking type
+//         if (formData.planType === 'sundayClass') {
+//             templateParams.class_date = getNextSundayFormatted();
+//         } else if (formData.planType === 'consultation') {
+//             templateParams.booking_date = getTodayFormatted();
+//         }
+        
+//         // Send email
+//         await emailjs.send(
+//             BOOKING_CONFIG.emailjsServiceId,
+//             templateId,
+//             templateParams
+//         );
+        
+//         console.log('✅ Email sent successfully (1st account)');
+        
+//     } catch (error) {
+//         console.error('Email error:', error);
+//     }
+// }
+
+
 
 // Helper: Get next Sunday formatted
 function getNextSundayFormatted() {

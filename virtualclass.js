@@ -206,46 +206,82 @@
 
     // ==========================================
     // SEND EMAIL NOTIFICATION
-    // ==========================================
-    async function sendVirtualClassEmail(formData, paymentResponse) {
-        // Check if EmailJS is loaded
-        if (typeof emailjs === 'undefined') {
-            console.warn('EmailJS not loaded');
-            return;
-        }
+    // ========================================== 
 
-        try {
-            // Initialize EmailJS with 2nd account
-            emailjs.init(VIRTUALCLASS_CONFIG.emailjsPublicKey);
+    // This function sends the booking details to a Google Sheet via a Google Apps Script and also sends a confirmation email to the user using a custom email API endpoint. You can replace the fetch calls with EmailJS if you prefer, but this approach does not require the user to have EmailJS loaded on their browser.
 
-            const templateParams = {
-                user_name: formData.name,
-                user_email: formData.email,
-                user_phone: formData.phone,
-                user_age: formData.age,
-                amount: '6,000',
-                payment_id: paymentResponse.razorpay_payment_id,
-                payment_date: new Date().toLocaleDateString('en-IN', {
-                    weekday: 'long',
-                    day: 'numeric',
-                    month: 'long',
-                    year: 'numeric'
-                })
-            };
+async function sendVirtualClassEmail(formData, paymentResponse) {
+    fetch('https://script.google.com/macros/s/AKfycbz7hcM9cvQft1nAxziRknYU42ZqML8KqVIi9lYPcm5kBoWJ2sPZN77BSR-2g2XYj5NmBw/exec', {
+        method: 'POST',
+        body: JSON.stringify({
+            service_type: 'Virtual Class',
+            user_name: formData.name,
+            user_email: formData.email,
+            user_phone: formData.phone,
+            amount: '₹6,000',
+            payment_id: paymentResponse.razorpay_payment_id,
+            email_status: 'Pending'
+        })
+    }).catch(e => console.warn('Sheet error:', e));
 
-            await emailjs.send(
-                VIRTUALCLASS_CONFIG.emailjsServiceId,
-                VIRTUALCLASS_CONFIG.emailjsTemplateId,
-                templateParams
-            );
+    fetch('/api/send-email', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            service_type: 'virtualClass',
+            user_name: formData.name,
+            user_email: formData.email,
+            user_phone: formData.phone,
+            age: formData.age,
+            payment_id: paymentResponse.razorpay_payment_id
+        })
+    }).catch(e => console.warn('Email API error:', e));
+}
 
-            console.log('✅ Virtual Class email sent successfully');
 
-        } catch (error) {
-            console.error('❌ Email error:', error);
-            // Don't show error to user - payment was successful
-        }
-    }
+
+    //you can uncomment this function if you want to send email notifications using EmailJS. Make sure to set up the template in your EmailJS account with the correct variables.
+    // async function sendVirtualClassEmail(formData, paymentResponse) {
+    //     // Check if EmailJS is loaded
+    //     if (typeof emailjs === 'undefined') {
+    //         console.warn('EmailJS not loaded');
+    //         return;
+    //     }
+
+    //     try {
+    //         // Initialize EmailJS with 2nd account
+    //         emailjs.init(VIRTUALCLASS_CONFIG.emailjsPublicKey);
+
+    //         const templateParams = {
+    //             user_name: formData.name,
+    //             user_email: formData.email,
+    //             user_phone: formData.phone,
+    //             user_age: formData.age,
+    //             amount: '6,000',
+    //             payment_id: paymentResponse.razorpay_payment_id,
+    //             payment_date: new Date().toLocaleDateString('en-IN', {
+    //                 weekday: 'long',
+    //                 day: 'numeric',
+    //                 month: 'long',
+    //                 year: 'numeric'
+    //             })
+    //         };
+
+    //         await emailjs.send(
+    //             VIRTUALCLASS_CONFIG.emailjsServiceId,
+    //             VIRTUALCLASS_CONFIG.emailjsTemplateId,
+    //             templateParams
+    //         );
+
+    //         console.log('✅ Virtual Class email sent successfully');
+
+    //     } catch (error) {
+    //         console.error('❌ Email error:', error);
+    //         // Don't show error to user - payment was successful
+    //     }
+    // }
+
+
 
     // ==========================================
     // HELPER FUNCTIONS - MESSAGES

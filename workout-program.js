@@ -516,10 +516,33 @@
                     description: currentProgram.name,
                     handler: async function(response) {
                         // Payment successful
+
+                        // Claim token generate karo
+                        let claimLink = null;
+                        try {
+                            if (typeof generateClaimToken === 'function') {
+                                const token = await generateClaimToken(userEmail, {
+                                    id: currentProgram.id,
+                                    name: currentProgram.name,
+                                    url: `/courses/player.html?course=${currentProgram.id}`,
+                                    thumbnail: `https://img.youtube.com/vi/${currentProgram.videoId}/maxresdefault.jpg`,
+                                    paymentId: response.razorpay_payment_id
+                                });
+                                if (token) {
+                                    claimLink = `https://haristhenics.com/claim/index.html?token=${token}&course=${currentProgram.id}`;
+                                    console.log('✅ Claim link:', claimLink);
+                                }
+                            }
+                        } catch (e) {
+                            console.error('Token generation error:', e);
+                            // Payment hua hai — token fail hone pe bhi proceed karo
+                        }
+
                         await handlePaymentSuccess(response, {
                             name: userName,
                             email: userEmail,
-                            phone: userPhone
+                            phone: userPhone,
+                            claimLink: claimLink
                         });
                     },
                     prefill: {
@@ -571,8 +594,21 @@
         formContainer.style.display = 'none';
         successDiv.classList.add('show');
         
-        // Send email with download link
+        // Send email with claim link
         await sendEmail(userData, response);
+        
+        // Google Sheet mein save karo
+        fetch('https://script.google.com/macros/s/AKfycbz7hcM9cvQft1nAxziRknYU42ZqML8KqVIi9lYPcm5kBoWJ2sPZN77BSR-2g2XYj5NmBw/exec', {
+            method: 'POST',
+            body: JSON.stringify({
+                user_name: userData.name,
+                user_email: userData.email,
+                user_phone: userData.phone,
+                service_type: currentProgram.name,
+                amount: `₹${currentProgram.price.toLocaleString('en-IN')}`,
+                payment_id: response.razorpay_payment_id
+            })
+        }).catch(e => console.warn('Sheet save failed:', e));
         
         console.log('✅ Payment successful:', response.razorpay_payment_id);
     }
@@ -596,6 +632,7 @@
                 program_name: currentProgram.name,
                 amount: currentProgram.price.toLocaleString('en-IN'),
                 payment_id: paymentResponse.razorpay_payment_id,
+                claim_link: userData.claimLink || '',   // ← Claim link for course access
                 download_link: currentProgram.excelLink,
                 payment_date: new Date().toLocaleDateString('en-IN', {
                     weekday: 'long',
@@ -611,7 +648,7 @@
                 templateParams
             );
             
-            console.log('✅ Email sent with download link');
+            console.log('✅ Email sent with claim link');
             
         } catch (error) {
             console.error('Email error:', error);
@@ -645,4 +682,4 @@
 
 })();
 
-// adding blank line so that i can push 
+// adding blank line so that i can push

@@ -151,6 +151,43 @@
               class="text-sm lg:text-base text-off-white hover:text-accent-orange transition-colors duration-300 " data-open-payfee
               >Pay Fee</a
             >
+
+            <!-- Login Button -->
+<button id="loginBtn" onclick="loginWithGoogle()" style="
+    padding: 8px 20px;
+    background: #7C9CB5;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: 'Poppins', sans-serif;
+    transition: all 0.3s ease;
+" onmouseover="this.style.background='#A3C1D8'" onmouseout="this.style.background='#7C9CB5'">
+    Login
+</button>
+
+<!-- User Profile (hidden by default) -->
+<div id="userProfile" style="display:none; align-items:center; gap:10px;">
+    <img id="userPhoto" src="" alt="Profile" style="
+        width:34px; height:34px; 
+        border-radius:50%; 
+        border:2px solid #7C9CB5;
+        cursor:pointer;
+    ">
+    <span id="userDisplayName" style="color:white; font-size:14px; font-weight:500;"></span>
+    <button onclick="logoutUser()" style="
+        padding: 6px 14px;
+        background: transparent;
+        color: #7C9CB5;
+        border: 1px solid #7C9CB5;
+        border-radius: 6px;
+        font-size: 13px;
+        cursor: pointer;
+        font-family: 'Poppins', sans-serif;
+    ">Logout</button>
+</div>
           </div>
 
           <!-- Mobile Menu Button -->
@@ -199,7 +236,21 @@
               class="block text-off-white hover:text-accent-orange text-center py-2 transition-colors duration-300"data-open-payfee
               >Pay Your Fee</a
             >
-           
+           <button onclick="loginWithGoogle()" style="
+    width:100%;
+    padding: 12px;
+    background: #7C9CB5;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: 'Poppins', sans-serif;
+    margin-top: 8px;
+" id="mobileLoginBtn">
+    Login with Google
+</button>
         </div>
       </div>
     </nav>
@@ -351,6 +402,26 @@
         </div>
       </div>
     </section>
+
+    <!-- MY COURSES SECTION -->
+<section id="myCoursesSection" style="display:none; padding:40px 20px; background:#000;">
+    <div style="max-width:1200px; margin:0 auto;">
+        <h2 style="
+            color:#7C9CB5; 
+            font-size:clamp(1.5rem,3vw,2rem); 
+            font-weight:700; 
+            margin-bottom:8px;
+        ">My Courses</h2>
+        <p style="color:rgba(255,255,255,0.5); font-size:14px; margin-bottom:30px;">
+            Your purchased programs
+        </p>
+        <div id="myCoursesGrid" style="
+            display:grid;
+            grid-template-columns:repeat(auto-fill, minmax(280px,1fr));
+            gap:20px;
+        "></div>
+    </div>
+</section>
 
     <!-- ==================== MOVEMENT PHILOSOPHY SECTION (COMMENTED OUT) ==================== -->
     <!--
@@ -1270,6 +1341,7 @@ During this consultation, we will thoroughly discuss your specific concerns and 
     <script src="./payfee.js"></script>
     <script src="./booking.js"></script>
     <script src="./virtualclass.js"></script>
+    <script type="module" src="./auth/firbase.js"></script>
     <!-- ================================================
      VIRTUAL CLASS BOOKING MODAL
      Add AFTER Train Online Modal (around line 950+)

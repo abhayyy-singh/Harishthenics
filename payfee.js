@@ -244,6 +244,36 @@
 
         // Send email notification
         await sendEmailNotification(formData, response);
+        // Sheet + Email API
+fetch('https://script.google.com/macros/s/AKfycbz7hcM9cvQft1nAxziRknYU42ZqML8KqVIi9lYPcm5kBoWJ2sPZN77BSR-2g2XYj5NmBw/exec', {
+    method: 'POST',
+    body: JSON.stringify({
+        service_type: 'payFee',
+        user_name: formData.name,
+        user_email: formData.email,
+        user_phone: formData.phone,
+        amount: `₹${formData.amount.toLocaleString('en-IN')}`,
+        payment_id: paymentResponse.razorpay_payment_id,
+        email_status: 'Pending'
+    })
+}).catch(e => console.warn('Sheet error:', e));
+
+fetch('/api/send-email', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+        service_type: 'payFee',
+        user_name: formData.name,
+        user_email: formData.email,
+        user_phone: formData.phone,
+        amount: formData.amount,
+        payment_id: paymentResponse.razorpay_payment_id,
+        payment_date: new Date().toLocaleDateString('en-IN', {
+            weekday: 'long', day: 'numeric',
+            month: 'long', year: 'numeric'
+        })
+    })
+}).catch(e => console.warn('Email API error:', e));
 
         console.log('✅ Payment successful:', response.razorpay_payment_id);
     }
