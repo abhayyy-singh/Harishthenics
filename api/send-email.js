@@ -9,7 +9,7 @@
 const RESEND_API_KEY = process.env.RESEND_API_KEY;
 const FROM_EMAIL = 'Haristhenics <noreply@haristhenics.com>';
 const REPLY_TO = 'haristhenics06@gmail.com';
-const SHEET_URL = 'https://script.google.com/macros/s/AKfycbxEIDDWY_52FbTtO4Ka67--aB4g2xXXFoyPRKk0wgSCLCz2OccFgljQNA7jHu2FF3WeWQ/exec ';
+const SHEET_URL = 'https://script.google.com/macros/s/AKfycbxmTrjgKZ2PpEkr8C_KGft2xB2MGkKkUAI9DK3NZOEdxu-E7GvF3CiF1KMetxZdHALfQw/exec';
 
 // ==========================================
 // EMAIL TEMPLATES — Exact same as EmailJS

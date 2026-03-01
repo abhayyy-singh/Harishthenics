@@ -598,7 +598,7 @@
         await sendEmail(userData, response);
         
         // Google Sheet mein save karo
-        fetch('https://script.google.com/macros/s/AKfycbxEIDDWY_52FbTtO4Ka67--aB4g2xXXFoyPRKk0wgSCLCz2OccFgljQNA7jHu2FF3WeWQ/exec ', {
+        fetch('https://script.google.com/macros/s/AKfycbxmTrjgKZ2PpEkr8C_KGft2xB2MGkKkUAI9DK3NZOEdxu-E7GvF3CiF1KMetxZdHALfQw/exec', {
             method: 'POST',
             body: JSON.stringify({
                 user_name: userData.name,
