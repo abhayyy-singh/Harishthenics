@@ -579,3 +579,81 @@
           </div>
         </div>
       
+
+
+
+
+
+
+
+      <div
+  id="option5"
+  class="pricing-option"
+  onclick="toggleOption('option5')"
+>
+  <div class="pricing-option__header">
+    <h3 class="pricing-option__title">Online Class</h3>
+    <span id="option5-icon" class="pricing-option__icon">▼</span>
+  </div>
+  <p class="pricing-option__subtitle">
+    Group Online Sessions
+  </p>
+
+  <div id="option5-content" class="pricing-option__content">
+    <div class="pricing-option__inner">
+      <!-- Main Heading -->
+      <h4 class="pricing-option__content-heading highlighted-heading">
+        Your Fitness Journey Starts Here
+      </h4>
+
+      <!-- Class Timings Box -->
+      <div class="pricing-option__details">
+        <div class="pricing-detail-item">
+          <span class="pricing-detail-icon">🕚</span>
+          <span>
+            <strong>Class Timings:</strong><br />
+            12:00 PM – 01:00 PM
+          </span>
+        </div>
+        <div class="pricing-detail-item">
+          <span class="pricing-detail-icon">📅</span>
+          <span>
+            <strong>Days:</strong><br />
+            Every Thursday & Sunday
+          </span>
+        </div>
+      </div>
+
+      <!-- Description Paragraphs -->
+      <div class="pricing-option__description-block">
+        <p class="pricing-option__description">
+          In this group class, I personally guide you through correct movement and help you overcome fitness challenges, including joint pain and movement limitations.
+        </p>
+
+        <p class="pricing-option__description">
+          Once your enrollment is complete, I will personally call you to understand your goals, weaknesses, strengths, and any pain or issues you're facing. Based on this, I'll modify movements to suit your body—so you train safely, effectively, and with confidence.
+        </p>
+
+        <p class="pricing-option__description">
+          This program is not about random exercises.<br>
+          It's about transforming how your body moves.<br>
+         <strong> Give me your time, trust the process, and you'll become the best version of yourself.</strong>
+        </p>
+      </div>
+
+      <!-- CTA Text -->
+      <!-- <p class="pricing-option__cta-text">
+         Enroll yourself now and start moving better
+      </p> -->
+
+      <!-- Enroll Button -->
+      <button
+  class="pricing-option__cta"
+  onclick="event.stopPropagation(); openBookingModal('')" 
+>
+<!-- virtualClass  --> 
+  <!-- Enroll Now - ₹6,000 --> Slots Are Full
+</button>
+    </div>
+  </div>
+</div>
