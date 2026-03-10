@@ -598,7 +598,7 @@
         await sendEmail(userData, response);
         
         // Google Sheet mein save karo
-        fetch('https://script.google.com/macros/s/AKfycbxmTrjgKZ2PpEkr8C_KGft2xB2MGkKkUAI9DK3NZOEdxu-E7GvF3CiF1KMetxZdHALfQw/exec', {
+        fetch('https://script.google.com/macros/s/AKfycbzqL3WTdb8lWLIQU-WJVejkMA3mgM1_ccUZRbXNHzcj6bw5_3rjAXsKXywoD_AfpPKF/exec', {
             method: 'POST',
             body: JSON.stringify({
                 user_name: userData.name,
@@ -606,7 +606,8 @@
                 user_phone: userData.phone,
                 service_type: currentProgram.name,
                 amount: `₹${currentProgram.price.toLocaleString('en-IN')}`,
-                payment_id: response.razorpay_payment_id
+                payment_id: response.razorpay_payment_id,
+                email_status: 'Pending'
             })
         }).catch(e => console.warn('Sheet save failed:', e));
         
@@ -614,45 +615,34 @@
     }
 
     // ==========================================
-    // Send Email with Download Link
+    // Send Email with Claim Link — Resend API
     // ==========================================
     async function sendEmail(userData, paymentResponse) {
-        if (typeof emailjs === 'undefined') {
-            console.warn('EmailJS not loaded');
-            return;
-        }
-        
         try {
-            emailjs.init(CONFIG.emailjs.publicKey);
-            
-            const templateParams = {
-                user_name: userData.name,
-                user_email: userData.email,
-                user_phone: userData.phone,
-                program_name: currentProgram.name,
-                amount: currentProgram.price.toLocaleString('en-IN'),
-                payment_id: paymentResponse.razorpay_payment_id,
-                claim_link: userData.claimLink || '',   // ← Claim link for course access
-                download_link: currentProgram.excelLink,
-                payment_date: new Date().toLocaleDateString('en-IN', {
-                    weekday: 'long',
-                    day: 'numeric',
-                    month: 'long',
-                    year: 'numeric'
+            await fetch('/api/send-email', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    service_type: currentProgram.id,   // e.g. 'knee-pain', 'back-pain'
+                    user_name: userData.name,
+                    user_email: userData.email,
+                    user_phone: userData.phone,
+                    program_name: currentProgram.name,
+                    amount: currentProgram.price.toLocaleString('en-IN'),
+                    payment_id: paymentResponse.razorpay_payment_id,
+                    claim_link: userData.claimLink || '',
+                    payment_date: new Date().toLocaleDateString('en-IN', {
+                        weekday: 'long',
+                        day: 'numeric',
+                        month: 'long',
+                        year: 'numeric'
+                    })
                 })
-            };
-            
-            await emailjs.send(
-                CONFIG.emailjs.serviceId,
-                CONFIG.emailjs.templateId,
-                templateParams
-            );
-            
-            console.log('✅ Email sent with claim link');
-            
+            });
+            console.log('✅ Email sent via Resend');
         } catch (error) {
             console.error('Email error:', error);
-            // Don't show error to user - payment was successful
+            // Payment successful tha — user ko error mat dikhao
         }
     }
 

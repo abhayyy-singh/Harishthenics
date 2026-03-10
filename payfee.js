@@ -243,7 +243,7 @@
     submitBtn.disabled = false;
 
     // Sheet mein save karo
-    fetch('https://script.google.com/macros/s/AKfycbxmTrjgKZ2PpEkr8C_KGft2xB2MGkKkUAI9DK3NZOEdxu-E7GvF3CiF1KMetxZdHALfQw/exec', {
+    fetch('https://script.google.com/macros/s/AKfycbzqL3WTdb8lWLIQU-WJVejkMA3mgM1_ccUZRbXNHzcj6bw5_3rjAXsKXywoD_AfpPKF/exec', {
         method: 'POST',
         body: JSON.stringify({
             service_type: 'payFee',

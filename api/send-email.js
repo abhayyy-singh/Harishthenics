@@ -9,7 +9,7 @@
 const RESEND_API_KEY = process.env.RESEND_API_KEY;
 const FROM_EMAIL = 'Haristhenics <noreply@haristhenics.com>';
 const REPLY_TO = 'haristhenics06@gmail.com';
-const SHEET_URL = 'https://script.google.com/macros/s/AKfycbxmTrjgKZ2PpEkr8C_KGft2xB2MGkKkUAI9DK3NZOEdxu-E7GvF3CiF1KMetxZdHALfQw/exec';
+const SHEET_URL = 'https://script.google.com/macros/s/AKfycbzqL3WTdb8lWLIQU-WJVejkMA3mgM1_ccUZRbXNHzcj6bw5_3rjAXsKXywoD_AfpPKF/exec';
 
 // ==========================================
 // EMAIL TEMPLATES — Exact same as EmailJS
@@ -351,15 +351,15 @@ async function sendViaResend(to, subject, html) {
 // ==========================================
 async function updateSheetEmailStatus(paymentId, status, errorMsg = '') {
     try {
-        const params = new URLSearchParams({
-            action: 'updateEmailStatus',
-            payment_id: paymentId,
-            email_status: status,
-            email_error: errorMsg
-        });
-
-        const res = await fetch(`${SHEET_URL}?${params.toString()}`, {
-            method: 'GET',
+        const res = await fetch(SHEET_URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'text/plain' },  // Apps Script needs text/plain for POST
+            body: JSON.stringify({
+                action: 'updateEmailStatus',
+                payment_id: paymentId,
+                email_status: status,
+                email_error: errorMsg
+            }),
             redirect: 'follow'
         });
 
