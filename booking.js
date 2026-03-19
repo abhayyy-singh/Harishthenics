@@ -232,19 +232,7 @@ if (bookingForm) {
                 handler: async function(response) {
                     console.log('✅ Payment successful:', response.razorpay_payment_id);
                     
-                    // Google Sheet mein data bhejo
-                    fetch('https://script.google.com/macros/s/AKfycbz7hcM9cvQft1nAxziRknYU42ZqML8KqVIi9lYPcm5kBoWJ2sPZN77BSR-2g2XYj5NmBw/exec', {
-                        method: 'POST',
-                        body: JSON.stringify({
-                            user_name: userName,
-                            user_email: userEmail,
-                            user_phone: userPhone,
-                            service_type: booking.name,
-                            amount: booking.displayAmount,
-                            payment_id: response.razorpay_payment_id
-                        })
-                    });
-                    
+                   
                     // Send confirmation emails
                     await sendEmails({
                         name: userName,
@@ -375,6 +363,17 @@ async function sendEmails(formData, paymentResponse) {
         );
         
         console.log('✅ Email sent successfully (1st account)');
+
+        // Sheet tracking
+        await sendToSheet({
+            type: 'booking',
+            name: formData.name,
+            phone: formData.phone,
+            email: formData.email,
+            bookingType: formData.bookingType,
+            amount: Math.round(formData.amount / 100),
+            paymentId: paymentResponse.razorpay_payment_id
+        });
         
     } catch (error) {
         console.error('Email error:', error);

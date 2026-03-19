@@ -243,11 +243,21 @@
         submitBtn.disabled = false;
 
         // Send email notification
+       // Send email notification
         await sendEmailNotification(formData, response);
+
+        // Sheet tracking
+        await sendToSheet({
+            type: 'payfee',
+            name: formData.name,
+            phone: formData.phone,
+            email: formData.email,
+            amount: formData.amount,
+            paymentId: response.razorpay_payment_id
+        });
 
         console.log('✅ Payment successful:', response.razorpay_payment_id);
     }
-
     // ==========================================
     // EMAIL NOTIFICATION (2nd EmailJS Account)
     // ==========================================

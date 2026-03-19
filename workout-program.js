@@ -572,11 +572,22 @@
         successDiv.classList.add('show');
         
         // Send email with download link
+       // Send email with download link
         await sendEmail(userData, response);
+
+        // Sheet tracking
+        await sendToSheet({
+            type: 'workout',
+            name: userData.name,
+            phone: userData.phone,
+            email: userData.email,
+            programName: currentProgram.name,
+            amount: currentProgram.price,
+            paymentId: response.razorpay_payment_id
+        });
         
         console.log('✅ Payment successful:', response.razorpay_payment_id);
     }
-
     // ==========================================
     // Send Email with Download Link
     // ==========================================
