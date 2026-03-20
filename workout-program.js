@@ -104,7 +104,7 @@
                 excelLink: 'https://docs.google.com/spreadsheets/d/1IRemM4xygSlbvOapEc71L2pD5SnCoVNEp11VkFqHxcg/edit?usp=sharing',  // Replace with actual link
                 
                 description: [
-    'I built this knee pain program after years of dedicated work, hands-on experience, and careful movement selection — designed to help you achieve pain-free movement.',
+    'I built this knee pain recovery program after years of dedicated work, hands-on experience, and careful movement selection — designed to help you achieve pain-free movement.',
     'This program has already helped many people move better and reclaim their daily life. If you commit to it, it will do the same for you.',
     // 'What makes this program different is that it is not static — it evolves over time. As we learn more, the program gets updated, so what you invest in today only gets better.',
     // 'Whether your knee pain is from injury, overuse, or age-related wear, this program will guide you step by step back to confident, pain-free movement.',
