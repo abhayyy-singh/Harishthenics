@@ -537,7 +537,7 @@ During this consultation, we will thoroughly discuss your specific concerns and 
 
               <button
                 class="pricing-option__cta"
-                onclick="event.stopPropagation(); openBookingModal('consultation')"
+                onclick="event.stopPropagation(); openConsultationFullyBookedModal()"
               >
                 Book Consultation - ₹2,000
               </button>
@@ -1334,6 +1334,31 @@ During this consultation, we will thoroughly discuss your specific concerns and 
     </div>
 </div>
 
+<div id="consultation-fullybooked-modal" class="sunday-fullybooked-modal">
+    <div id="consultation-fullybooked-overlay" class="sunday-fullybooked-overlay"></div>
+    <div class="sunday-fullybooked-container">
+        <button id="consultation-fullybooked-close" class="sunday-fullybooked-close" onclick="closeConsultationFullyBookedModal()">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+            </svg>
+        </button>
+        <div class="sunday-fullybooked-icon">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+            </svg>
+        </div>
+        <h2 class="sunday-fullybooked-title">Slots Are Fully Booked</h2>
+        <p class="sunday-fullybooked-message">
+            We appreciate your interest in a personal consultation. All slots are currently occupied.
+        </p>
+        <p class="sunday-fullybooked-highlight">
+            📅 Check back soon — new slots open up regularly!
+        </p>
+        <button class="sunday-fullybooked-btn sunday-fullybooked-btn--primary" onclick="closeConsultationFullyBookedModal()">
+            Got It, Thanks!
+        </button>
+    </div>
+</div>
 
 
     <!-- JavaScript Files -->

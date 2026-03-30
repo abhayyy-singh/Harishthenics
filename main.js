@@ -233,12 +233,19 @@
         });
 
         // Toggle current option
+  // Toggle current option
         if (isExpanded) {
             option.classList.remove('active');
             if (icon) icon.style.transform = 'rotate(0deg)';
         } else {
             option.classList.add('active');
             if (icon) icon.style.transform = 'rotate(180deg)';
+            // Consultation card expand hote hi popup
+            if (optionId === 'option1') {
+                setTimeout(function() {
+                    openConsultationFullyBookedModal();
+                }, 300);
+            }
         }
     };
 
@@ -397,3 +404,16 @@ window.addEventListener('load', function() {
         }, 300);
     }
 });
+
+function openConsultationFullyBookedModal() {
+    const modal = document.getElementById('consultation-fullybooked-modal');
+    if (modal) modal.classList.add('active');
+}
+
+function closeConsultationFullyBookedModal() {
+    const modal = document.getElementById('consultation-fullybooked-modal');
+    if (modal) modal.classList.remove('active');
+}
+
+// Overlay click se close
+document.getElementById('consultation-fullybooked-overlay')?.addEventListener('click', closeConsultationFullyBookedModal);
