@@ -104,7 +104,7 @@
                 excelLink: 'https://docs.google.com/spreadsheets/d/1IRemM4xygSlbvOapEc71L2pD5SnCoVNEp11VkFqHxcg/edit?usp=sharing',  // Replace with actual link
                 
                 description: [
-    'I built this knee pain recovery program after years of dedicated work, hands-on experience, and careful movement selection — designed to help you achieve pain-free movement.',
+    'I built this knee pain program after years of dedicated work, hands-on experience, and careful movement selection — designed to help you achieve pain-free movement.',
     'This program has already helped many people move better and reclaim their daily life. If you commit to it, it will do the same for you.',
     // 'What makes this program different is that it is not static — it evolves over time. As we learn more, the program gets updated, so what you invest in today only gets better.',
     // 'Whether your knee pain is from injury, overuse, or age-related wear, this program will guide you step by step back to confident, pain-free movement.',
@@ -516,10 +516,33 @@
                     description: currentProgram.name,
                     handler: async function(response) {
                         // Payment successful
+
+                        // Claim token generate karo
+                        let claimLink = null;
+                        try {
+                            if (typeof generateClaimToken === 'function') {
+                                const token = await generateClaimToken(userEmail, {
+                                    id: currentProgram.id,
+                                    name: currentProgram.name,
+                                    url: `/courses/player.html?course=${currentProgram.id}`,
+                                    thumbnail: `https://img.youtube.com/vi/${currentProgram.videoId}/maxresdefault.jpg`,
+                                    paymentId: response.razorpay_payment_id
+                                });
+                                if (token) {
+                                    claimLink = `https://haristhenics.com/claim/index.html?token=${token}&course=${currentProgram.id}`;
+                                    console.log('✅ Claim link:', claimLink);
+                                }
+                            }
+                        } catch (e) {
+                            console.error('Token generation error:', e);
+                            // Payment hua hai — token fail hone pe bhi proceed karo
+                        }
+
                         await handlePaymentSuccess(response, {
                             name: userName,
                             email: userEmail,
-                            phone: userPhone
+                            phone: userPhone,
+                            claimLink: claimLink
                         });
                     },
                     prefill: {
@@ -571,23 +594,25 @@
         formContainer.style.display = 'none';
         successDiv.classList.add('show');
         
-        // Send email with download link
-       // Send email with download link
+        // Send email with claim link
         await sendEmail(userData, response);
-
-        // Sheet tracking
-        await sendToSheet({
-            type: 'workout',
-            name: userData.name,
-            phone: userData.phone,
-            email: userData.email,
-            programName: currentProgram.name,
-            amount: currentProgram.price,
-            paymentId: response.razorpay_payment_id
-        });
+        
+        // Google Sheet mein save karo
+        fetch('https://script.google.com/macros/s/AKfycbxmTrjgKZ2PpEkr8C_KGft2xB2MGkKkUAI9DK3NZOEdxu-E7GvF3CiF1KMetxZdHALfQw/exec', {
+            method: 'POST',
+            body: JSON.stringify({
+                user_name: userData.name,
+                user_email: userData.email,
+                user_phone: userData.phone,
+                service_type: currentProgram.name,
+                amount: `₹${currentProgram.price.toLocaleString('en-IN')}`,
+                payment_id: response.razorpay_payment_id
+            })
+        }).catch(e => console.warn('Sheet save failed:', e));
         
         console.log('✅ Payment successful:', response.razorpay_payment_id);
     }
+
     // ==========================================
     // Send Email with Download Link
     // ==========================================
@@ -607,6 +632,7 @@
                 program_name: currentProgram.name,
                 amount: currentProgram.price.toLocaleString('en-IN'),
                 payment_id: paymentResponse.razorpay_payment_id,
+                claim_link: userData.claimLink || '',   // ← Claim link for course access
                 download_link: currentProgram.excelLink,
                 payment_date: new Date().toLocaleDateString('en-IN', {
                     weekday: 'long',
@@ -622,7 +648,7 @@
                 templateParams
             );
             
-            console.log('✅ Email sent with download link');
+            console.log('✅ Email sent with claim link');
             
         } catch (error) {
             console.error('Email error:', error);
@@ -656,4 +682,4 @@
 
 })();
 
-// adding blank line so that i can push 
+// adding blank line so that i can push

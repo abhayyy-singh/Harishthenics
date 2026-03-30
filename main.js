@@ -9,10 +9,12 @@
     // ==========================================
     // SUNDAY CLASS CONFIGURATION
     // ==========================================
-const SUNDAY_CLASS_CONFIG = {
+  const SUNDAY_CLASS_CONFIG = {
     isFullyBooked: false,
-    saturday: { isFullyBooked: false },
-    sunday:   { isFullyBooked: false }
+    slots: {
+        morning:   { label: '9:00 AM – 10:30 AM', disabled: false },
+        afternoon: { label: '10:30 AM – 12:00 PM', disabled: false }
+    }
 };
 
     // ==========================================
@@ -231,12 +233,19 @@ const SUNDAY_CLASS_CONFIG = {
         });
 
         // Toggle current option
+  // Toggle current option
         if (isExpanded) {
             option.classList.remove('active');
             if (icon) icon.style.transform = 'rotate(0deg)';
         } else {
             option.classList.add('active');
             if (icon) icon.style.transform = 'rotate(180deg)';
+            // Consultation card expand hote hi popup
+            if (optionId === 'option1') {
+                setTimeout(function() {
+                    openConsultationFullyBookedModal();
+                }, 300);
+            }
         }
     };
 
@@ -259,7 +268,7 @@ const SUNDAY_CLASS_CONFIG = {
         } else {
             // Open normal booking modal
             if (typeof openBookingModal === 'function') {
-               openWeekendClassBooking();
+                openBookingModal('sundayClass');
             }
         }
     };
@@ -359,7 +368,7 @@ window.addEventListener('load', function() {
     const urlParams = new URLSearchParams(window.location.search);
     const openCard = urlParams.get('open');
     
-    if (openCard === 'sundayClass' || openCard === 'weekendClass') {
+    if (openCard === 'sundayClass') {
         setTimeout(function() {
             const option2 = document.getElementById('option2');
             if (option2 && typeof toggleOption === 'function') {
@@ -394,14 +403,17 @@ window.addEventListener('load', function() {
             }
         }, 300);
     }
-});if (openCard === 'weekendClass') {
-    setTimeout(function() {
-        const option2 = document.getElementById('option2');
-        if (option2 && typeof toggleOption === 'function') {
-            toggleOption('option2');
-            setTimeout(function() {
-                option2.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            }, 500);
-        }
-    }, 300);
+});
+
+function openConsultationFullyBookedModal() {
+    const modal = document.getElementById('consultation-fullybooked-modal');
+    if (modal) modal.classList.add('active');
 }
+
+function closeConsultationFullyBookedModal() {
+    const modal = document.getElementById('consultation-fullybooked-modal');
+    if (modal) modal.classList.remove('active');
+}
+
+// Overlay click se close
+document.getElementById('consultation-fullybooked-overlay')?.addEventListener('click', closeConsultationFullyBookedModal);
