@@ -737,3 +737,119 @@ body {
     image-rendering: -webkit-optimize-contrast;
     image-rendering: crisp-edges;
 }
+
+.wd-btn {
+  flex: 1; min-width: 90px;
+  padding: 12px 10px; border-radius: 10px;
+  border: 1.5px solid rgba(124,156,181,0.3);
+  background: rgba(255,255,255,0.03);
+  color: #fff; cursor: pointer;
+  font-size: 14px; text-align: center;
+  transition: all 0.2s ease;
+  display: flex; flex-direction: column; align-items: center; gap: 4px;
+  
+}
+.wd-btn.active {
+  border-color: #7C9CB5;
+  background: rgba(124,156,181,0.15);
+  box-shadow: 0 0 12px rgba(124,156,181,0.3);
+}
+.wd-btn--both { border-style: dashed; }
+
+
+.weekend-plan-title {
+  font-size: 13px;
+  color: rgba(255,255,255,0.5);
+  letter-spacing: 0.5px;
+  margin-bottom: 12px;
+}
+
+.weekend-plan-card {
+  border: 1.5px solid rgba(124,156,181,0.2);
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 10px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  background: rgba(255,255,255,0.02);
+}
+
+.weekend-plan-card.active {
+  border-color: #7C9CB5;
+  background: rgba(124,156,181,0.08);
+}
+
+.wpc-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.wpc-heading {
+  display: block;
+  font-size: 15px;
+  font-weight: 600;
+  color: #fff;
+  margin-bottom: 4px;
+}
+
+.wpc-sub {
+  font-size: 12px;
+  color: rgba(255,255,255,0.45);
+}
+
+.wpc-price {
+  font-size: 18px;
+  font-weight: 700;
+  color: #7C9CB5;
+  white-space: nowrap;
+}
+
+.wpc-badge {
+  font-size: 11px;
+  background: rgba(124,156,181,0.2);
+  color: #7C9CB5;
+  padding: 2px 8px;
+  border-radius: 20px;
+  font-weight: 500;
+  vertical-align: middle;
+}
+
+.wpc-details {
+  margin: 10px 0 0 0;
+  padding-left: 16px;
+  list-style: disc;
+}
+
+.wpc-details li {
+  font-size: 12px;
+  color: rgba(255,255,255,0.5);
+  margin-bottom: 3px;
+}
+
+.wpc-day-picker {
+  display: flex;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.wpc-day-btn {
+  flex: 1;
+  padding: 8px;
+  border-radius: 8px;
+  border: 1.5px solid rgba(124,156,181,0.3);
+  background: transparent;
+  color: #fff;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.wpc-day-btn.active {
+  border-color: #7C9CB5;
+  background: rgba(124,156,181,0.2);
+}
+.weekend-plan-card {
+  min-height: 130px; /* ya jo bhi 2class card ki height hai */
+}

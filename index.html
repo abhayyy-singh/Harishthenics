@@ -12,7 +12,7 @@
     <!-- SEO Meta Tags -->
     <meta
       name="description"
-      content="Haristhenics - Movement coaching by Harish Sharma. Book consultations and Sunday classes for personalized fitness training in Delhi."
+      content="Haristhenics - Movement coaching by Harish Sharma. Book consultations  for personalized fitness training in Delhi."
     />
     <meta
       name="keywords"
@@ -134,60 +134,23 @@
             <a
               href="#pricing-section"
               class="text-sm lg:text-base text-off-white hover:text-accent-orange transition-colors duration-300"
-              >Pricings</a
+              >Services</a
             >
             <a
               href="#whoisharish"
               class="text-sm lg:text-base text-off-white hover:text-accent-orange transition-colors duration-300"
               >Philosophy</a
             >
-            <a
+            <!-- <a
               href="#footer-section"
               class="text-sm lg:text-base text-off-white hover:text-accent-orange transition-colors duration-300"
               >Contact me</a
-            >
+            > -->
             <a
               href="#footer-section"
               class="text-sm lg:text-base text-off-white hover:text-accent-orange transition-colors duration-300 " data-open-payfee
               >Pay Fee</a
             >
-
-            <!-- Login Button -->
-<button id="loginBtn" onclick="loginWithGoogle()" style="
-    padding: 8px 20px;
-    background: #7C9CB5;
-    color: white;
-    border: none;
-    border-radius: 6px;
-    font-size: 14px;
-    font-weight: 600;
-    cursor: pointer;
-    font-family: 'Poppins', sans-serif;
-    transition: all 0.3s ease;
-" onmouseover="this.style.background='#A3C1D8'" onmouseout="this.style.background='#7C9CB5'">
-    Login
-</button>
-
-<!-- User Profile (hidden by default) -->
-<div id="userProfile" style="display:none; align-items:center; gap:10px;">
-    <img id="userPhoto" src="" alt="Profile" style="
-        width:34px; height:34px; 
-        border-radius:50%; 
-        border:2px solid #7C9CB5;
-        cursor:pointer;
-    ">
-    <span id="userDisplayName" style="color:white; font-size:14px; font-weight:500;"></span>
-    <button onclick="logoutUser()" style="
-        padding: 6px 14px;
-        background: transparent;
-        color: #7C9CB5;
-        border: 1px solid #7C9CB5;
-        border-radius: 6px;
-        font-size: 13px;
-        cursor: pointer;
-        font-family: 'Poppins', sans-serif;
-    ">Logout</button>
-</div>
           </div>
 
           <!-- Mobile Menu Button -->
@@ -218,7 +181,7 @@
             <a
               href="#pricing-section"
               class="block text-off-white hover:text-accent-orange text-center py-2 transition-colors duration-300"
-              >Pricing</a
+              >Services</a
             >
             <a
               href="#whoisharish"
@@ -226,31 +189,17 @@
               >Philosophy</a
             >
             
-            <a
+            <!-- <a
               href="#footer-section"
               class="block text-off-white hover:text-accent-orange text-center py-2 transition-colors duration-300"
               >Contact Me</a
-            >
+            > -->
             <a
               
               class="block text-off-white hover:text-accent-orange text-center py-2 transition-colors duration-300"data-open-payfee
               >Pay Your Fee</a
             >
-           <button onclick="loginWithGoogle()" style="
-    width:100%;
-    padding: 12px;
-    background: #7C9CB5;
-    color: white;
-    border: none;
-    border-radius: 6px;
-    font-size: 15px;
-    font-weight: 600;
-    cursor: pointer;
-    font-family: 'Poppins', sans-serif;
-    margin-top: 8px;
-" id="mobileLoginBtn">
-    Login with Google
-</button>
+           
         </div>
       </div>
     </nav>
@@ -403,26 +352,6 @@
       </div>
     </section>
 
-    <!-- MY COURSES SECTION -->
-<section id="myCoursesSection" style="display:none; padding:40px 20px; background:#000;">
-    <div style="max-width:1200px; margin:0 auto;">
-        <h2 style="
-            color:#7C9CB5; 
-            font-size:clamp(1.5rem,3vw,2rem); 
-            font-weight:700; 
-            margin-bottom:8px;
-        ">My Courses</h2>
-        <p style="color:rgba(255,255,255,0.5); font-size:14px; margin-bottom:30px;">
-            Your purchased programs
-        </p>
-        <div id="myCoursesGrid" style="
-            display:grid;
-            grid-template-columns:repeat(auto-fill, minmax(280px,1fr));
-            gap:20px;
-        "></div>
-    </div>
-</section>
-
     <!-- ==================== MOVEMENT PHILOSOPHY SECTION (COMMENTED OUT) ==================== -->
     <!--
     <section class="philosophy-section-v2" id="philosophy">
@@ -530,14 +459,14 @@
           <div id="option1-content" class="pricing-option__content">
             <div class="pricing-option__inner">
               <p class="pricing-option__description">
-               One-on-one consultation with me, available both online and offline. Whether you're facing challenges in your fitness journey, experiencing difficulties with daily movement, or dealing with chronic pain, you can book an appointment and I will personally reach out to schedule your session.
+               One-on-one consultation with me, available both online and offline. Whether you're facing challenges in your fitness journey, experiencing difficulties with daily movement, or dealing with chronic pain, you can book an appointment and I ( Harish Sharma ) will personally reach out to schedule your session.
 
 During this consultation, we will thoroughly discuss your specific concerns and develop a personalized approach to address them. I will also walk you through my customized workout programs explaining how they function and how the pricing structure varies based on your individual goals and requirements.
               </p>
 
               <button
                 class="pricing-option__cta"
-                onclick="event.stopPropagation(); openConsultationFullyBookedModal()"
+                onclick="event.stopPropagation(); openBookingModal('consultation')"
               >
                 Book Consultation - ₹2,000
               </button>
@@ -546,72 +475,7 @@ During this consultation, we will thoroughly discuss your specific concerns and 
         </div>
 
         <!-- OPTION 2: Exclusive Sunday Class -->
-        <div
-          id="option2"
-          class="pricing-option"
-          onclick="toggleOption('option2')"
-        >
-          <div class="pricing-option__header">
-            <h3 class="pricing-option__title">Exclusive Sunday Class</h3>
-            <span id="option2-icon" class="pricing-option__icon">▼</span>
-          </div>
-          <p class="pricing-option__subtitle">
-            Non Grip&Grab members only<br />(Offline Class)
-          </p>
-
-          <div id="option2-content" class="pricing-option__content">
-            <div class="pricing-option__inner">
-              <p class="pricing-option__description">
-                Perfect for those who can only train on weekends. After running
-                successful workshops, we're now organizing  Sunday
-                classes. Whether you're dealing with pain, stuck with a specific
-                skill, need guidance on technique, or struggling with motivation
-                - you'll get a chance to train with Harish.
-                <strong>This is exclusively for Non Grip&Grab members.</strong>
-              </p>
-
-              <!-- Class Details Box -->
-              <div class="pricing-option__details">
-                <div class="pricing-detail-item">
-                  <span class="pricing-detail-icon">📅</span>
-                  <span
-                    ><strong>Next Class:</strong>
-                    <span id="nextSundayDate">Loading...</span></span
-                  >
-                </div>
-                <div class="pricing-detail-item">
-                  <span class="pricing-detail-icon">⏰</span>
-                  <span><strong>Time:</strong> 9:00 AM - 11:00 AM</span>
-                </div>
-                <div class="pricing-detail-item">
-                  <span class="pricing-detail-icon">📍</span>
-                  <span>
-                    <strong>Location:</strong><br />
-                    <a
-                      href="https://maps.app.goo.gl/qLY9BBGNsWx9MEoU7"
-                      target="_blank"
-                      class="pricing-location-link"
-                    >
-                      B-32, 3rd Floor, Lajpat Nagar, New Delhi
-                    </a>
-                  </span>
-                </div>
-                <div class="pricing-detail-item pricing-detail-highlight">
-                  <span class="pricing-detail-icon">🎯</span>
-                  <span>Limited Slots Available Only</span>
-                </div>
-              </div>
-
-              <button
-                class="pricing-option__cta"
-                onclick="event.stopPropagation(); openBookingModal('sundayClass')"
-              >
-                Book Your Spot - ₹1,000
-              </button>
-            </div>
-          </div>
-        </div>
-      
+        <!-- // there was option 2 content here - but as per your request, I have removed it. You can add it back if you want to from the previous version of the code.  -->
         
         
 
@@ -623,79 +487,8 @@ During this consultation, we will thoroughly discuss your specific concerns and 
      ================================================ -->
 
 <!-- OPTION 5: Virtual Class -->
-<div
-  id="option5"
-  class="pricing-option"
-  onclick="toggleOption('option5')"
->
-  <div class="pricing-option__header">
-    <h3 class="pricing-option__title">Online Class</h3>
-    <span id="option5-icon" class="pricing-option__icon">▼</span>
-  </div>
-  <p class="pricing-option__subtitle">
-    Group Online Sessions
-  </p>
 
-  <div id="option5-content" class="pricing-option__content">
-    <div class="pricing-option__inner">
-      <!-- Main Heading -->
-      <h4 class="pricing-option__content-heading highlighted-heading">
-        Your Fitness Journey Starts Here
-      </h4>
-
-      <!-- Class Timings Box -->
-      <div class="pricing-option__details">
-        <div class="pricing-detail-item">
-          <span class="pricing-detail-icon">🕚</span>
-          <span>
-            <strong>Class Timings:</strong><br />
-            12:00 PM – 01:00 PM
-          </span>
-        </div>
-        <div class="pricing-detail-item">
-          <span class="pricing-detail-icon">📅</span>
-          <span>
-            <strong>Days:</strong><br />
-            Every Thursday & Sunday
-          </span>
-        </div>
-      </div>
-
-      <!-- Description Paragraphs -->
-      <div class="pricing-option__description-block">
-        <p class="pricing-option__description">
-          In this group class, I personally guide you through correct movement and help you overcome fitness challenges, including joint pain and movement limitations.
-        </p>
-
-        <p class="pricing-option__description">
-          Once your enrollment is complete, I will personally call you to understand your goals, weaknesses, strengths, and any pain or issues you're facing. Based on this, I'll modify movements to suit your body—so you train safely, effectively, and with confidence.
-        </p>
-
-        <p class="pricing-option__description">
-          This program is not about random exercises.<br>
-          It's about transforming how your body moves.<br>
-         <strong> Give me your time, trust the process, and you'll become the best version of yourself.</strong>
-        </p>
-      </div>
-
-      <!-- CTA Text -->
-      <!-- <p class="pricing-option__cta-text">
-         Enroll yourself now and start moving better
-      </p> -->
-
-      <!-- Enroll Button -->
-      <button
-  class="pricing-option__cta"
-  onclick="event.stopPropagation(); openBookingModal('')" 
->
-<!-- virtualClass  --> 
-  <!-- Enroll Now - ₹6,000 --> Slots Are Full
-</button>
-    </div>
-  </div>
-</div>
-
-
+<!-- // there was option 5 content here - but as per your request, I have removed it. You can add it back if you want to from the previous version of the code.its in the waste  -->
         <!-- Option 4: Pay Your Fee -->
         <div
           id="option4"
@@ -1318,11 +1111,11 @@ During this consultation, we will thoroughly discuss your specific concerns and 
         <h2 class="sunday-fullybooked-title">Thank You for Your Interest!</h2>
         
         <p class="sunday-fullybooked-message">
-            We really appreciate your enthusiasm for joining our Sunday Classes. Unfortunately, all slots for this Sunday are fully booked.
+            We really appreciate your enthusiasm for joining our Weekend Classes...all slots are fully booked.
         </p>
         
         <p class="sunday-fullybooked-highlight">
-            📅 Try booking early for next Sunday to secure your spot!
+            📅 Try booking early for the next session to secure your spot!
         </p>
         
         <a href="#pricing-section" class="sunday-fullybooked-btn sunday-fullybooked-btn--primary" onclick="closeSundayFullyBookedModal();">
@@ -1334,31 +1127,6 @@ During this consultation, we will thoroughly discuss your specific concerns and 
     </div>
 </div>
 
-<div id="consultation-fullybooked-modal" class="sunday-fullybooked-modal">
-    <div id="consultation-fullybooked-overlay" class="sunday-fullybooked-overlay"></div>
-    <div class="sunday-fullybooked-container">
-        <button id="consultation-fullybooked-close" class="sunday-fullybooked-close" onclick="closeConsultationFullyBookedModal()">
-            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
-            </svg>
-        </button>
-        <div class="sunday-fullybooked-icon">
-            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
-            </svg>
-        </div>
-        <h2 class="sunday-fullybooked-title">Slots Are Fully Booked</h2>
-        <p class="sunday-fullybooked-message">
-            We appreciate your interest in a personal consultation. All slots are currently occupied.
-        </p>
-        <p class="sunday-fullybooked-highlight">
-            📅 Check back soon — new slots open up regularly!
-        </p>
-        <button class="sunday-fullybooked-btn sunday-fullybooked-btn--primary" onclick="closeConsultationFullyBookedModal()">
-            Got It, Thanks!
-        </button>
-    </div>
-</div>
 
 
     <!-- JavaScript Files -->
@@ -1366,7 +1134,7 @@ During this consultation, we will thoroughly discuss your specific concerns and 
     <script src="./payfee.js"></script>
     <script src="./booking.js"></script>
     <script src="./virtualclass.js"></script>
-    <script type="module" src="./auth/firbase.js"></script>
+    <script src="./sheets-tracker.js"></script>
     <!-- ================================================
      VIRTUAL CLASS BOOKING MODAL
      Add AFTER Train Online Modal (around line 950+)

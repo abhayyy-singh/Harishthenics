@@ -456,3 +456,204 @@
   </div>
 </section>
 <!-- ==================== END PHILOSOPHY SECTION ==================== -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div
+          id="option2"
+          class="pricing-option"
+          onclick="toggleOption('option2')"
+        >
+          <div class="pricing-option__header">
+            <h3 class="pricing-option__title">Exclusive Weekend Class</h3>
+
+            <span id="option2-icon" class="pricing-option__icon">▼</span>
+          </div>
+          <p class="pricing-option__subtitle">
+            Non Grip&Grab members only<br />(Offline Class)
+          </p>
+
+          <div id="option2-content" class="pricing-option__content">
+            <div class="pricing-option__inner">
+              <p class="pricing-option__description">
+               Perfect for those who can only train on weekends. After running successful workshops, we're now organizing monthly Weekend classes. Whether you're dealing with pain, stuck with a specific skill, need guidance on technique, or struggling with motivation - you'll get a chance to train with Me.
+
+                <strong>This is exclusively for Non Grip&Grab members.</strong>
+              </p>
+
+              <!-- Class Details Box -->
+              <div class="pricing-option__details">
+                <div class="pricing-detail-item">
+                  <span class="pricing-detail-icon">📅</span>
+                  <span
+                    ><strong>Class Schedule:</strong>
+                    <span id="nextSundayDatex">Every Saturday & Sunday</span></span
+                  >
+                </div>
+                <div class="pricing-detail-item">
+                  <span class="pricing-detail-icon">⏰</span>
+                  <span><strong>Time:</strong> 9:00 AM - 10:30 AM</span>
+                </div>
+                <div class="pricing-detail-item">
+                  <span class="pricing-detail-icon">📍</span>
+                  <span>
+                    <strong>Location:</strong><br />
+                    <a
+                      href="https://maps.app.goo.gl/qLY9BBGNsWx9MEoU7"
+                      target="_blank"
+                      class="pricing-location-link"
+                    >
+                      B-32, 3rd Floor, Lajpat Nagar-2, New Delhi
+                    </a>
+                  </span>
+                </div>
+                <div class="pricing-detail-item pricing-detail-highlight">
+                  <span class="pricing-detail-icon">🎯</span>
+                  <span>Limited Slots Available Only</span>
+                </div>
+                <span>Missed classes are non-compensable  no refunds and substitute sessions will be provided.</span>
+              </div>
+
+             <div class="weekend-plan-selector" onclick="event.stopPropagation()">
+  <p class="weekend-plan-title">📅 Choose Your Weekend Plan</p>
+
+  <!-- 1 Class Option -->
+  <div class="weekend-plan-card active" id="plan-1class" onclick="selectWeekendPlan('1class')">
+    <div class="wpc-top">
+      <div>
+        <span class="wpc-heading">1 Class / Week</span>
+        <span class="wpc-sub">Saturday or Sunday — your choice</span>
+      </div>
+      <span class="wpc-price">₹4,000</span>
+    </div>
+    <ul class="wpc-details">
+      <li>Pick the day that suits you</li>
+      <!-- <li>1 session per week</li> -->
+    </ul>
+    <!-- Day picker — only shows when 1class is selected -->
+    <div class="wpc-day-picker" id="dayPicker">
+      <button class="wpc-day-btn active" id="dayBtn-saturday" onclick="event.stopPropagation(); selectWeekendDay('saturday')">Saturday</button>
+      <button class="wpc-day-btn" id="dayBtn-sunday" onclick="event.stopPropagation(); selectWeekendDay('sunday')">Sunday</button>
+    </div>
+  </div>
+
+  <!-- 2 Classes Option -->
+  <div class="weekend-plan-card" id="plan-2class" onclick="selectWeekendPlan('2class')">
+    <div class="wpc-top">
+      <div>
+        <span class="wpc-heading">2 Classes / Week </span>
+        <span class="wpc-sub">Saturday and Sunday both</span>
+      </div>
+      <span class="wpc-price">₹6,000</span>
+    </div>
+    <ul class="wpc-details">
+      <li>Train both days</li>
+      <!-- <li>2 sessions per week</li> -->
+    </ul>
+  </div>
+</div>
+
+<!-- Book button -->
+<button
+  class="pricing-option__cta"
+  id="weekendBookBtn"
+  onclick="event.stopPropagation(); openWeekendClassBooking()"
+>
+  Book Now — ₹4,000
+</button>
+            </div>
+          </div>
+        </div>
+      
+
+
+
+
+
+
+
+      <div
+  id="option5"
+  class="pricing-option"
+  onclick="toggleOption('option5')"
+>
+  <div class="pricing-option__header">
+    <h3 class="pricing-option__title">Online Class</h3>
+    <span id="option5-icon" class="pricing-option__icon">▼</span>
+  </div>
+  <p class="pricing-option__subtitle">
+    Group Online Sessions
+  </p>
+
+  <div id="option5-content" class="pricing-option__content">
+    <div class="pricing-option__inner">
+      <!-- Main Heading -->
+      <h4 class="pricing-option__content-heading highlighted-heading">
+        Your Fitness Journey Starts Here
+      </h4>
+
+      <!-- Class Timings Box -->
+      <div class="pricing-option__details">
+        <div class="pricing-detail-item">
+          <span class="pricing-detail-icon">🕚</span>
+          <span>
+            <strong>Class Timings:</strong><br />
+            12:00 PM – 01:00 PM
+          </span>
+        </div>
+        <div class="pricing-detail-item">
+          <span class="pricing-detail-icon">📅</span>
+          <span>
+            <strong>Days:</strong><br />
+            Every Thursday & Sunday
+          </span>
+        </div>
+      </div>
+
+      <!-- Description Paragraphs -->
+      <div class="pricing-option__description-block">
+        <p class="pricing-option__description">
+          In this group class, I personally guide you through correct movement and help you overcome fitness challenges, including joint pain and movement limitations.
+        </p>
+
+        <p class="pricing-option__description">
+          Once your enrollment is complete, I will personally call you to understand your goals, weaknesses, strengths, and any pain or issues you're facing. Based on this, I'll modify movements to suit your body—so you train safely, effectively, and with confidence.
+        </p>
+
+        <p class="pricing-option__description">
+          This program is not about random exercises.<br>
+          It's about transforming how your body moves.<br>
+         <strong> Give me your time, trust the process, and you'll become the best version of yourself.</strong>
+        </p>
+      </div>
+
+      <!-- CTA Text -->
+      <!-- <p class="pricing-option__cta-text">
+         Enroll yourself now and start moving better
+      </p> -->
+
+      <!-- Enroll Button -->
+      <button
+  class="pricing-option__cta"
+  onclick="event.stopPropagation(); openBookingModal('')" 
+>
+<!-- virtualClass  --> 
+  <!-- Enroll Now - ₹6,000 --> Slots Are Full
+</button>
+    </div>
+  </div>
+</div>
