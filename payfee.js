@@ -40,7 +40,7 @@
     const successAmount = document.getElementById('successAmount');
     const successPaymentId = document.getElementById('successPaymentId');
     const stickyBtn = document.getElementById('stickyPayFeeBtn');
-
+//push krne k liye
     // ==========================================
     // MODAL CONTROLS
     // ==========================================
@@ -233,49 +233,31 @@
     // PAYMENT SUCCESS
     // ==========================================
     async function handlePaymentSuccess(response, formData) {
-    successAmount.textContent = formData.amount.toLocaleString('en-IN');
-    successPaymentId.textContent = response.razorpay_payment_id;
+        successAmount.textContent = formData.amount.toLocaleString('en-IN');
+        successPaymentId.textContent = response.razorpay_payment_id;
 
-    form.classList.add('hidden');
-    successDiv.classList.add('show');
+        form.classList.add('hidden');
+        successDiv.classList.add('show');
 
-    submitBtn.classList.remove('loading');
-    submitBtn.disabled = false;
+        submitBtn.classList.remove('loading');
+        submitBtn.disabled = false;
 
-    // Sheet mein save karo
-    fetch('https://script.google.com/macros/s/AKfycbxmTrjgKZ2PpEkr8C_KGft2xB2MGkKkUAI9DK3NZOEdxu-E7GvF3CiF1KMetxZdHALfQw/exec', {
-        method: 'POST',
-        body: JSON.stringify({
-            service_type: 'payFee',
-            user_name: formData.name,
-            user_email: formData.email,
-            user_phone: formData.phone,
-            amount: `₹${formData.amount.toLocaleString('en-IN')}`,
-            payment_id: response.razorpay_payment_id,
-            email_status: 'Pending'
-        })
-    }).catch(e => console.warn('Sheet error:', e));
+        // Send email notification
+       // Send email notification
+        await sendEmailNotification(formData, response);
 
-    // Email bhejo
-    fetch('/api/send-email', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-            service_type: 'payFee',
-            user_name: formData.name,
-            user_email: formData.email,
-            user_phone: formData.phone,
+        // Sheet tracking
+        await sendToSheet({
+            type: 'payfee',
+            name: formData.name,
+            phone: formData.phone,
+            email: formData.email,
             amount: formData.amount,
-            payment_id: response.razorpay_payment_id,
-            payment_date: new Date().toLocaleDateString('en-IN', {
-                weekday: 'long', day: 'numeric',
-                month: 'long', year: 'numeric'
-            })
-        })
-    }).catch(e => console.warn('Email API error:', e));
+            paymentId: response.razorpay_payment_id
+        });
 
-    console.log('✅ Payment successful:', response.razorpay_payment_id);
-}
+        console.log('✅ Payment successful:', response.razorpay_payment_id);
+    }
     // ==========================================
     // EMAIL NOTIFICATION (2nd EmailJS Account)
     // ==========================================

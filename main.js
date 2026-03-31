@@ -9,12 +9,10 @@
     // ==========================================
     // SUNDAY CLASS CONFIGURATION
     // ==========================================
-  const SUNDAY_CLASS_CONFIG = {
+const SUNDAY_CLASS_CONFIG = {
     isFullyBooked: false,
-    slots: {
-        morning:   { label: '9:00 AM – 10:30 AM', disabled: false },
-        afternoon: { label: '10:30 AM – 12:00 PM', disabled: false }
-    }
+    saturday: { isFullyBooked: false },
+    sunday:   { isFullyBooked: false }
 };
 
     // ==========================================
@@ -233,19 +231,12 @@
         });
 
         // Toggle current option
-  // Toggle current option
         if (isExpanded) {
             option.classList.remove('active');
             if (icon) icon.style.transform = 'rotate(0deg)';
         } else {
             option.classList.add('active');
             if (icon) icon.style.transform = 'rotate(180deg)';
-            // Consultation card expand hote hi popup
-            if (optionId === 'option1') {
-                setTimeout(function() {
-                    openConsultationFullyBookedModal();
-                }, 300);
-            }
         }
     };
 
@@ -268,7 +259,7 @@
         } else {
             // Open normal booking modal
             if (typeof openBookingModal === 'function') {
-                openBookingModal('sundayClass');
+               openWeekendClassBooking();
             }
         }
     };
@@ -368,7 +359,7 @@ window.addEventListener('load', function() {
     const urlParams = new URLSearchParams(window.location.search);
     const openCard = urlParams.get('open');
     
-    if (openCard === 'sundayClass') {
+    if (openCard === 'sundayClass' || openCard === 'weekendClass') {
         setTimeout(function() {
             const option2 = document.getElementById('option2');
             if (option2 && typeof toggleOption === 'function') {
@@ -403,7 +394,17 @@ window.addEventListener('load', function() {
             }
         }, 300);
     }
-});
+});if (openCard === 'weekendClass') {
+    setTimeout(function() {
+        const option2 = document.getElementById('option2');
+        if (option2 && typeof toggleOption === 'function') {
+            toggleOption('option2');
+            setTimeout(function() {
+                option2.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }, 500);
+        }
+    }, 300);
+}
 
 function openConsultationFullyBookedModal() {
     const modal = document.getElementById('consultation-fullybooked-modal');
