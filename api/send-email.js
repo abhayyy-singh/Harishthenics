@@ -7,7 +7,7 @@
    ================================================ */
 
 const RESEND_API_KEY = process.env.RESEND_API_KEY;
-const FROM_EMAIL = 'Haristhenics <noreply@haristhenics.com>';
+const FROM_EMAIL = 'Haristhenics <info@haristhenics.com>';
 const REPLY_TO = 'haristhenics06@gmail.com';
 const SHEET_URL = 'https://script.google.com/macros/s/AKfycbxmTrjgKZ2PpEkr8C_KGft2xB2MGkKkUAI9DK3NZOEdxu-E7GvF3CiF1KMetxZdHALfQw/exec';
 
@@ -328,7 +328,7 @@ const templates = {
             </td></tr>
             <tr><td style="padding:40px 40px 20px;">
                 <h2 style="color:#1a1a1a;margin:0;">Hi ${d.user_name},</h2>
-                <p style="color:#666;margin:15px 0 0;line-height:1.6;">Your payment has been received. Harish Sharma will personally call you within <strong>24 hours</strong> to schedule your movement assessment over a video call.</p>
+                <p style="color:#666;margin:15px 0 0;line-height:1.6;">Your payment has been received. Harish Sharma will personally call you within <strong>Few hours</strong> to schedule your movement assessment over a video call.</p>
             </td></tr>
             <tr><td style="padding:0 40px 30px;">
                 <table width="100%" cellpadding="0" cellspacing="0" style="background:#f8f9fc;border-radius:12px;border-left:4px solid #000;">

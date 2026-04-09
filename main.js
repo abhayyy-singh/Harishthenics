@@ -395,7 +395,20 @@ window.addEventListener('load', function() {
             }
         }, 300);
     }
-});if (openCard === 'weekendClass') {
+});
+if (openCard === 'personalizedProgram') {
+    setTimeout(function() {
+        const option7 = document.getElementById('option7');
+        if (option7 && typeof toggleOption === 'function') {
+            toggleOption('option7');
+            setTimeout(function() {
+                option7.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }, 500);
+        }
+    }, 300);
+}
+
+if (openCard === 'weekendClass') {
     setTimeout(function() {
         const option2 = document.getElementById('option2');
         if (option2 && typeof toggleOption === 'function') {

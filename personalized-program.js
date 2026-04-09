@@ -6,24 +6,17 @@
 (function () {
     'use strict';
 
-    // ==========================================
-    // CONFIG
-    // ==========================================
     const PROGRAM_CONFIG = {
-        razorpayKey: 'rzp_test_RZG0vfhDgIuZYI',
-        amount: 1500000, // ₹15,000 in paise
+        razorpayKey: 'rzp_live_RZDqqPc9XD0IjO',
+        amount: 1500000,
         currency: 'INR',
         businessName: 'Haristhenics',
         description: 'Personalized Workout Program',
-       SHEET_URL: 'https://script.google.com/macros/s/AKfycbxvPsHy1S3Mav7cKkJ6k1Ep8oS8dxELeyXLlZZuhXp2HN1wCRGQJx7uzNJcBjPhvzyT6A/exec'
+        SHEET_URL: 'https://script.google.com/macros/s/AKfycbxvPsHy1S3Mav7cKkJ6k1Ep8oS8dxELeyXLlZZuhXp2HN1wCRGQJx7uzNJcBjPhvzyT6A/exec'
     };
 
-    // Toggle: false karo toh fully booked modal aayega
     const PERSONALIZED_SLOTS_OPEN = true;
 
-    // ==========================================
-    // MODAL OPEN / CLOSE
-    // ==========================================
     function openPersonalizedModal() {
         if (!PERSONALIZED_SLOTS_OPEN) {
             openPersonalizedFullyBookedModal();
@@ -42,16 +35,12 @@
             modal.classList.remove('active');
             document.body.style.overflow = '';
             const form = document.getElementById('personalizedForm');
-            if (form) form.reset();
+            if (form) { form.reset(); form.style.display = ''; }
             const successDiv = document.getElementById('personalizedSuccess');
-            if (successDiv) successDiv.classList.remove('show');
-            if (form) form.classList.remove('hidden');
+            if (successDiv) successDiv.style.display = 'none';
         }
     }
 
-    // ==========================================
-    // FULLY BOOKED MODAL
-    // ==========================================
     function openPersonalizedFullyBookedModal() {
         const modal = document.getElementById('personalized-fullybooked-modal');
         if (modal) modal.classList.add('active');
@@ -62,24 +51,17 @@
         if (modal) modal.classList.remove('active');
     }
 
-    // ==========================================
-    // FORM SUBMIT
-    // ==========================================
     document.addEventListener('DOMContentLoaded', function () {
 
-        // Overlay close
         const overlay = document.getElementById('personalizedModalOverlay');
         if (overlay) overlay.addEventListener('click', closePersonalizedModal);
 
-        // Close button
         const closeBtn = document.getElementById('personalizedModalClose');
         if (closeBtn) closeBtn.addEventListener('click', closePersonalizedModal);
 
-        // Fully booked overlay
         const fbOverlay = document.getElementById('personalized-fullybooked-overlay');
         if (fbOverlay) fbOverlay.addEventListener('click', closePersonalizedFullyBookedModal);
 
-        // ESC key
         document.addEventListener('keydown', function (e) {
             if (e.key === 'Escape') {
                 closePersonalizedModal();
@@ -87,7 +69,6 @@
             }
         });
 
-        // Form submit
         const form = document.getElementById('personalizedForm');
         if (!form) return;
 
@@ -99,7 +80,6 @@
             const email = document.getElementById('personalizedEmail').value.trim();
             const phone = document.getElementById('personalizedPhone').value.trim();
 
-            // Validate
             const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
             if (!name || name.length < 2) { showError('Please enter a valid name'); return; }
             if (!email || !emailRegex.test(email)) { showError('Please enter a valid email'); return; }
@@ -121,6 +101,10 @@
                     handler: async function (response) {
                         console.log('✅ Payment successful:', response.razorpay_payment_id);
 
+                        const paymentDate = new Date().toLocaleDateString('en-IN', {
+                            day: '2-digit', month: '2-digit', year: '2-digit'
+                        });
+
                         // 1. Sheet mein row add karo
                         fetch(PROGRAM_CONFIG.SHEET_URL, {
                             method: 'POST',
@@ -129,13 +113,13 @@
                                 user_name: name,
                                 user_email: email,
                                 user_phone: phone,
-                                amount: '₹15,000',
+                                amount: '15000',
                                 payment_id: response.razorpay_payment_id,
                                 email_status: 'Pending'
                             })
                         }).catch(e => console.warn('Sheet error:', e));
 
-                        // 2. Email bhejo
+                        // 2. User ko email
                         fetch('/api/send-email', {
                             method: 'POST',
                             headers: { 'Content-Type': 'application/json' },
@@ -144,15 +128,28 @@
                                 user_name: name,
                                 user_email: email,
                                 user_phone: phone,
-                                amount: '₹15,000',
+                                amount: '15000',
                                 payment_id: response.razorpay_payment_id,
-                                payment_date: new Date().toLocaleDateString('en-IN', {
-                                    day: '2-digit', month: '2-digit', year: '2-digit'
-                                })
+                                payment_date: paymentDate
                             })
                         }).catch(e => console.warn('Email error:', e));
 
-                        // 3. Success show karo
+                        // 3. Admin ko email
+                        fetch('/api/send-email', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({
+                                service_type: 'personalizedProgram',
+                                user_name: 'Admin — ' + name,
+                                user_email: 'haristhenics06@gmail.com',
+                                user_phone: phone,
+                                amount: '15000',
+                                payment_id: response.razorpay_payment_id,
+                                payment_date: paymentDate
+                            })
+                        }).catch(e => console.warn('Admin email error:', e));
+
+                        // 4. Success show
                         const form = document.getElementById('personalizedForm');
                         const successDiv = document.getElementById('personalizedSuccess');
                         if (form) form.style.display = 'none';
@@ -185,9 +182,6 @@
         if (errDiv) { errDiv.textContent = msg; errDiv.classList.add('show'); }
     }
 
-    // ==========================================
-    // GLOBAL EXPOSE
-    // ==========================================
     window.openPersonalizedModal = openPersonalizedModal;
     window.closePersonalizedModal = closePersonalizedModal;
     window.openPersonalizedFullyBookedModal = openPersonalizedFullyBookedModal;
