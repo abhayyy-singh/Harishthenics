@@ -56,7 +56,7 @@ const templates = {
             <tr><td style="padding:0 40px 30px 40px;">
                 <div style="background:#e0f2fe; border-left:4px solid #0284c7; padding:20px; border-radius:8px;">
                     <p style="margin:0; color:#075985; font-size:14px; line-height:1.6;">
-                        📞 I (Harish Sharma) will call you within a few hours to schedule your consultation.
+                        📞 I (Harish Sharma) will call you within 48-72 hours to schedule your consultation.
                     </p>
                 </div>
             </td></tr>
@@ -318,7 +318,7 @@ const templates = {
       }),
 
     personalizedProgram: (d) => ({
-        subject: `Personalized Program Confirmed — ${d.user_name}`,
+        subject: `Personalized Program Registration Confirmed — ${d.user_name}`,
         html: `<div style="font-family:'Segoe UI',sans-serif;background:#f4f7fa;padding:40px 20px;">
         <table width="100%" cellpadding="0" cellspacing="0"><tr><td align="center">
         <table width="600" cellpadding="0" cellspacing="0" style="background:#fff;border-radius:16px;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,0.08);">
@@ -328,7 +328,7 @@ const templates = {
             </td></tr>
             <tr><td style="padding:40px 40px 20px;">
                 <h2 style="color:#1a1a1a;margin:0;">Hi ${d.user_name},</h2>
-                <p style="color:#666;margin:15px 0 0;line-height:1.6;">Your payment has been received. Harish Sharma will personally call you within <strong>Few hours</strong> to schedule your movement assessment over a video call.</p>
+                <p style="color:#666;margin:15px 0 0;line-height:1.6;">Your payment has been received. Harish Sharma will personally call you within <strong>48-72 hours</strong> to schedule your movement assessment over a video call.</p>
             </td></tr>
             <tr><td style="padding:0 40px 30px;">
                 <table width="100%" cellpadding="0" cellspacing="0" style="background:#f8f9fc;border-radius:12px;border-left:4px solid #000;">

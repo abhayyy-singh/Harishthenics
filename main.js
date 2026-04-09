@@ -383,7 +383,6 @@ window.addEventListener('load', function() {
         }, 300);
     }
 
-    
     if (openCard === 'virtualClass') {
         setTimeout(function() {
             const option5 = document.getElementById('option5');
@@ -395,30 +394,19 @@ window.addEventListener('load', function() {
             }
         }, 300);
     }
-});
-if (openCard === 'personalizedProgram') {
-    setTimeout(function() {
-        const option7 = document.getElementById('option7');
-        if (option7 && typeof toggleOption === 'function') {
-            toggleOption('option7');
-            setTimeout(function() {
-                option7.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            }, 500);
-        }
-    }, 300);
-}
 
-if (openCard === 'weekendClass') {
-    setTimeout(function() {
-        const option2 = document.getElementById('option2');
-        if (option2 && typeof toggleOption === 'function') {
-            toggleOption('option2');
-            setTimeout(function() {
-                option2.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            }, 500);
-        }
-    }, 300);
-}
+    if (openCard === 'personalizedProgram') {
+        setTimeout(function() {
+            const option7 = document.getElementById('option7');
+            if (option7 && typeof toggleOption === 'function') {
+                toggleOption('option7');
+                setTimeout(function() {
+                    option7.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }, 500);
+            }
+        }, 300);
+    }
+});
 
 function openConsultationFullyBookedModal() {
     const modal = document.getElementById('consultation-fullybooked-modal');
@@ -430,16 +418,4 @@ function closeConsultationFullyBookedModal() {
     if (modal) modal.classList.remove('active');
 }
 
-if (openCard === 'personalizedProgram') {
-    setTimeout(function() {
-        const option7 = document.getElementById('option7');
-        if (option7 && typeof toggleOption === 'function') {
-            toggleOption('option7');
-            setTimeout(function() {
-                option7.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            }, 500);
-        }
-    }, 300);
-}
-// Overlay click se close
 document.getElementById('consultation-fullybooked-overlay')?.addEventListener('click', closeConsultationFullyBookedModal);
