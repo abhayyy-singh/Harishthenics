@@ -401,8 +401,10 @@ export default async function handler(req, res) {
             emailContent = templates.virtualClass(d);
         } else if (['knee-pain','back-pain','shoulder-pain','ankle-pain','neck-pain','workout'].includes(service_type)) {
             emailContent = templates.kneePain(d);
-        } else if (service_type === 'payFee') {
+       } else if (service_type === 'payFee') {
             emailContent = templates.payFee(d);
+        } else if (service_type === 'personalizedProgram') {
+            emailContent = templates.personalizedProgram(d);
         } else {
             return res.status(400).json({ error: 'Unknown service_type: ' + service_type });
         }
