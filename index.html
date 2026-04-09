@@ -616,6 +616,32 @@ During this consultation, we will thoroughly discuss your specific concerns and 
 
     </div>
   </div>
+
+
+  <!-- OPTION 7: Personalized Workout Program -->
+<div
+  id="option7"
+  class="pricing-option"
+  onclick="toggleOption('option7')"
+>
+  <div class="pricing-option__header">
+    <h3 class="pricing-option__title">Personalized Workout Program</h3>
+    <span id="option7-icon" class="pricing-option__icon">▼</span>
+  </div>
+  <div id="option7-content" class="pricing-option__content">
+    <div class="pricing-option__inner">
+      <p class="pricing-option__description">
+        In this Personalized Workout Program, I (Harish Sharma) will personally call you and assess your movement over a video chat. Based on your goals, pain points, and challenges, I will create and guide you through a fully customized fitness program designed specifically for you.
+      </p>
+      <button
+        class="pricing-option__cta"
+        onclick="event.stopPropagation(); openPersonalizedModal()"
+      >
+        Get Your Program — ₹15,000
+      </button>
+    </div>
+  </div>
+</div>
 </div>
     </section>
 
@@ -1127,6 +1153,64 @@ During this consultation, we will thoroughly discuss your specific concerns and 
     </div>
 </div>
 
+
+<div id="personalizedModal" class="booking-modal">
+  <div class="booking-modal__overlay" id="personalizedModalOverlay"></div>
+  <div class="booking-modal__container">
+    <button class="booking-modal__close" id="personalizedModalClose">
+      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+      </svg>
+    </button>
+    <div class="booking-modal__content">
+      <h3 class="booking-modal__title">Personalized Workout Program</h3>
+      <p class="booking-modal__subtitle">Harish will personally call & assess you</p>
+      <form class="booking-form" id="personalizedForm">
+        <div class="booking-form__group">
+          <label class="booking-form__label">Full Name</label>
+          <input type="text" id="personalizedName" class="booking-form__input" placeholder="Your name" required/>
+        </div>
+        <div class="booking-form__group">
+          <label class="booking-form__label">Email</label>
+          <input type="email" id="personalizedEmail" class="booking-form__input" placeholder="your@email.com" required/>
+        </div>
+        <div class="booking-form__group">
+          <label class="booking-form__label">Phone Number</label>
+          <input type="tel" id="personalizedPhone" class="booking-form__input" placeholder="+91 XXXXX XXXXX" required/>
+        </div>
+        <span class="booking-form__error" id="personalizedError"></span>
+        <button type="submit" class="booking-form__submit" id="personalizedSubmitBtn">
+          <span class="booking-form__submit-text">Pay ₹15,000 & Get Started</span>
+          <span class="booking-form__submit-loader"></span>
+        </button>
+      </form>
+      <div id="personalizedSuccess" class="successMessage" style="display:none;">
+        <p>🎉 Payment Successful! Harish will call you shortly..</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Personalized Fully Booked Modal -->
+<div id="personalized-fullybooked-modal" class="sunday-fullybooked-modal">
+  <div id="personalized-fullybooked-overlay" class="sunday-fullybooked-overlay"></div>
+  <div class="sunday-fullybooked-container">
+    <button class="sunday-fullybooked-close" onclick="closePersonalizedFullyBookedModal()">
+      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+      </svg>
+    </button>
+    <div class="sunday-fullybooked-icon">
+      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+      </svg>
+    </div>
+    <h2 class="sunday-fullybooked-title">Slots Are Fully Booked</h2>
+    <p class="sunday-fullybooked-message">All personalized program slots are currently occupied.</p>
+    <p class="sunday-fullybooked-highlight">📅 Check back soon — new slots open up regularly!</p>
+    <button class="sunday-fullybooked-btn sunday-fullybooked-btn--primary" onclick="closePersonalizedFullyBookedModal()">Got It, Thanks!</button>
+  </div>
+</div>
 <div id="consultation-fullybooked-modal" class="sunday-fullybooked-modal">
     <div id="consultation-fullybooked-overlay" class="sunday-fullybooked-overlay"></div>
     <div class="sunday-fullybooked-container">
@@ -1161,6 +1245,7 @@ During this consultation, we will thoroughly discuss your specific concerns and 
     <script src="./booking.js"></script>
     <script src="./virtualclass.js"></script>
     <script src="./sheets-tracker.js"></script>
+    <script src="./personalized-program.js"></script>
     <!-- ================================================
      VIRTUAL CLASS BOOKING MODAL
      Add AFTER Train Online Modal (around line 950+)

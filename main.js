@@ -219,7 +219,7 @@ const SUNDAY_CLASS_CONFIG = {
         const isExpanded = option.classList.contains('active');
 
         // Close all other options first
-        ['option1', 'option2', 'option3', 'option4', 'option5','option6'].forEach(id => {
+        ['option1', 'option2', 'option3', 'option4', 'option5','option6','option7'].forEach(id => {
             if (id !== optionId) {
                 const otherContent = document.getElementById(id + '-content');
                 const otherIcon = document.getElementById(id + '-icon');
@@ -382,6 +382,7 @@ window.addEventListener('load', function() {
             }
         }, 300);
     }
+
     
     if (openCard === 'virtualClass') {
         setTimeout(function() {
@@ -416,5 +417,16 @@ function closeConsultationFullyBookedModal() {
     if (modal) modal.classList.remove('active');
 }
 
+if (openCard === 'personalizedProgram') {
+    setTimeout(function() {
+        const option7 = document.getElementById('option7');
+        if (option7 && typeof toggleOption === 'function') {
+            toggleOption('option7');
+            setTimeout(function() {
+                option7.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }, 500);
+        }
+    }, 300);
+}
 // Overlay click se close
 document.getElementById('consultation-fullybooked-overlay')?.addEventListener('click', closeConsultationFullyBookedModal);
