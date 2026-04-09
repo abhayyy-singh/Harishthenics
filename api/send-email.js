@@ -315,9 +315,40 @@ const templates = {
             </td></tr>
         </table>
         </td></tr></table></div>`
+      }),
+
+    personalizedProgram: (d) => ({
+        subject: `Personalized Program Confirmed — ${d.user_name}`,
+        html: `<div style="font-family:'Segoe UI',sans-serif;background:#f4f7fa;padding:40px 20px;">
+        <table width="100%" cellpadding="0" cellspacing="0"><tr><td align="center">
+        <table width="600" cellpadding="0" cellspacing="0" style="background:#fff;border-radius:16px;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,0.08);">
+            <tr><td style="background:#000;padding:40px 30px;text-align:center;">
+                <h1 style="color:#fff;margin:0;font-size:28px;">Haristhenics</h1>
+                <p style="color:#aaa;margin:8px 0 0;">Personalized Workout Program</p>
+            </td></tr>
+            <tr><td style="padding:40px 40px 20px;">
+                <h2 style="color:#1a1a1a;margin:0;">Hi ${d.user_name},</h2>
+                <p style="color:#666;margin:15px 0 0;line-height:1.6;">Your payment has been received. Harish Sharma will personally call you within <strong>24 hours</strong> to schedule your movement assessment over a video call.</p>
+            </td></tr>
+            <tr><td style="padding:0 40px 30px;">
+                <table width="100%" cellpadding="0" cellspacing="0" style="background:#f8f9fc;border-radius:12px;border-left:4px solid #000;">
+                    <tr><td style="padding:20px 25px;color:#6b7280;font-size:14px;font-weight:600;">👤 Name</td><td style="padding:20px 25px;color:#1f2937;">${d.user_name}</td></tr>
+                    <tr><td style="padding:20px 25px;color:#6b7280;font-size:14px;font-weight:600;border-top:1px solid #e5e7eb;">📧 Email</td><td style="padding:20px 25px;color:#1f2937;border-top:1px solid #e5e7eb;">${d.user_email}</td></tr>
+                    <tr><td style="padding:20px 25px;color:#6b7280;font-size:14px;font-weight:600;border-top:1px solid #e5e7eb;">📱 Phone</td><td style="padding:20px 25px;color:#1f2937;border-top:1px solid #e5e7eb;">${d.user_phone}</td></tr>
+                    <tr><td style="padding:20px 25px;color:#6b7280;font-size:14px;font-weight:600;border-top:1px solid #e5e7eb;">💰 Amount</td><td style="padding:20px 25px;color:#1f2937;font-weight:700;border-top:1px solid #e5e7eb;">₹15,000</td></tr>
+                    <tr><td style="padding:20px 25px;color:#6b7280;font-size:14px;font-weight:600;border-top:1px solid #e5e7eb;">📋 Payment ID</td><td style="padding:20px 25px;color:#1f2937;font-family:monospace;font-size:13px;border-top:1px solid #e5e7eb;">${d.payment_id}</td></tr>
+                    <tr><td style="padding:20px 25px 25px;color:#6b7280;font-size:14px;font-weight:600;border-top:1px solid #e5e7eb;">📅 Date</td><td style="padding:20px 25px 25px;color:#1f2937;border-top:1px solid #e5e7eb;">${d.payment_date}</td></tr>
+                </table>
+            </td></tr>
+            <tr><td style="padding:20px 40px 30px;background:#f8f9fc;border-top:1px solid #e5e7eb;text-align:center;">
+                <p style="margin:0;color:#6b7280;font-size:13px;">Questions? <a href="mailto:haristhenics06@gmail.com" style="color:#000;">haristhenics06@gmail.com</a></p>
+            </td></tr>
+        </table></td></tr></table></div>`
     })
-    
+
 };
+
+
 
 // ==========================================
 // SEND EMAIL VIA RESEND
