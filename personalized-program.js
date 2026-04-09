@@ -15,7 +15,7 @@
         SHEET_URL: 'https://script.google.com/macros/s/AKfycbxvPsHy1S3Mav7cKkJ6k1Ep8oS8dxELeyXLlZZuhXp2HN1wCRGQJx7uzNJcBjPhvzyT6A/exec'
     };
 
-    const PERSONALIZED_SLOTS_OPEN = true;
+    const PERSONALIZED_SLOTS_OPEN = false; // Set to false to show fully booked modal
 
     function openPersonalizedModal() {
         if (!PERSONALIZED_SLOTS_OPEN) {
