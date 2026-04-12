@@ -7,7 +7,7 @@
     'use strict';
 
     const PROGRAM_CONFIG = {
-        razorpayKey: 'rzp_live_RZDqqPc9XD0IjO',
+        razorpayKey: 'rzp_live_SLytjftdf8NDpx',
         amount: 1500000,
         currency: 'INR',
         businessName: 'Haristhenics',
