@@ -490,49 +490,30 @@ During this consultation, we will thoroughly discuss your specific concerns and 
 
 <!-- // there was option 5 content here - but as per your request, I have removed it. You can add it back if you want to from the previous version of the code.its in the waste  -->
         <!-- Option 4: Pay Your Fee -->
+        
         <div
-          id="option4"
-          class="pricing-option"
-          onclick="toggleOption('option4')"
-        >
-          <div class="pricing-option__header">
-            <h3 class="pricing-option__title">Pay Your Fee</h3>
-            <span id="option4-icon" class="pricing-option__icon">▼</span>
-          </div>
-          <p class="pricing-option__subtitle">Pay Your fee as per discussed Amount</p>
-
-          <div id="option4-content" class="pricing-option__content">
-            <div class="pricing-option__inner">
-              <p class="pricing-option__description">
-               Enrolled members can complete the payment for the discussed amount.
-                <!-- <strong>pay amount as per your discussion.</strong>  -->
-              </p>
-
-              <!-- <div class="pricing-option__details">
-                <div class="pricing-detail-item">
-                  <span class="pricing-detail-icon">💰</span>
-                  <span><strong>Flexible Amount</strong> - Pay your discussed amount</span>
-                </div>
-                <div class="pricing-detail-item">
-                  <span class="pricing-detail-icon">🔒</span>
-                  <span><strong>Secure Payment</strong> - Powered by Razorpay</span>
-                </div>
-                <div class="pricing-detail-item">
-                  <span class="pricing-detail-icon">📧</span>
-                  <span><strong>Instant Confirmation</strong> - Email receipt after payment</span>
-                </div>
-              </div> -->
-
-              <button
-                class="pricing-option__cta"
-                onclick="event.stopPropagation();"
-                data-open-payfee
-              >
-                Pay Your Fee →
-              </button>
-            </div>
-          </div>
-        </div>
+  id="option7"
+  class="pricing-option"
+  onclick="toggleOption('option7')"
+>
+  <div class="pricing-option__header">
+    <h3 class="pricing-option__title">Personalized Workout Program</h3>
+    <span id="option7-icon" class="pricing-option__icon">▼</span>
+  </div>
+  <div id="option7-content" class="pricing-option__content">
+    <div class="pricing-option__inner">
+      <p class="pricing-option__description">
+        In this Personalized Workout Program, I (Harish Sharma) will personally call you and assess your movement over a video call Based on your goals, pain points, and challenges, I will create and guide you through a fully customized fitness program designed specifically for you.
+      </p>
+      <button
+        class="pricing-option__cta"
+        onclick="event.stopPropagation(); openPersonalizedModal()"
+      >
+        Get Your Program — ₹15,000
+      </button>
+    </div>
+  </div>
+</div>
 
 <!-- toggleOption('option6') -->
   <!-- OPTION 6: Workout Programs -->
@@ -619,29 +600,50 @@ During this consultation, we will thoroughly discuss your specific concerns and 
 
 
   <!-- OPTION 7: Personalized Workout Program -->
+
 <div
-  id="option7"
-  class="pricing-option"
-  onclick="toggleOption('option7')"
->
-  <div class="pricing-option__header">
-    <h3 class="pricing-option__title">Personalized Workout Program</h3>
-    <span id="option7-icon" class="pricing-option__icon">▼</span>
-  </div>
-  <div id="option7-content" class="pricing-option__content">
-    <div class="pricing-option__inner">
-      <p class="pricing-option__description">
-        In this Personalized Workout Program, I (Harish Sharma) will personally call you and assess your movement over a video call Based on your goals, pain points, and challenges, I will create and guide you through a fully customized fitness program designed specifically for you.
-      </p>
-      <button
-        class="pricing-option__cta"
-        onclick="event.stopPropagation(); openPersonalizedModal()"
-      >
-        Get Your Program — ₹15,000
-      </button>
-    </div>
-  </div>
-</div>
+          id="option4"
+          class="pricing-option"
+          onclick="toggleOption('option4')"
+        >
+          <div class="pricing-option__header">
+            <h3 class="pricing-option__title">Pay Your Fee</h3>
+            <span id="option4-icon" class="pricing-option__icon">▼</span>
+          </div>
+          <p class="pricing-option__subtitle">Pay Your fee as per discussed Amount</p>
+
+          <div id="option4-content" class="pricing-option__content">
+            <div class="pricing-option__inner">
+              <p class="pricing-option__description">
+               Enrolled members can complete the payment for the discussed amount.
+                <!-- <strong>pay amount as per your discussion.</strong>  -->
+              </p>
+
+              <!-- <div class="pricing-option__details">
+                <div class="pricing-detail-item">
+                  <span class="pricing-detail-icon">💰</span>
+                  <span><strong>Flexible Amount</strong> - Pay your discussed amount</span>
+                </div>
+                <div class="pricing-detail-item">
+                  <span class="pricing-detail-icon">🔒</span>
+                  <span><strong>Secure Payment</strong> - Powered by Razorpay</span>
+                </div>
+                <div class="pricing-detail-item">
+                  <span class="pricing-detail-icon">📧</span>
+                  <span><strong>Instant Confirmation</strong> - Email receipt after payment</span>
+                </div>
+              </div> -->
+
+              <button
+                class="pricing-option__cta"
+                onclick="event.stopPropagation();"
+                data-open-payfee
+              >
+                Pay Your Fee →
+              </button>
+            </div>
+          </div>
+        </div>
 </div>
     </section>
 
