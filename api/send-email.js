@@ -248,9 +248,27 @@ const templates = {
             </td></tr>
             <tr><td style="padding:0 40px 40px; text-align:center;">
                 <p style="margin:0 0 16px; font-size:14px; color:#888;">👇 Click below to access your program</p>
-                <a href="${d.claim_link}" style="display:inline-block; padding:16px 40px; background-color:#7C9CB5; color:#fff; font-size:16px; font-weight:600; text-decoration:none; border-radius:8px;">
-                    Access Your Program →
-                </a>
+                <a href="https://docs.google.com/spreadsheets/d/19D0BtoK7buH9q_bUjf3X4w1eVxpaCrJl-953tRe44QI/edit" style="display:inline-block; padding:16px 40px; background-color:#7C9CB5; color:#fff; font-size:16px; font-weight:600; text-decoration:none; border-radius:8px;">
+    Open Your Program →
+</a>
+<div style="margin-top:24px; background:#1a1a1a; border-radius:12px; padding:24px 28px; text-align:left;">
+    <p style="color:#fff; font-weight:700; font-size:15px; margin:0 0 16px;">📋 How to access your program:</p>
+    <ol style="color:#ccc; font-size:14px; line-height:2; margin:0; padding-left:20px;">
+        <li>Click the <strong style="color:#7C9CB5;">Open Your Program</strong> button above</li>
+        <li>Sign in with <strong style="color:#7C9CB5;">${d.user_email}</strong> — the email you used during purchase</li>
+        <li>Click <strong style="color:#fff;">"Request Access"</strong></li>
+                <li>In the request popup, make sure you select <strong style="color:#7C9CB5;">"Viewer"</strong> access — other requests will not be approved</li>
+                <li>You will receive access within a <strong style="color:#fff;">few hours</strong></li>
+    </ol>
+    <div style="margin-top:20px; padding-top:16px; border-top:1px solid #333;">
+        <p style="color:#aaa; font-size:13px; margin:0 0 6px;">⚠️ <strong style="color:#fff;">Need access on a different email?</strong></p>
+        <p style="color:#aaa; font-size:13px; margin:0; line-height:1.7;">When requesting access, add a comment with your:<br/>
+        <strong style="color:#7C9CB5;">Registered Email</strong> + <strong style="color:#7C9CB5;">Payment ID: ${d.payment_id}</strong></p>
+    </div>
+    <div style="margin-top:16px; padding-top:16px; border-top:1px solid #333;">
+        <p style="color:#aaa; font-size:13px; margin:0;">📞 <strong style="color:#fff;">Any queries?</strong> Reach out at <a href="tel:7827373852" style="color:#7C9CB5; text-decoration:none;">+91 78273 73852</a></p>
+    </div>
+</div>
                 <p style="margin:12px 0 0; font-size:12px; color:#555;">This link is valid for 30 days. Login with Google to unlock.</p>
             </td></tr>
             <tr><td style="padding:30px 40px; border-top:1px solid #1a1a1a; text-align:center;">

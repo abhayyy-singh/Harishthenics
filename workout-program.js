@@ -101,7 +101,7 @@
                 price: 4999,
                 tagline: 'Rebuild strong, pain-free knees',
                 videoId: 'uJUAl-HzkIQ',  // Updated with actual YouTube video ID
-                excelLink: 'https://docs.google.com/spreadsheets/d/1IRemM4xygSlbvOapEc71L2pD5SnCoVNEp11VkFqHxcg/edit?usp=sharing',  // Replace with actual link
+                excelLink: 'https://docs.google.com/spreadsheets/d/1cc9ri9xKXHB1XI09U0fl7D-9PZpf3Xl1Ubfmjgu0LnM/edit?usp=sharing',  // Replace with actual link
                 
                 description: [
     'I built this knee pain recovery program after years of dedicated work, hands-on experience, and careful movement selection — designed to help you achieve pain-free movement.',
