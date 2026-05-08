@@ -86,7 +86,7 @@
                 tagline: 'Say goodbye to back pain forever',
                 videoId: 'iPG7vkdYT-o',  // Replace with actual YouTube video ID
                 excelLink: 'https://docs.google.com/spreadsheets/d/19O1fABG9o16UcXrGhrxrlVX0fOoLl9MNDu1ucpZik0Q/edit?usp=sharing',
-                ytMembershipLink: 'https://www.youtube.com/@haristhenics06/join',                
+                ytMembershipLink: 'https://youtu.be/WD_V8DYQ3QM?si=m_apSpTmox-LWmjW',                
               description: [
     'This recovery program helps you understand the root cause of your back pain and work on it safely.',
     'Whether you have a disc bulge, herniated disc, weak lower back, or stiffness, the program focuses on reducing pain, restoring pain-free movement, and improving strength & mobility.',
