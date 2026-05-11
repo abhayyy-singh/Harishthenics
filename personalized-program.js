@@ -7,7 +7,7 @@
     'use strict';
 
     const PROGRAM_CONFIG = {
-        razorpayKey: 'rzp_live_SLytjftdf8NDpx',
+        razorpayKey: 'rzp_test_SLz0IZGqiyDc7P',
         amount: 1500000,
         currency: 'INR',
         businessName: 'Haristhenics',
@@ -15,7 +15,7 @@
         SHEET_URL: 'https://script.google.com/macros/s/AKfycbxvPsHy1S3Mav7cKkJ6k1Ep8oS8dxELeyXLlZZuhXp2HN1wCRGQJx7uzNJcBjPhvzyT6A/exec'
     };
 
-    const PERSONALIZED_SLOTS_OPEN = false; // Set to false to show fully booked modal
+    const PERSONALIZED_SLOTS_OPEN = true; // Set to false to show fully booked modal
 
     function openPersonalizedModal() {
         if (!PERSONALIZED_SLOTS_OPEN) {
