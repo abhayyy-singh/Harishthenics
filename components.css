@@ -122,6 +122,29 @@
     color: #ffffff;
 }
 
+/* Price Badge — expanded card */
+.pricing-option__price-badge {
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+    gap: 6px;
+    padding: clamp(8px, 2vw, 12px) clamp(16px, 4vw, 28px);
+    background: rgba(124, 156, 181, 0.1);
+    border: 1px solid rgba(124, 156, 181, 0.35);
+    border-radius: 50px;
+    margin: -8px auto 28px auto;
+    width: fit-content;
+    max-width: 100%;
+}
+
+.pricing-option__price-amount {
+    font-size: clamp(18px, 4vw, 24px);
+    font-weight: 700;
+    color: #ffffff;
+    letter-spacing: -0.5px;
+    font-family: 'Poppins', sans-serif;
+}
+
 /* Details Box */
 .pricing-option__details {
     background: rgba(124, 156, 181, 0.08);
@@ -333,6 +356,44 @@
     text-align: center;
     margin: 0 0 32px 0;
     color: rgba(255, 255, 255, 0.6);
+}
+
+/* Price Badge */
+.booking-modal__price-badge {
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+    gap: 6px;
+    margin: -16px 0 28px 0;
+    padding: 10px 24px;
+    background: rgba(124, 156, 181, 0.1);
+    border: 1px solid rgba(124, 156, 181, 0.35);
+    border-radius: 50px;
+    width: fit-content;
+    align-self: center;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.booking-modal__price-amount {
+    font-size: 22px;
+    font-weight: 700;
+    color: #ffffff;
+    letter-spacing: -0.5px;
+    font-family: 'Poppins', sans-serif;
+}
+
+.booking-modal__price-sep {
+    font-size: 16px;
+    font-weight: 400;
+    color: rgba(255, 255, 255, 0.4);
+}
+
+.booking-modal__price-period {
+    font-size: 14px;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.5);
+    letter-spacing: 0.3px;
 }
 
 /* Booking Form */
