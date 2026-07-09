@@ -385,61 +385,85 @@
 
       <!-- Three Options Container -->
       <div class="pricing-options-container">
-        <!-- OPTION 3: Join Grip&Grab -->
+        <!-- OPTION 3: Train with Haristhenics — Premium Accordion Card -->
         <div
           id="option3"
-          class="pricing-option"
+          class="pricing-option hs-premium-option"
           onclick="toggleOption('option3')"
         >
-          <!-- Always Visible Header -->
           <div class="pricing-option__header">
-            <h3 class="pricing-option__title">Join Grip&Grab</h3>
+            <div>
+<h3 class="pricing-option__title">Train with Haristhenics</h3>
+            </div>
             <span id="option3-icon" class="pricing-option__icon">▼</span>
           </div>
-          <p class="pricing-option__subtitle fordelhi">
-            For Delhi-based fitness enthusiasts
-          </p>
 
-          <!-- Expandable Content -->
           <div id="option3-content" class="pricing-option__content">
-            <div class="pricing-option__inner">
-              <p class="pricing-option__description">
-                If you're from <strong>Delhi</strong>, you can join
-                <strong>Grip&Grab</strong> — a premium training facility located
-                in Lajpat Nagar and Saket. Harish regularly takes classes at
-                these gyms, offering personalized training and expert guidance.
-              </p>
+            <div class="pricing-option__inner hs-premium-inner">
 
-              <!-- Location Info Box -->
-              <div class="pricing-option__details">
-                <div class="pricing-detail-item">
-                  <span class="pricing-detail-icon">📍</span>
-                  <span>
-                    <strong>Locations:</strong><br />
-                    • Lajpat Nagar, Delhi<br />
-                    • Saket, Delhi
-                  </span>
-                </div>
-                <div class="pricing-detail-item">
-                  <span class="pricing-detail-icon">🗓️</span>
-                  <span>
-                    <strong>Training Schedule:</strong><br />
-                    Flexible timings available — visit Grip&Grab website for
-                    details.
-                  </span>
-                </div>
+              <div class="hs-premium-card__tagline">
+                <span class="hs-tagline-line"></span>
+                <span class="hs-tagline-text">Get Personalised Training</span>
+                <span class="hs-tagline-line"></span>
+              </div>
+              <div class="hs-premium-card__desc">Specialized in pain management &amp; better movement.</div>
+              <div class="hs-premium-card__personal">
+                <span class="hs-personal-icon">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/>
+                  </svg>
+                </span>
+                <span><strong>Harish Sharma</strong> will personally help you overcome pain and move better.</span>
               </div>
 
-              <a
-                href="https://www.gripandgrab.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                class="pricing-option__cta"
-                onclick="event.stopPropagation()"
-              >
-                Visit Grip&Grab →
-              </a>
-              <button class="pricing-option__cta pricing-option__cta--secondary" data-open-payfee>Pay Your Fee →</button>
+              <div class="hs-premium-card__video">
+                <iframe
+                  src="https://www.youtube.com/embed/P0P2WBWl2CI?autoplay=1&mute=1&loop=1&playlist=P0P2WBWl2CI&controls=0&rel=0&modestbranding=1"
+                  title="Train with Haristhenics"
+                  frameborder="0"
+                  allow="autoplay; encrypted-media"
+                  allowfullscreen>
+                </iframe>
+                <div class="hs-premium-card__video-overlay"></div>
+              </div>
+
+              <div class="hs-premium-card__slots">
+                <div class="hs-slot-grid">
+                  <div class="hs-slot-grid__item">
+                    <span class="hs-slot-grid__label">Days</span>
+                    <div class="hs-slot-grid__row">
+                      <span class="hs-slot-grid__icon">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                          <rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>
+                        </svg>
+                      </span>
+                      <span class="hs-slot-grid__value">Mon – Sat</span>
+                    </div>
+                  </div>
+                  <div class="hs-slot-grid__divider"></div>
+                  <div class="hs-slot-grid__item">
+                    <span class="hs-slot-grid__label">Time</span>
+                    <div class="hs-slot-grid__row">
+                      <span class="hs-slot-grid__icon">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                          <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+                        </svg>
+                      </span>
+                      <span class="hs-slot-grid__value">5:30 PM – 8:30 PM</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="hs-premium-card__slot-note">Harish Sharma will confirm your schedule after enrollment.</div>
+              </div>
+
+              <div class="hs-premium-card__price">
+                <span class="hs-premium-card__currency">₹</span>15,000
+                <span class="hs-premium-card__period">/month</span>
+              </div>
+              <button class="hs-premium-card__btn" onclick="event.stopPropagation(); openPersonalizedModal()" type="button">
+                Join the Program
+              </button>
+
             </div>
           </div>
         </div>

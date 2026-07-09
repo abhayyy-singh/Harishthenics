@@ -1512,3 +1512,269 @@
         font-size: 13px;
     }
 }
+
+/* ================================
+   PREMIUM TRAINING CARD
+   ================================ */
+/* Accordion override — premium card uses pricing-option base but with steel-blue border */
+.hs-premium-option {
+    background: linear-gradient(135deg, rgba(124,156,181,0.06), rgba(163,193,216,0.03));
+    border-color: rgba(124,156,181,0.35) !important;
+}
+
+.hs-premium-header-top {
+    margin-bottom: 4px;
+}
+
+.hs-premium-inner {
+    text-align: center;
+}
+
+/* Remove the standalone card styles (now inside accordion) */
+.hs-premium-card {
+    background: none;
+    border: none;
+    border-radius: 0;
+    padding: 0;
+    text-align: center;
+    position: relative;
+    margin-bottom: 0;
+}
+
+.hs-premium-card__badge {
+    display: inline-block;
+    background: linear-gradient(135deg, #7C9CB5, #A3C1D8);
+    color: #000;
+    font-size: 13px;
+    font-weight: 800;
+    padding: 7px 20px;
+    border-radius: 99px;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+    box-shadow: 0 4px 16px rgba(124,156,181,0.35);
+}
+
+.hs-premium-card__title {
+    font-size: clamp(26px, 6vw, 32px);
+    font-weight: 800;
+    color: #fff;
+    margin-bottom: 6px;
+    line-height: 1.15;
+}
+
+.hs-premium-card__tagline {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 11px;
+    font-weight: 700;
+    color: rgba(255,255,255,0.6);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+    justify-content: center;
+}
+
+.hs-tagline-line {
+    flex: 1;
+    height: 1px;
+    background: rgba(124,156,181,0.4);
+    max-width: 60px;
+}
+
+.hs-tagline-text { white-space: nowrap; }
+
+.hs-premium-card__desc {
+    font-size: 13px;
+    color: rgba(255,255,255,0.55);
+    margin-bottom: 12px;
+    line-height: 1.5;
+}
+
+.hs-premium-card__personal {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font-size: 13.5px;
+    color: #A3C1D8;
+    font-weight: 500;
+    margin-bottom: 12px;
+    line-height: 1.5;
+    text-align: left;
+}
+
+.hs-personal-icon {
+    flex-shrink: 0;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    border: 1.5px solid rgba(163,193,216,0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #A3C1D8;
+    margin-top: 1px;
+}
+
+.hs-premium-card__personal strong { font-weight: 700; }
+
+/* Video */
+.hs-premium-card__video {
+    position: relative;
+    width: 100%;
+    padding-bottom: 52%;
+    border-radius: 12px;
+    overflow: hidden;
+    margin-bottom: 12px;
+    border: 1px solid rgba(124,156,181,0.2);
+}
+
+.hs-premium-card__video iframe {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+}
+
+.hs-premium-card__video-overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    cursor: default;
+}
+
+/* Slots */
+.hs-premium-card__slots {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    margin-bottom: 12px;
+    background: rgba(124,156,181,0.06);
+    border: 1px solid rgba(124,156,181,0.2);
+    border-radius: 12px;
+    padding: 12px 14px;
+}
+
+.hs-slot-grid {
+    display: grid;
+    grid-template-columns: 1fr 1px 1fr;
+    align-items: center;
+    width: 100%;
+}
+
+.hs-slot-grid__item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+    padding: 2px clamp(2px, 1vw, 6px);
+    min-width: 0;
+    overflow: hidden;
+}
+
+.hs-slot-grid__row {
+    display: flex;
+    align-items: center;
+    gap: clamp(4px, 1.2vw, 8px);
+    justify-content: center;
+    max-width: 100%;
+}
+
+.hs-slot-grid__icon {
+    flex-shrink: 0;
+    width: clamp(20px, 5vw, 28px);
+    height: clamp(20px, 5vw, 28px);
+    border-radius: 50%;
+    border: 1.5px solid rgba(124,156,181,0.45);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #7C9CB5;
+}
+
+.hs-slot-grid__icon svg {
+    width: clamp(10px, 2.5vw, 14px);
+    height: clamp(10px, 2.5vw, 14px);
+}
+
+.hs-slot-grid__label {
+    font-size: clamp(9px, 2.2vw, 10px);
+    color: #7C9CB5;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    line-height: 1;
+}
+
+.hs-slot-grid__value {
+    font-size: clamp(10.5px, 3vw, 13px);
+    font-weight: 700;
+    color: #fff;
+    line-height: 1.2;
+    white-space: nowrap;
+}
+
+@media (max-width: 320px) {
+    .hs-slot-grid__value { white-space: normal; word-break: break-word; }
+}
+
+.hs-slot-grid__divider {
+    width: 1px;
+    height: 40px;
+    background: rgba(255,255,255,0.12);
+    justify-self: center;
+    flex-shrink: 0;
+}
+
+.hs-premium-card__slot-note {
+    font-size: 11px;
+    color: rgba(255,255,255,0.35);
+    margin-top: 6px;
+    line-height: 1.4;
+    text-align: center;
+    padding-top: 6px;
+    border-top: 1px solid rgba(255,255,255,0.06);
+}
+
+/* Price */
+.hs-premium-card__price {
+    font-size: clamp(34px, 9vw, 42px);
+    font-weight: 800;
+    color: #A3C1D8;
+    margin-bottom: 4px;
+    line-height: 1;
+}
+
+.hs-premium-card__currency {
+    font-size: clamp(16px, 4vw, 22px);
+    vertical-align: super;
+}
+
+.hs-premium-card__period {
+    font-size: 15px;
+    font-weight: 400;
+    color: rgba(255,255,255,0.4);
+}
+
+/* CTA Button */
+.hs-premium-card__btn {
+    display: block;
+    width: 100%;
+    margin-top: 8px;
+    padding: 14px 48px;
+    background: linear-gradient(135deg, #7C9CB5, #A3C1D8);
+    color: #000;
+    font-size: 16px;
+    font-weight: 700;
+    font-family: 'Poppins', sans-serif;
+    border: none;
+    border-radius: 14px;
+    cursor: pointer;
+    transition: opacity 0.2s, transform 0.15s;
+    box-sizing: border-box;
+}
+
+.hs-premium-card__btn:hover { opacity: 0.9; transform: translateY(-2px); }
+.hs-premium-card__btn:active { transform: translateY(0); }
