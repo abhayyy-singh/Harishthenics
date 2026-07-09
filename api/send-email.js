@@ -426,21 +426,20 @@ const templates = {
               </tr>
               <tr>
                 <td style="padding:16px 20px;border-bottom:1px solid #e5e5e5;">
-                  <p style="margin:0;font-size:11px;color:#888888;text-transform:uppercase;letter-spacing:0.5px;font-weight:600;">Location</p>
-                  <p style="margin:4px 0 0;font-size:14px;color:#111111;font-weight:600;">Grip&amp;Grab</p>
-                  <p style="margin:4px 0 0;font-size:13px;color:#444444;line-height:1.55;">All sessions of this program are conducted in-person at Grip&amp;Grab. Harish will personally reach out within 5–7 working days to confirm your schedule.</p>
+                  <p style="margin:0;font-size:11px;color:#888888;text-transform:uppercase;letter-spacing:0.5px;font-weight:600;">Name</p>
+                  <p style="margin:4px 0 0;font-size:15px;color:#111111;">${d.user_name}</p>
                 </td>
               </tr>
               <tr>
                 <td style="padding:16px 20px;border-bottom:1px solid #e5e5e5;">
-                  <p style="margin:0;font-size:11px;color:#888888;text-transform:uppercase;letter-spacing:0.5px;font-weight:600;">Schedule</p>
-                  <p style="margin:4px 0 0;font-size:14px;color:#333333;line-height:1.5;">Mon – Sat &nbsp;|&nbsp; 5:30 PM – 8:30 PM<br>Harish will confirm your exact timings after enrollment.</p>
+                  <p style="margin:0;font-size:11px;color:#888888;text-transform:uppercase;letter-spacing:0.5px;font-weight:600;">Email</p>
+                  <p style="margin:4px 0 0;font-size:14px;color:#111111;">${d.user_email}</p>
                 </td>
               </tr>
               <tr>
                 <td style="padding:16px 20px;border-bottom:1px solid #e5e5e5;">
-                  <p style="margin:0;font-size:11px;color:#888888;text-transform:uppercase;letter-spacing:0.5px;font-weight:600;">Joining Date</p>
-                  <p style="margin:4px 0 0;font-size:15px;color:#111111;font-weight:600;">${d.payment_date}</p>
+                  <p style="margin:0;font-size:11px;color:#888888;text-transform:uppercase;letter-spacing:0.5px;font-weight:600;">Phone</p>
+                  <p style="margin:4px 0 0;font-size:14px;color:#111111;">${d.user_phone}</p>
                 </td>
               </tr>
               <tr>
@@ -462,8 +461,7 @@ const templates = {
         <tr>
           <td style="padding:0 40px 28px;">
             <p style="margin:0;font-size:14px;color:#444444;line-height:1.7;">
-              Please be patient — Harish will personally reach out to you within 5–7 days to schedule your sessions and discuss your goals.<br><br>
-              If you have any questions in the meantime, feel free to reach out on WhatsApp or give us a call.
+              All sessions of this program are conducted in-person at Grip&amp;Grab. Harish will personally reach out within <strong>5–7 working days</strong> to confirm your schedule. Sessions run <strong>Mon–Sat | 5:30 PM – 8:30 PM</strong> — exact timings will be confirmed after enrollment.
             </p>
           </td>
         </tr>
