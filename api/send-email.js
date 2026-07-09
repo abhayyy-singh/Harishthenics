@@ -514,8 +514,7 @@ const templates = {
               <tr>
                 <td style="padding:16px 20px;border-bottom:1px solid #e5e5e5;">
                   <p style="margin:0;font-size:11px;color:#888888;text-transform:uppercase;letter-spacing:0.5px;font-weight:600;">Location</p>
-                  <p style="margin:4px 0 0;font-size:14px;color:#111111;font-weight:600;">Grip&amp;Grab, Saket</p>
-                  <p style="margin:2px 0 0;font-size:13px;color:#555555;">241, 2nd Floor, Westend Marg, near Garden of Five Senses, Saket, New Delhi 110030</p>
+                  <p style="margin:4px 0 0;font-size:14px;color:#111111;font-weight:600;">Grip&amp;Grab</p>
                 </td>
               </tr>
               <tr>
