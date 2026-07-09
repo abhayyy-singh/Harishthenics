@@ -1824,6 +1824,18 @@
 }
 .hs-video-mute-btn:hover { background: rgba(0,0,0,0.8); }
 
+/* ── Personalized Program — CTA button override ── */
+#option7 .pricing-option__cta {
+    display: block;
+    width: 100%;
+    padding: 14px 20px;
+    font-size: 14.5px;
+    font-weight: 600;
+    margin-left: 0;
+    margin-bottom: 0;
+    letter-spacing: 0.1px;
+}
+
 /* ── Personalized Program — in-card video ── */
 .pp-video-wrapper {
     position: relative;
