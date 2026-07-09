@@ -336,123 +336,44 @@ const templates = {
       }),
 
     personalizedProgram: (d) => ({
-        subject: `Your Personalized Workout Program is confirmed!`,
-        html: `<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Personalized Program Confirmed — Haristhenics</title>
-</head>
-<body style="margin:0;padding:0;background:#f4f4f4;font-family:'Helvetica Neue',Arial,sans-serif;">
-<table width="100%" cellspacing="0" cellpadding="0" style="background:#f4f4f4;padding:32px 16px;">
-  <tr>
-    <td align="center">
-      <table width="100%" cellspacing="0" cellpadding="0" style="max-width:560px;background:#ffffff;border-radius:12px;overflow:hidden;">
-
-        <tr>
-          <td style="background:#0a0a0a;padding:32px 40px;text-align:center;">
-            <h1 style="margin:0;color:#ffffff;font-size:24px;font-weight:bold;letter-spacing:-0.5px;">Haristhenics</h1>
-            <p style="margin:8px 0 0;color:rgba(255,255,255,0.5);font-size:13px;letter-spacing:0.5px;text-transform:uppercase;">Move Better. Live Stronger.</p>
-          </td>
-        </tr>
-
-        <tr>
-          <td style="background:#18181b;padding:20px 40px;text-align:center;border-bottom:1px solid #e5e5e5;">
-            <span style="display:inline-block;background:#dcfce7;color:#15803d;font-size:13px;font-weight:600;padding:6px 16px;border-radius:99px;letter-spacing:0.3px;">
-              ✓ &nbsp;Program Confirmed
-            </span>
-          </td>
-        </tr>
-
-        <tr>
-          <td style="padding:36px 40px 0;">
-            <p style="margin:0 0 24px;font-size:16px;color:#111111;line-height:1.6;">
-              Hi <strong>${d.user_name.split(' ')[0]}</strong>,<br><br>
-              Your <strong>Personalized Workout Program</strong> is now confirmed. Please be patient — I (Harish Sharma) will personally call you and reach out to you within <strong>5–7 days</strong> to schedule your sessions and discuss with you personally.
-            </p>
-          </td>
-        </tr>
-
-        <tr>
-          <td style="padding:0 40px;">
-            <table width="100%" cellspacing="0" cellpadding="0" style="background:#f9f9f9;border:1px solid #e5e5e5;border-radius:10px;overflow:hidden;margin-bottom:24px;">
-              <tr>
-                <td style="padding:16px 20px;border-bottom:1px solid #e5e5e5;">
-                  <p style="margin:0;font-size:11px;color:#888888;text-transform:uppercase;letter-spacing:0.5px;font-weight:600;">Program</p>
-                  <p style="margin:4px 0 0;font-size:15px;color:#111111;font-weight:600;">Personalized Workout Program</p>
-                </td>
-              </tr>
-              <tr>
-                <td style="padding:16px 20px;border-bottom:1px solid #e5e5e5;">
-                  <p style="margin:0;font-size:11px;color:#888888;text-transform:uppercase;letter-spacing:0.5px;font-weight:600;">Amount Paid</p>
-                  <p style="margin:4px 0 0;font-size:15px;color:#111111;font-weight:600;">₹15,000</p>
-                </td>
-              </tr>
-              <tr>
-                <td style="padding:16px 20px;border-bottom:1px solid #e5e5e5;">
-                  <p style="margin:0;font-size:11px;color:#888888;text-transform:uppercase;letter-spacing:0.5px;font-weight:600;">Payment ID</p>
-                  <p style="margin:4px 0 0;font-size:13px;color:#555555;font-family:monospace;">${d.payment_id}</p>
-                </td>
-              </tr>
-              <tr>
-                <td style="padding:16px 20px;border-bottom:1px solid #e5e5e5;">
-                  <p style="margin:0;font-size:11px;color:#888888;text-transform:uppercase;letter-spacing:0.5px;font-weight:600;">Email</p>
-                  <p style="margin:4px 0 0;font-size:14px;color:#111111;">${d.user_email}</p>
-                </td>
-              </tr>
-              <tr>
-                <td style="padding:16px 20px;">
-                  <p style="margin:0;font-size:11px;color:#888888;text-transform:uppercase;letter-spacing:0.5px;font-weight:600;">Phone</p>
-                  <p style="margin:4px 0 0;font-size:14px;color:#111111;">${d.user_phone}</p>
-                </td>
-              </tr>
-            </table>
-          </td>
-        </tr>
-
-        <tr>
-          <td style="padding:0 40px 28px;">
-            <p style="margin:0;font-size:14px;color:#444444;line-height:1.7;">
-              If you have any questions in the meantime, feel free to reach out on WhatsApp or call me at <strong>+91 9971250050</strong>
-            </p>
-          </td>
-        </tr>
-
-        <tr>
-          <td style="padding:0 40px 32px;text-align:center;">
-            <table cellspacing="0" cellpadding="0" style="margin:0 auto;">
-              <tr>
-                <td style="padding-right:12px;">
-                  <a href="tel:+919971250050"
-                     style="display:inline-block;background:#0a0a0a;color:#ffffff;text-decoration:none;font-size:14px;font-weight:600;padding:13px 28px;border-radius:8px;letter-spacing:0.2px;">
-                    📞 Call Me
-                  </a>
-                </td>
-                <td>
-                  <a href="https://wa.me/919971250050"
-                     style="display:inline-block;background:#25d366;color:#ffffff;text-decoration:none;font-size:14px;font-weight:600;padding:13px 28px;border-radius:8px;letter-spacing:0.2px;">
-                    💬 WhatsApp
-                  </a>
-                </td>
-              </tr>
-            </table>
-          </td>
-        </tr>
-
-        <tr>
-          <td style="padding:20px 40px;background:#f9f9f9;border-top:1px solid #e5e5e5;text-align:center;">
-            <p style="margin:0;font-size:13px;color:#888888;line-height:1.6;">Questions? <a href="mailto:haristhenics06@gmail.com" style="color:#111111;">haristhenics06@gmail.com</a></p>
-            <p style="margin:12px 0 0;font-size:11px;color:#bbbbbb;">© ${new Date().getFullYear()} Haristhenics · haristhenics.com</p>
-          </td>
-        </tr>
-
-      </table>
-    </td>
-  </tr>
-</table>
-</body>
-</html>`
+        subject: `Personalized Program Registration Confirmed — ${d.user_name}`,
+        html: `<div style="font-family:'Segoe UI',sans-serif;background:#f4f7fa;padding:40px 20px;">
+        <table width="100%" cellpadding="0" cellspacing="0"><tr><td align="center">
+        <table width="600" cellpadding="0" cellspacing="0" style="background:#fff;border-radius:16px;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,0.08);">
+            <tr><td style="background:#000;padding:40px 30px;text-align:center;">
+                <h1 style="color:#fff;margin:0;font-size:28px;">Haristhenics</h1>
+                <p style="color:#aaa;margin:8px 0 0;">Personalized Workout Program</p>
+            </td></tr>
+            <tr><td style="padding:40px 40px 20px;">
+                <h2 style="color:#1a1a1a;margin:0;">Hi ${d.user_name},</h2>
+                <p style="color:#666;margin:15px 0 0;line-height:1.6;">Your Personalized Workout Program is now confirmed. Please be patient — I (Harish Sharma) will personally call you and reach out to you within <strong>5–7 days</strong> to schedule your sessions and discuss with you personally.</p>
+            </td></tr>
+            <tr><td style="padding:0 40px 30px;">
+                <table width="100%" cellpadding="0" cellspacing="0" style="background:#f8f9fc;border-radius:12px;border-left:4px solid #000;">
+                    <tr><td style="padding:20px 25px;color:#6b7280;font-size:14px;font-weight:600;">👤 Name</td><td style="padding:20px 25px;color:#1f2937;">${d.user_name}</td></tr>
+                    <tr><td style="padding:20px 25px;color:#6b7280;font-size:14px;font-weight:600;border-top:1px solid #e5e7eb;">📧 Email</td><td style="padding:20px 25px;color:#1f2937;border-top:1px solid #e5e7eb;">${d.user_email}</td></tr>
+                    <tr><td style="padding:20px 25px;color:#6b7280;font-size:14px;font-weight:600;border-top:1px solid #e5e7eb;">📱 Phone</td><td style="padding:20px 25px;color:#1f2937;border-top:1px solid #e5e7eb;">${d.user_phone}</td></tr>
+                    <tr><td style="padding:20px 25px;color:#6b7280;font-size:14px;font-weight:600;border-top:1px solid #e5e7eb;">💰 Amount</td><td style="padding:20px 25px;color:#1f2937;font-weight:700;border-top:1px solid #e5e7eb;">₹15,000</td></tr>
+                    <tr><td style="padding:20px 25px;color:#6b7280;font-size:14px;font-weight:600;border-top:1px solid #e5e7eb;">📋 Payment ID</td><td style="padding:20px 25px;color:#1f2937;font-family:monospace;font-size:13px;border-top:1px solid #e5e7eb;">${d.payment_id}</td></tr>
+                    <tr><td style="padding:20px 25px 25px;color:#6b7280;font-size:14px;font-weight:600;border-top:1px solid #e5e7eb;">📅 Date</td><td style="padding:20px 25px 25px;color:#1f2937;border-top:1px solid #e5e7eb;">${d.payment_date}</td></tr>
+                </table>
+            </td></tr>
+            <tr><td style="padding:0 40px 30px;text-align:center;">
+                <table cellpadding="0" cellspacing="0" style="margin:0 auto;">
+                    <tr>
+                        <td style="padding-right:12px;">
+                            <a href="tel:+919971250050" style="display:inline-block;background:#000;color:#fff;text-decoration:none;font-size:14px;font-weight:600;padding:13px 28px;border-radius:8px;">📞 Call Me</a>
+                        </td>
+                        <td>
+                            <a href="https://wa.me/919971250050" style="display:inline-block;background:#25d366;color:#fff;text-decoration:none;font-size:14px;font-weight:600;padding:13px 28px;border-radius:8px;">💬 WhatsApp</a>
+                        </td>
+                    </tr>
+                </table>
+            </td></tr>
+            <tr><td style="padding:20px 40px 30px;background:#f8f9fc;border-top:1px solid #e5e7eb;text-align:center;">
+                <p style="margin:0;color:#6b7280;font-size:13px;">Questions? <a href="mailto:haristhenics06@gmail.com" style="color:#000;">haristhenics06@gmail.com</a></p>
+            </td></tr>
+        </table></td></tr></table></div>`
     }),
 
     harishTraining: (d) => ({
