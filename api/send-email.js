@@ -350,7 +350,6 @@ const templates = {
     <td align="center">
       <table width="100%" cellspacing="0" cellpadding="0" style="max-width:560px;background:#ffffff;border-radius:12px;overflow:hidden;">
 
-        <!-- Header -->
         <tr>
           <td style="background:#0a0a0a;padding:32px 40px;text-align:center;">
             <h1 style="margin:0;color:#ffffff;font-size:24px;font-weight:bold;letter-spacing:-0.5px;">Haristhenics</h1>
@@ -358,7 +357,6 @@ const templates = {
           </td>
         </tr>
 
-        <!-- Confirmed badge -->
         <tr>
           <td style="background:#18181b;padding:20px 40px;text-align:center;border-bottom:1px solid #e5e5e5;">
             <span style="display:inline-block;background:#dcfce7;color:#15803d;font-size:13px;font-weight:600;padding:6px 16px;border-radius:99px;letter-spacing:0.3px;">
@@ -367,17 +365,15 @@ const templates = {
           </td>
         </tr>
 
-        <!-- Greeting -->
         <tr>
           <td style="padding:36px 40px 0;">
             <p style="margin:0 0 24px;font-size:16px;color:#111111;line-height:1.6;">
               Hi <strong>${d.user_name.split(' ')[0]}</strong>,<br><br>
-              Your <strong>Personalized Workout Program</strong> is now confirmed. Harish will personally call you within <strong>5–7 days</strong> to schedule your movement assessment and discuss your goals.
+              Your <strong>Personalized Workout Program</strong> is now confirmed. Please be patient — I (Harish Sharma) will personally call you and reach out to you within <strong>5–7 days</strong> to schedule your sessions and discuss with you personally.
             </p>
           </td>
         </tr>
 
-        <!-- Booking details -->
         <tr>
           <td style="padding:0 40px;">
             <table width="100%" cellspacing="0" cellpadding="0" style="background:#f9f9f9;border:1px solid #e5e5e5;border-radius:10px;overflow:hidden;margin-bottom:24px;">
@@ -389,55 +385,52 @@ const templates = {
               </tr>
               <tr>
                 <td style="padding:16px 20px;border-bottom:1px solid #e5e5e5;">
-                  <p style="margin:0;font-size:11px;color:#888888;text-transform:uppercase;letter-spacing:0.5px;font-weight:600;">Schedule</p>
-                  <p style="margin:4px 0 0;font-size:14px;color:#333333;line-height:1.5;">Mon – Sat &nbsp;|&nbsp; 5:30 PM – 8:30 PM<br>Harish will confirm your exact timings after enrollment.</p>
-                </td>
-              </tr>
-              <tr>
-                <td style="padding:16px 20px;border-bottom:1px solid #e5e5e5;">
-                  <p style="margin:0;font-size:11px;color:#888888;text-transform:uppercase;letter-spacing:0.5px;font-weight:600;">Joining Date</p>
-                  <p style="margin:4px 0 0;font-size:15px;color:#111111;font-weight:600;">${d.payment_date}</p>
-                </td>
-              </tr>
-              <tr>
-                <td style="padding:16px 20px;border-bottom:1px solid #e5e5e5;">
                   <p style="margin:0;font-size:11px;color:#888888;text-transform:uppercase;letter-spacing:0.5px;font-weight:600;">Amount Paid</p>
                   <p style="margin:4px 0 0;font-size:15px;color:#111111;font-weight:600;">₹15,000</p>
                 </td>
               </tr>
               <tr>
-                <td style="padding:16px 20px;">
+                <td style="padding:16px 20px;border-bottom:1px solid #e5e5e5;">
                   <p style="margin:0;font-size:11px;color:#888888;text-transform:uppercase;letter-spacing:0.5px;font-weight:600;">Payment ID</p>
                   <p style="margin:4px 0 0;font-size:13px;color:#555555;font-family:monospace;">${d.payment_id}</p>
+                </td>
+              </tr>
+              <tr>
+                <td style="padding:16px 20px;border-bottom:1px solid #e5e5e5;">
+                  <p style="margin:0;font-size:11px;color:#888888;text-transform:uppercase;letter-spacing:0.5px;font-weight:600;">Email</p>
+                  <p style="margin:4px 0 0;font-size:14px;color:#111111;">${d.user_email}</p>
+                </td>
+              </tr>
+              <tr>
+                <td style="padding:16px 20px;">
+                  <p style="margin:0;font-size:11px;color:#888888;text-transform:uppercase;letter-spacing:0.5px;font-weight:600;">Phone</p>
+                  <p style="margin:4px 0 0;font-size:14px;color:#111111;">${d.user_phone}</p>
                 </td>
               </tr>
             </table>
           </td>
         </tr>
 
-        <!-- Help text -->
         <tr>
           <td style="padding:0 40px 28px;">
             <p style="margin:0;font-size:14px;color:#444444;line-height:1.7;">
-              Please be patient — Harish will personally reach out to you within 5–7 days to schedule your sessions and discuss your goals.<br><br>
-              If you have any questions in the meantime, feel free to reach out on WhatsApp or call us — we're happy to help.
+              If you have any questions in the meantime, feel free to reach out on WhatsApp or call me at <strong>+91 9971250050</strong>
             </p>
           </td>
         </tr>
 
-        <!-- CTA buttons -->
         <tr>
           <td style="padding:0 40px 32px;text-align:center;">
             <table cellspacing="0" cellpadding="0" style="margin:0 auto;">
               <tr>
                 <td style="padding-right:12px;">
-                  <a href="tel:+917827373852"
+                  <a href="tel:+919971250050"
                      style="display:inline-block;background:#0a0a0a;color:#ffffff;text-decoration:none;font-size:14px;font-weight:600;padding:13px 28px;border-radius:8px;letter-spacing:0.2px;">
-                    📞 Call Us
+                    📞 Call Me
                   </a>
                 </td>
                 <td>
-                  <a href="https://wa.me/917827373852"
+                  <a href="https://wa.me/919971250050"
                      style="display:inline-block;background:#25d366;color:#ffffff;text-decoration:none;font-size:14px;font-weight:600;padding:13px 28px;border-radius:8px;letter-spacing:0.2px;">
                     💬 WhatsApp
                   </a>
@@ -447,7 +440,6 @@ const templates = {
           </td>
         </tr>
 
-        <!-- Footer -->
         <tr>
           <td style="padding:20px 40px;background:#f9f9f9;border-top:1px solid #e5e5e5;text-align:center;">
             <p style="margin:0;font-size:13px;color:#888888;line-height:1.6;">Questions? <a href="mailto:haristhenics06@gmail.com" style="color:#111111;">haristhenics06@gmail.com</a></p>
