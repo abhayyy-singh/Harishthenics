@@ -464,13 +464,13 @@ const templates = {
     }),
 
     harishTraining: (d) => ({
-        subject: `Your Train with Haristhenics program is confirmed!`,
+        subject: `Your personal training program at Grip&Grab is confirmed!`,
         html: `<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Train with Haristhenics — Confirmed</title>
+  <title>Personal Training at Grip&amp;Grab — Confirmed</title>
 </head>
 <body style="margin:0;padding:0;background:#f4f4f4;font-family:'Helvetica Neue',Arial,sans-serif;">
 <table width="100%" cellspacing="0" cellpadding="0" style="background:#f4f4f4;padding:32px 16px;">
@@ -497,7 +497,7 @@ const templates = {
           <td style="padding:36px 40px 0;">
             <p style="margin:0 0 24px;font-size:16px;color:#111111;line-height:1.6;">
               Hi <strong>${d.user_name.split(' ')[0]}</strong>,<br><br>
-              Your <strong>Train with Haristhenics</strong> program is now confirmed. Harish will personally call you within <strong>5–7 days</strong> to schedule your sessions and confirm your timings.
+              Your personal training program at <strong>Grip&amp;Grab</strong> is now confirmed. Harish will personally reach out within <strong>5–7 working days</strong> to confirm your schedule.
             </p>
           </td>
         </tr>
@@ -508,13 +508,14 @@ const templates = {
               <tr>
                 <td style="padding:16px 20px;border-bottom:1px solid #e5e5e5;">
                   <p style="margin:0;font-size:11px;color:#888888;text-transform:uppercase;letter-spacing:0.5px;font-weight:600;">Program</p>
-                  <p style="margin:4px 0 0;font-size:15px;color:#111111;font-weight:600;">Train with Haristhenics</p>
+                  <p style="margin:4px 0 0;font-size:15px;color:#111111;font-weight:600;">Personally Train with Me at Grip&amp;Grab</p>
                 </td>
               </tr>
               <tr>
                 <td style="padding:16px 20px;border-bottom:1px solid #e5e5e5;">
                   <p style="margin:0;font-size:11px;color:#888888;text-transform:uppercase;letter-spacing:0.5px;font-weight:600;">Location</p>
                   <p style="margin:4px 0 0;font-size:14px;color:#111111;font-weight:600;">Grip&amp;Grab</p>
+                  <p style="margin:4px 0 0;font-size:13px;color:#444444;line-height:1.55;">All sessions of this program are conducted in-person at Grip&amp;Grab. Harish will personally reach out within 5–7 working days to confirm your schedule.</p>
                 </td>
               </tr>
               <tr>

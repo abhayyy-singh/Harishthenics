@@ -234,7 +234,7 @@
                         amount: PROGRAM_CONFIG.amount,
                         currency: PROGRAM_CONFIG.currency,
                         name: PROGRAM_CONFIG.businessName,
-                        description: 'Train with Haristhenics',
+                        description: 'Personally Train with Me at Grip&Grab',
                         prefill: { name, email, contact: phone },
                         theme: { color: '#000000' },
                         handler: async function (response) {
