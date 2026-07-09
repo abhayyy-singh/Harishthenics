@@ -460,7 +460,7 @@
                 <span class="hs-premium-card__currency">₹</span>15,000
                 <span class="hs-premium-card__period">/month</span>
               </div>
-              <button class="hs-premium-card__btn" onclick="event.stopPropagation(); openPersonalizedModal()" type="button">
+              <button class="hs-premium-card__btn" onclick="event.stopPropagation(); openHarishTrainingModal()" type="button">
                 Join the Program
               </button>
 
@@ -1223,6 +1223,49 @@ During this consultation, we will thoroughly discuss your specific concerns and 
       </form>
       <div id="personalizedSuccess" class="successMessage" style="display:none;">
         <p>🎉 Payment Successful! Harish will call you shortly..</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Train with Haristhenics Modal -->
+<div id="harishTrainingModal" class="booking-modal">
+  <div class="booking-modal__overlay" id="harishTrainingModalOverlay"></div>
+  <div class="booking-modal__container">
+    <button class="booking-modal__close" id="harishTrainingModalClose">
+      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+      </svg>
+    </button>
+    <div class="booking-modal__content">
+      <h3 class="booking-modal__title">Train with Haristhenics</h3>
+      <p class="booking-modal__subtitle">Harish will personally call & confirm your schedule</p>
+      <div class="booking-modal__price-badge">
+        <span class="booking-modal__price-amount">₹15,000</span>
+        <span class="booking-modal__price-sep">/</span>
+        <span class="booking-modal__price-period">month</span>
+      </div>
+      <form class="booking-form" id="harishTrainingForm">
+        <div class="booking-form__group">
+          <label class="booking-form__label">Full Name</label>
+          <input type="text" id="harishTrainingName" class="booking-form__input" placeholder="Your name" required/>
+        </div>
+        <div class="booking-form__group">
+          <label class="booking-form__label">Email</label>
+          <input type="email" id="harishTrainingEmail" class="booking-form__input" placeholder="your@email.com" required/>
+        </div>
+        <div class="booking-form__group">
+          <label class="booking-form__label">Phone Number</label>
+          <input type="tel" id="harishTrainingPhone" class="booking-form__input" placeholder="+91 XXXXX XXXXX" required/>
+        </div>
+        <span class="booking-form__error" id="harishTrainingError"></span>
+        <button type="submit" class="booking-form__submit" id="harishTrainingSubmitBtn">
+          <span class="booking-form__submit-text">Pay ₹15,000 & Join</span>
+          <span class="booking-form__submit-loader"></span>
+        </button>
+      </form>
+      <div id="harishTrainingSuccess" class="successMessage" style="display:none;">
+        <p>🎉 Payment Successful! Harish will call you shortly to confirm your schedule.</p>
       </div>
     </div>
   </div>
