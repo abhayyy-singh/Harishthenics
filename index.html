@@ -393,7 +393,8 @@
         >
           <div class="pricing-option__header">
             <div>
-<h3 class="pricing-option__title">Train with Haristhenics</h3>
+              <h3 class="pricing-option__title">Train with Haristhenics</h3>
+              <p class="pricing-option__subtitle">at Grip&amp;Grab, Saket — New Delhi</p>
             </div>
             <span id="option3-icon" class="pricing-option__icon">▼</span>
           </div>
@@ -416,15 +417,24 @@
                 <span><strong>Harish Sharma</strong> will personally help you overcome pain and move better.</span>
               </div>
 
-              <div class="hs-premium-card__video">
+              <div class="hs-premium-card__video" id="hs-video-wrapper">
                 <iframe
-                  src="https://www.youtube.com/embed/P0P2WBWl2CI?autoplay=1&mute=1&loop=1&playlist=P0P2WBWl2CI&controls=0&rel=0&modestbranding=1"
+                  id="hs-training-video"
+                  src="https://www.youtube.com/embed/P0P2WBWl2CI?autoplay=1&mute=1&loop=1&playlist=P0P2WBWl2CI&controls=0&rel=0&modestbranding=1&enablejsapi=0"
                   title="Train with Haristhenics"
                   frameborder="0"
                   allow="autoplay; encrypted-media"
                   allowfullscreen>
                 </iframe>
                 <div class="hs-premium-card__video-overlay"></div>
+                <button class="hs-video-mute-btn" id="hs-mute-btn" onclick="event.stopPropagation(); toggleHsVideoMute()" type="button" title="Unmute video">
+                  <svg id="hs-icon-muted" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/>
+                  </svg>
+                  <svg id="hs-icon-unmuted" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none;">
+                    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/>
+                  </svg>
+                </button>
               </div>
 
               <div class="hs-premium-card__slots">
@@ -1238,35 +1248,53 @@ During this consultation, we will thoroughly discuss your specific concerns and 
       </svg>
     </button>
     <div class="booking-modal__content">
-      <h3 class="booking-modal__title">Train with Haristhenics</h3>
-      <p class="booking-modal__subtitle">Harish will personally call & confirm your schedule</p>
-      <div class="booking-modal__price-badge">
-        <span class="booking-modal__price-amount">₹15,000</span>
-        <span class="booking-modal__price-sep">/</span>
-        <span class="booking-modal__price-period">month</span>
+
+      <!-- Step 1: Manifesto -->
+      <div id="htStepManifesto">
+        <h3 class="booking-modal__title">Before You Proceed</h3>
+        <p class="ht-manifesto-text">
+          If your only goal is to get rid of pain, I'm probably not the right person for you. I don't prescribe medicines, give injections, or perform therapy. My job is not to suppress your pain — it's to eliminate the weakness and limitations that are causing it.
+          <br><br>
+          I help you overcome the fear of movement, rebuild confidence in your body, and make you physically stronger. Sessions run <strong>Mon–Sat at Grip&amp;Grab, Saket, New Delhi</strong>. This process takes time. It requires patience and hard work. But the results are long-lasting — built on strength and proper movement, not temporary relief.
+          <br><br>
+          If you're looking for a quick fix, I'm not the right coach. But if you're ready to invest in yourself and trust the process, you're more than welcome.
+        </p>
+        <button class="ht-ready-btn" id="htReadyBtn" type="button">Yes, I'm Ready — Continue →</button>
       </div>
-      <form class="booking-form" id="harishTrainingForm">
-        <div class="booking-form__group">
-          <label class="booking-form__label">Full Name</label>
-          <input type="text" id="harishTrainingName" class="booking-form__input" placeholder="Your name" required/>
+
+      <!-- Step 2: Form -->
+      <div id="htStepForm" style="display:none;">
+        <h3 class="booking-modal__title">Train with Haristhenics</h3>
+        <p class="booking-modal__subtitle">at Grip&amp;Grab, Saket · Mon–Sat · 5:30–8:30 PM</p>
+        <div class="booking-modal__price-badge">
+          <span class="booking-modal__price-amount">₹15,000</span>
+          <span class="booking-modal__price-sep">/</span>
+          <span class="booking-modal__price-period">month</span>
         </div>
-        <div class="booking-form__group">
-          <label class="booking-form__label">Email</label>
-          <input type="email" id="harishTrainingEmail" class="booking-form__input" placeholder="your@email.com" required/>
+        <form class="booking-form" id="harishTrainingForm">
+          <div class="booking-form__group">
+            <label class="booking-form__label">Full Name</label>
+            <input type="text" id="harishTrainingName" class="booking-form__input" placeholder="Your name" required/>
+          </div>
+          <div class="booking-form__group">
+            <label class="booking-form__label">Email</label>
+            <input type="email" id="harishTrainingEmail" class="booking-form__input" placeholder="your@email.com" required/>
+          </div>
+          <div class="booking-form__group">
+            <label class="booking-form__label">Phone Number</label>
+            <input type="tel" id="harishTrainingPhone" class="booking-form__input" placeholder="+91 XXXXX XXXXX" required/>
+          </div>
+          <span class="booking-form__error" id="harishTrainingError"></span>
+          <button type="submit" class="booking-form__submit" id="harishTrainingSubmitBtn">
+            <span class="booking-form__submit-text">Pay ₹15,000 & Join</span>
+            <span class="booking-form__submit-loader"></span>
+          </button>
+        </form>
+        <div id="harishTrainingSuccess" class="successMessage" style="display:none;">
+          <p>🎉 Payment Successful! Harish will call you shortly to confirm your schedule.</p>
         </div>
-        <div class="booking-form__group">
-          <label class="booking-form__label">Phone Number</label>
-          <input type="tel" id="harishTrainingPhone" class="booking-form__input" placeholder="+91 XXXXX XXXXX" required/>
-        </div>
-        <span class="booking-form__error" id="harishTrainingError"></span>
-        <button type="submit" class="booking-form__submit" id="harishTrainingSubmitBtn">
-          <span class="booking-form__submit-text">Pay ₹15,000 & Join</span>
-          <span class="booking-form__submit-loader"></span>
-        </button>
-      </form>
-      <div id="harishTrainingSuccess" class="successMessage" style="display:none;">
-        <p>🎉 Payment Successful! Harish will call you shortly to confirm your schedule.</p>
       </div>
+
     </div>
   </div>
 </div>

@@ -51,7 +51,13 @@
     function openHarishTrainingModal() {
         if (!HARISH_TRAINING_SLOTS_OPEN) { openHarishTrainingFullyBookedModal(); return; }
         const modal = document.getElementById('harishTrainingModal');
-        if (modal) { modal.classList.add('active'); document.body.style.overflow = 'hidden'; }
+        if (modal) {
+            // Always start at manifesto step
+            document.getElementById('htStepManifesto').style.display = 'block';
+            document.getElementById('htStepForm').style.display = 'none';
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
     }
 
     function closeHarishTrainingModal() {
@@ -63,6 +69,11 @@
             if (form) { form.reset(); form.style.display = ''; }
             const successDiv = document.getElementById('harishTrainingSuccess');
             if (successDiv) successDiv.style.display = 'none';
+            // Reset to manifesto step
+            const manifesto = document.getElementById('htStepManifesto');
+            const formStep = document.getElementById('htStepForm');
+            if (manifesto) manifesto.style.display = 'block';
+            if (formStep) formStep.style.display = 'none';
         }
     }
 
@@ -74,6 +85,20 @@
     function closeHarishTrainingFullyBookedModal() {
         closePersonalizedFullyBookedModal();
     }
+
+    /* ── Video mute/unmute ── */
+    let hsVideoMuted = false; // starts unmuted when card opens
+    window.toggleHsVideoMute = function () {
+        const iframe = document.getElementById('hs-training-video');
+        const iconMuted   = document.getElementById('hs-icon-muted');
+        const iconUnmuted = document.getElementById('hs-icon-unmuted');
+        if (!iframe) return;
+        hsVideoMuted = !hsVideoMuted;
+        const muteParam = hsVideoMuted ? '1' : '0';
+        iframe.src = `https://www.youtube.com/embed/P0P2WBWl2CI?autoplay=1&mute=${muteParam}&loop=1&playlist=P0P2WBWl2CI&controls=0&rel=0&modestbranding=1&enablejsapi=0`;
+        if (iconMuted)   iconMuted.style.display   = hsVideoMuted ? 'block' : 'none';
+        if (iconUnmuted) iconUnmuted.style.display = hsVideoMuted ? 'none'  : 'block';
+    };
 
     document.addEventListener('DOMContentLoaded', function () {
 
@@ -90,6 +115,42 @@
         if (htOverlay) htOverlay.addEventListener('click', closeHarishTrainingModal);
         const htCloseBtn = document.getElementById('harishTrainingModalClose');
         if (htCloseBtn) htCloseBtn.addEventListener('click', closeHarishTrainingModal);
+
+        // Manifesto → Form step
+        const htReadyBtn = document.getElementById('htReadyBtn');
+        if (htReadyBtn) {
+            htReadyBtn.addEventListener('click', function () {
+                document.getElementById('htStepManifesto').style.display = 'none';
+                document.getElementById('htStepForm').style.display = 'block';
+            });
+        }
+
+        // Video auto-unmute when option3 expands
+        const origToggle = window.toggleOption;
+        window.toggleOption = function (optionId) {
+            origToggle(optionId);
+            if (optionId === 'option3') {
+                const isNowActive = document.getElementById('option3').classList.contains('active');
+                const iframe = document.getElementById('hs-training-video');
+                const iconMuted   = document.getElementById('hs-icon-muted');
+                const iconUnmuted = document.getElementById('hs-icon-unmuted');
+                if (iframe) {
+                    if (isNowActive) {
+                        // Expand: autoplay unmuted
+                        hsVideoMuted = false;
+                        iframe.src = 'https://www.youtube.com/embed/P0P2WBWl2CI?autoplay=1&mute=0&loop=1&playlist=P0P2WBWl2CI&controls=0&rel=0&modestbranding=1&enablejsapi=0';
+                        if (iconMuted)   iconMuted.style.display   = 'none';
+                        if (iconUnmuted) iconUnmuted.style.display = 'block';
+                    } else {
+                        // Collapse: stop video
+                        iframe.src = '';
+                        hsVideoMuted = true;
+                        if (iconMuted)   iconMuted.style.display   = 'block';
+                        if (iconUnmuted) iconUnmuted.style.display = 'none';
+                    }
+                }
+            }
+        };
 
         document.addEventListener('keydown', function (e) {
             if (e.key === 'Escape') {

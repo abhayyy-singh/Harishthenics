@@ -358,6 +358,38 @@
     color: rgba(255, 255, 255, 0.6);
 }
 
+/* Manifesto Step */
+.ht-manifesto-text {
+    font-size: 14px;
+    color: rgba(255,255,255,0.6);
+    line-height: 1.85;
+    margin: 0 0 28px 0;
+    text-align: left;
+}
+
+.ht-manifesto-text strong {
+    color: #A3C1D8;
+}
+
+.ht-ready-btn {
+    display: block;
+    width: 100%;
+    padding: 16px;
+    background: linear-gradient(135deg, #7C9CB5, #A3C1D8);
+    color: #000;
+    font-size: 15px;
+    font-weight: 700;
+    font-family: 'Poppins', sans-serif;
+    border: none;
+    border-radius: 14px;
+    cursor: pointer;
+    transition: opacity 0.2s, transform 0.15s;
+    letter-spacing: 0.1px;
+}
+
+.ht-ready-btn:hover { opacity: 0.9; transform: translateY(-1px); }
+.ht-ready-btn:active { transform: translateY(0); }
+
 /* Price Badge */
 .booking-modal__price-badge {
     display: flex;
@@ -1757,6 +1789,27 @@
     font-weight: 400;
     color: rgba(255,255,255,0.4);
 }
+
+/* Mute/Unmute Button */
+.hs-video-mute-btn {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    z-index: 3;
+    background: rgba(0,0,0,0.6);
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 50%;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: #fff;
+    transition: background 0.2s;
+    backdrop-filter: blur(4px);
+}
+.hs-video-mute-btn:hover { background: rgba(0,0,0,0.8); }
 
 /* CTA Button */
 .hs-premium-card__btn {
