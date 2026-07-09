@@ -115,6 +115,11 @@
     window.togglePpFullscreen = function () {
         const iframe = document.getElementById('pp-training-video');
         if (!iframe || !ppVideoPlaying) return;
+        if (document.fullscreenElement || document.webkitFullscreenElement) {
+            if (document.exitFullscreen) document.exitFullscreen();
+            else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
+            return;
+        }
         iframe.src = ppVideoSrc(ppVideoMuted, true);
         const req = iframe.requestFullscreen || iframe.webkitRequestFullscreen || iframe.mozRequestFullScreen;
         if (req) req.call(iframe);
@@ -196,12 +201,16 @@
                     if (isNowActive) {
                         ppVideoMuted = false;
                         ppVideoPlaying = true;
-                        iframe.src = ppVideoSrc(false, false);
                         iframe.style.display = 'block';
-                        if (thumbnail) thumbnail.style.display = 'none';
-                        if (ctrlBar)   ctrlBar.style.display   = 'flex';
+                        if (ctrlBar) ctrlBar.style.display = 'flex';
                         document.getElementById('pp-icon-muted').style.display   = 'none';
                         document.getElementById('pp-icon-unmuted').style.display = 'block';
+                        // hide thumbnail only after iframe has loaded
+                        iframe.addEventListener('load', function hideThumbnail() {
+                            if (thumbnail) thumbnail.style.display = 'none';
+                            iframe.removeEventListener('load', hideThumbnail);
+                        });
+                        iframe.src = ppVideoSrc(false, false);
                     } else {
                         iframe.src = 'about:blank';
                         iframe.style.display = 'none';
@@ -242,6 +251,15 @@
                 closeHarishTrainingModal();
             }
         });
+
+        // Auto-expand card from direct link (#option7)
+        if (window.location.hash === '#option7') {
+            const el = document.getElementById('option7');
+            if (el && !el.classList.contains('active')) {
+                window.toggleOption('option7');
+                setTimeout(function () { el.scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 200);
+            }
+        }
 
         /* ── Personalized Program form ── */
         const form = document.getElementById('personalizedForm');
