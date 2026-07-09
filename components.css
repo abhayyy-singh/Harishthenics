@@ -1824,6 +1824,56 @@
 }
 .hs-video-mute-btn:hover { background: rgba(0,0,0,0.8); }
 
+/* ── Personalized Program — in-card video ── */
+.pp-video-wrapper {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    border-radius: 12px;
+    overflow: hidden;
+    background: #000;
+}
+.pp-video-thumbnail {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 12px;
+}
+#pp-training-video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+    display: none;
+}
+.pp-video-ctrl-bar {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    display: flex;
+    gap: 8px;
+    z-index: 3;
+}
+.pp-ctrl-btn {
+    background: rgba(0,0,0,0.6);
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 50%;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: #fff;
+    transition: background 0.2s;
+    backdrop-filter: blur(4px);
+    flex-shrink: 0;
+}
+.pp-ctrl-btn:hover { background: rgba(0,0,0,0.85); }
+
 /* CTA Button */
 .hs-premium-card__btn {
     display: block;

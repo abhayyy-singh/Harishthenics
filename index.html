@@ -540,20 +540,47 @@ During this consultation, we will thoroughly discuss your specific concerns and 
   </div>
   <div id="option7-content" class="pricing-option__content">
     <div class="pricing-option__inner">
-      <p class="pricing-option__description">
-        In this Personalized Workout Program, I (Harish Sharma) will personally call you and assess your movement over a video call Based on your goals, pain points, and challenges, I will create and guide you through a fully customized fitness program designed specifically for you.
-      </p>
-      <div class="pricing-option__price-badge">
-        <span class="pricing-option__price-amount">₹15,000</span>
-        <span class="booking-modal__price-sep">/</span>
-        <span class="booking-modal__price-period">month</span>
+
+      <div class="pp-video-wrapper" id="pp-video-wrapper">
+        <img
+          id="pp-video-thumbnail"
+          src="https://img.youtube.com/vi/2kdahBUWNpU/maxresdefault.jpg"
+          alt="Watch this before enrolling for Personalized Workout Program"
+          class="pp-video-thumbnail"
+        />
+        <iframe
+          id="pp-training-video"
+          src="about:blank"
+          title="Personalized Workout Program"
+          frameborder="0"
+          allow="autoplay; encrypted-media; fullscreen"
+          allowfullscreen
+        ></iframe>
+        <div class="pp-video-ctrl-bar" id="pp-ctrl-bar" style="display:none;">
+          <button class="pp-ctrl-btn" id="pp-mute-btn" onclick="event.stopPropagation(); togglePpVideoMute()" type="button" title="Mute / Unmute">
+            <svg id="pp-icon-muted" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none;">
+              <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/>
+            </svg>
+            <svg id="pp-icon-unmuted" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/>
+            </svg>
+          </button>
+          <button class="pp-ctrl-btn" id="pp-fs-btn" onclick="event.stopPropagation(); togglePpFullscreen()" type="button" title="Fullscreen">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M8 3H5a2 2 0 0 0-2 2v3"/><path d="M21 8V5a2 2 0 0 0-2-2h-3"/><path d="M3 16v3a2 2 0 0 0 2 2h3"/><path d="M16 21h3a2 2 0 0 0 2-2v-3"/>
+            </svg>
+          </button>
+        </div>
       </div>
+
       <button
         class="pricing-option__cta"
         onclick="event.stopPropagation(); openPersonalizedModal()"
+        style="margin-top:16px;"
       >
-        Get Your Personalized Workout Program
+        Get Your Personalized Workout Program →
       </button>
+
     </div>
   </div>
 </div>
@@ -1209,35 +1236,53 @@ During this consultation, we will thoroughly discuss your specific concerns and 
       </svg>
     </button>
     <div class="booking-modal__content">
-      <h3 class="booking-modal__title">Personalized Workout Programs</h3>
-      <p class="booking-modal__subtitle">Harish will personally call & assess you</p>
-      <div class="booking-modal__price-badge">
-        <span class="booking-modal__price-amount">₹15,000</span>
-        <span class="booking-modal__price-sep">/</span>
-        <span class="booking-modal__price-period">month</span>
+
+      <!-- Step 1: Manifesto -->
+      <div id="pStepManifesto">
+        <h3 class="booking-modal__title">Before You Proceed</h3>
+        <p class="ht-manifesto-text">
+          If your only goal is to get rid of pain, then I'm probably not the right person for you. I don't prescribe medicines, give injections, or perform therapy. My job is not to suppress your pain—it's to eliminate the weakness, fear, and limitations that are causing it.
+          <br><br>
+          I help you overcome the fear of movement, rebuild confidence in your body, and make you physically stronger so your body can perform better for the long term. This process takes time. It requires patience, hard work, and sometimes even discomfort. But the results you achieve are long-lasting because they are built on strength, resilience, and proper movement—not temporary relief.
+          <br><br>
+          If you're looking for a quick fix, I'm not the right coach. But if you're ready to invest in yourself, trust the process, and create lasting change, then you're more than welcome to work with me.
+        </p>
+        <button class="ht-ready-btn" id="pReadyBtn" type="button">Yes, I'm Ready — Continue →</button>
       </div>
-      <form class="booking-form" id="personalizedForm">
-        <div class="booking-form__group">
-          <label class="booking-form__label">Full Name</label>
-          <input type="text" id="personalizedName" class="booking-form__input" placeholder="Your name" required/>
+
+      <!-- Step 2: Form -->
+      <div id="pStepForm" style="display:none;">
+        <h3 class="booking-modal__title">Personalized Workout Programs</h3>
+        <p class="booking-modal__subtitle">Harish will personally call &amp; assess you</p>
+        <div class="booking-modal__price-badge">
+          <span class="booking-modal__price-amount">₹15,000</span>
+          <span class="booking-modal__price-sep">/</span>
+          <span class="booking-modal__price-period">month</span>
         </div>
-        <div class="booking-form__group">
-          <label class="booking-form__label">Email</label>
-          <input type="email" id="personalizedEmail" class="booking-form__input" placeholder="your@email.com" required/>
+        <form class="booking-form" id="personalizedForm">
+          <div class="booking-form__group">
+            <label class="booking-form__label">Full Name</label>
+            <input type="text" id="personalizedName" class="booking-form__input" placeholder="Your name" required/>
+          </div>
+          <div class="booking-form__group">
+            <label class="booking-form__label">Email</label>
+            <input type="email" id="personalizedEmail" class="booking-form__input" placeholder="your@email.com" required/>
+          </div>
+          <div class="booking-form__group">
+            <label class="booking-form__label">Phone Number</label>
+            <input type="tel" id="personalizedPhone" class="booking-form__input" placeholder="+91 XXXXX XXXXX" required/>
+          </div>
+          <span class="booking-form__error" id="personalizedError"></span>
+          <button type="submit" class="booking-form__submit" id="personalizedSubmitBtn">
+            <span class="booking-form__submit-text">Pay ₹15,000 &amp; Get Started</span>
+            <span class="booking-form__submit-loader"></span>
+          </button>
+        </form>
+        <div id="personalizedSuccess" class="successMessage" style="display:none;">
+          <p>🎉 Payment Successful! Harish will call you shortly.</p>
         </div>
-        <div class="booking-form__group">
-          <label class="booking-form__label">Phone Number</label>
-          <input type="tel" id="personalizedPhone" class="booking-form__input" placeholder="+91 XXXXX XXXXX" required/>
-        </div>
-        <span class="booking-form__error" id="personalizedError"></span>
-        <button type="submit" class="booking-form__submit" id="personalizedSubmitBtn">
-          <span class="booking-form__submit-text">Pay ₹15,000 & Get Started</span>
-          <span class="booking-form__submit-loader"></span>
-        </button>
-      </form>
-      <div id="personalizedSuccess" class="successMessage" style="display:none;">
-        <p>🎉 Payment Successful! Harish will call you shortly..</p>
       </div>
+
     </div>
   </div>
 </div>

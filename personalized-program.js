@@ -15,14 +15,19 @@
         SHEET_URL: 'https://script.google.com/macros/s/AKfycbxvPsHy1S3Mav7cKkJ6k1Ep8oS8dxELeyXLlZZuhXp2HN1wCRGQJx7uzNJcBjPhvzyT6A/exec'
     };
 
-    const PERSONALIZED_SLOTS_OPEN = false;       // online personalized program
+    const PERSONALIZED_SLOTS_OPEN = true;        // online personalized program
     const HARISH_TRAINING_SLOTS_OPEN = true;     // offline Train with Haristhenics
 
     /* ── Personalized Program (online) ── */
     function openPersonalizedModal() {
         if (!PERSONALIZED_SLOTS_OPEN) { openPersonalizedFullyBookedModal(); return; }
         const modal = document.getElementById('personalizedModal');
-        if (modal) { modal.classList.add('active'); document.body.style.overflow = 'hidden'; }
+        if (modal) {
+            document.getElementById('pStepManifesto').style.display = 'block';
+            document.getElementById('pStepForm').style.display = 'none';
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
     }
 
     function closePersonalizedModal() {
@@ -34,6 +39,10 @@
             if (form) { form.reset(); form.style.display = ''; }
             const successDiv = document.getElementById('personalizedSuccess');
             if (successDiv) successDiv.style.display = 'none';
+            const manifesto = document.getElementById('pStepManifesto');
+            const formStep = document.getElementById('pStepForm');
+            if (manifesto) manifesto.style.display = 'block';
+            if (formStep) formStep.style.display = 'none';
         }
     }
 
@@ -86,7 +95,45 @@
         closePersonalizedFullyBookedModal();
     }
 
-    /* ── Video mute/unmute ── */
+    /* ── Personalized Program — in-card video ── */
+    let ppVideoMuted = false;
+    let ppVideoPlaying = false;
+
+    function ppVideoSrc(muted, controls) {
+        return 'https://www.youtube.com/embed/2kdahBUWNpU?autoplay=1&mute=' + (muted ? 1 : 0) + '&loop=1&playlist=2kdahBUWNpU&controls=' + (controls ? 1 : 0) + '&rel=0&modestbranding=1';
+    }
+
+    window.togglePpVideoMute = function () {
+        const iframe = document.getElementById('pp-training-video');
+        if (!iframe || !ppVideoPlaying) return;
+        ppVideoMuted = !ppVideoMuted;
+        iframe.src = ppVideoSrc(ppVideoMuted, false);
+        document.getElementById('pp-icon-muted').style.display   = ppVideoMuted ? 'block' : 'none';
+        document.getElementById('pp-icon-unmuted').style.display = ppVideoMuted ? 'none'  : 'block';
+    };
+
+    window.togglePpFullscreen = function () {
+        const iframe = document.getElementById('pp-training-video');
+        if (!iframe || !ppVideoPlaying) return;
+        iframe.src = ppVideoSrc(ppVideoMuted, true);
+        const req = iframe.requestFullscreen || iframe.webkitRequestFullscreen || iframe.mozRequestFullScreen;
+        if (req) req.call(iframe);
+    };
+
+    document.addEventListener('fullscreenchange', function () {
+        if (!document.fullscreenElement) {
+            const iframe = document.getElementById('pp-training-video');
+            if (iframe && ppVideoPlaying) iframe.src = ppVideoSrc(ppVideoMuted, false);
+        }
+    });
+    document.addEventListener('webkitfullscreenchange', function () {
+        if (!document.webkitFullscreenElement) {
+            const iframe = document.getElementById('pp-training-video');
+            if (iframe && ppVideoPlaying) iframe.src = ppVideoSrc(ppVideoMuted, false);
+        }
+    });
+
+    /* ── Harish Training — in-card video ── */
     let hsVideoMuted = false; // starts unmuted when card opens
     window.toggleHsVideoMute = function () {
         const iframe = document.getElementById('hs-training-video');
@@ -125,10 +172,48 @@
             });
         }
 
-        // Video auto-unmute when option3 expands
+        // Manifesto → Form step (personalized)
+        const pReadyBtn = document.getElementById('pReadyBtn');
+        if (pReadyBtn) {
+            pReadyBtn.addEventListener('click', function () {
+                document.getElementById('pStepManifesto').style.display = 'none';
+                document.getElementById('pStepForm').style.display = 'block';
+            });
+        }
+
+        // Video auto-play when option cards expand
         const origToggle = window.toggleOption;
         window.toggleOption = function (optionId) {
             origToggle(optionId);
+
+            // option7: Personalized Program video
+            if (optionId === 'option7') {
+                const isNowActive = document.getElementById('option7').classList.contains('active');
+                const iframe    = document.getElementById('pp-training-video');
+                const thumbnail = document.getElementById('pp-video-thumbnail');
+                const ctrlBar   = document.getElementById('pp-ctrl-bar');
+                if (iframe) {
+                    if (isNowActive) {
+                        ppVideoMuted = false;
+                        ppVideoPlaying = true;
+                        iframe.src = ppVideoSrc(false, false);
+                        iframe.style.display = 'block';
+                        if (thumbnail) thumbnail.style.display = 'none';
+                        if (ctrlBar)   ctrlBar.style.display   = 'flex';
+                        document.getElementById('pp-icon-muted').style.display   = 'none';
+                        document.getElementById('pp-icon-unmuted').style.display = 'block';
+                    } else {
+                        iframe.src = 'about:blank';
+                        iframe.style.display = 'none';
+                        ppVideoPlaying = false;
+                        ppVideoMuted   = false;
+                        if (thumbnail) thumbnail.style.display = 'block';
+                        if (ctrlBar)   ctrlBar.style.display   = 'none';
+                    }
+                }
+            }
+
+            // option3: Harish Training video
             if (optionId === 'option3') {
                 const isNowActive = document.getElementById('option3').classList.contains('active');
                 const iframe = document.getElementById('hs-training-video');
@@ -136,13 +221,11 @@
                 const iconUnmuted = document.getElementById('hs-icon-unmuted');
                 if (iframe) {
                     if (isNowActive) {
-                        // Expand: autoplay unmuted
                         hsVideoMuted = false;
                         iframe.src = 'https://www.youtube.com/embed/P0P2WBWl2CI?autoplay=1&mute=0&loop=1&playlist=P0P2WBWl2CI&controls=0&rel=0&modestbranding=1&enablejsapi=0';
                         if (iconMuted)   iconMuted.style.display   = 'none';
                         if (iconUnmuted) iconUnmuted.style.display = 'block';
                     } else {
-                        // Collapse: stop video
                         iframe.src = '';
                         hsVideoMuted = true;
                         if (iconMuted)   iconMuted.style.display   = 'block';
