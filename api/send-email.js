@@ -266,7 +266,7 @@ const templates = {
         <strong style="color:#7C9CB5;">Registered Email</strong> + <strong style="color:#7C9CB5;">Payment ID: ${d.payment_id}</strong></p>
     </div>
     <div style="margin-top:16px; padding-top:16px; border-top:1px solid #333;">
-        <p style="color:#aaa; font-size:13px; margin:0;">📞 <strong style="color:#fff;">Any queries?</strong> Reach out at <a href="tel:7827373852" style="color:#7C9CB5; text-decoration:none;">+91 78273 73852</a></p>
+        <p style="color:#aaa; font-size:13px; margin:0;">📞 <strong style="color:#fff;">Any queries?</strong> Reach out at <a href="tel:9971250050" style="color:#7C9CB5; text-decoration:none;">+91 78273 73852</a></p>
     </div>
 </div>
                 <p style="margin:12px 0 0; font-size:12px; color:#555;">This link is valid for 30 days. Login with Google to unlock.</p>
