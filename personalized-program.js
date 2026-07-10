@@ -15,7 +15,7 @@
         SHEET_URL: 'https://script.google.com/macros/s/AKfycbxvPsHy1S3Mav7cKkJ6k1Ep8oS8dxELeyXLlZZuhXp2HN1wCRGQJx7uzNJcBjPhvzyT6A/exec'
     };
 
-    const PERSONALIZED_SLOTS_OPEN = true;        // online personalized program
+    const PERSONALIZED_SLOTS_OPEN = false;       // online personalized program
     const HARISH_TRAINING_SLOTS_OPEN = true;     // offline Train with Haristhenics
 
     /* ── Personalized Program (online) ── */
