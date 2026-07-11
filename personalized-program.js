@@ -252,14 +252,16 @@
             }
         });
 
-        // Auto-expand card from direct link (#option7)
-        if (window.location.hash === '#option7') {
-            const el = document.getElementById('option7');
-            if (el && !el.classList.contains('active')) {
-                window.toggleOption('option7');
-                setTimeout(function () { el.scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 200);
+        // Auto-expand card from direct link (#option7 or #option3)
+        ['option7', 'option3'].forEach(function (id) {
+            if (window.location.hash === '#' + id) {
+                const el = document.getElementById(id);
+                if (el && !el.classList.contains('active')) {
+                    window.toggleOption(id);
+                    setTimeout(function () { el.scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 200);
+                }
             }
-        }
+        });
 
         /* ── Personalized Program form ── */
         const form = document.getElementById('personalizedForm');
