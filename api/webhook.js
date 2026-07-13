@@ -17,8 +17,7 @@ import crypto from 'crypto';
 
 const RESEND_API_KEY          = process.env.RESEND_API_KEY;
 const RAZORPAY_WEBHOOK_SECRET = process.env.RAZORPAY_WEBHOOK_SECRET;
-const GOOGLE_SERVICE_ACCOUNT  = process.env.GOOGLE_SERVICE_ACCOUNT;
-const CRM_SHEET_ID            = process.env.CRM_SHEET_ID;
+const APPS_SCRIPT_URL         = process.env.APPS_SCRIPT_URL;
 const FROM_EMAIL              = 'Haristhenics <info@haristhenics.com>';
 const ADMIN_EMAIL             = 'haristhenics06@gmail.com';
 
@@ -43,87 +42,20 @@ function detectService(description) {
   return { key: 'other', tab: fallback, match: fallback };
 }
 
-// ─── Google Sheets auth (service account JWT, no npm) ──────────
-async function getGoogleToken() {
-  const sa  = JSON.parse(GOOGLE_SERVICE_ACCOUNT);
-  const now = Math.floor(Date.now() / 1000);
-  const hdr = Buffer.from(JSON.stringify({ alg: 'RS256', typ: 'JWT' })).toString('base64url');
-  const pld = Buffer.from(JSON.stringify({
-    iss: sa.client_email,
-    scope: 'https://www.googleapis.com/auth/spreadsheets',
-    aud: 'https://oauth2.googleapis.com/token',
-    iat: now, exp: now + 3600,
-  })).toString('base64url');
-  const unsigned = `${hdr}.${pld}`;
-  const signer   = crypto.createSign('RSA-SHA256');
-  signer.update(unsigned);
-  const jwt = `${unsigned}.${signer.sign(sa.private_key, 'base64url')}`;
-  const r = await fetch('https://oauth2.googleapis.com/token', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-    body: new URLSearchParams({ grant_type: 'urn:ietf:params:oauth:grant-type:jwt-bearer', assertion: jwt }),
-  });
-  const { access_token, error } = await r.json();
-  if (error) throw new Error(`Google token: ${error}`);
-  return access_token;
-}
-
-// ─── Sheets helpers ────────────────────────────────────────────
-const MASTER_HEADERS  = ['Timestamp', 'Service', 'Name', 'Email', 'Phone', 'Amount (₹)', 'Payment ID', 'Call Status', 'Notes'];
-const SERVICE_HEADERS = ['Timestamp', 'Name', 'Email', 'Phone', 'Amount (₹)', 'Payment ID', 'Call Status', 'Notes'];
-
-async function sheetsReq(token, path, method = 'GET', body) {
-  const r = await fetch(`https://sheets.googleapis.com/v4/spreadsheets/${CRM_SHEET_ID}${path}`, {
-    method,
-    headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' },
-    body: body ? JSON.stringify(body) : undefined,
-  });
-  return r.json();
-}
-
-async function ensureTab(token, tabName, existingTitles) {
-  if (existingTitles.includes(tabName)) return;
-
-  // Create tab
-  await sheetsReq(token, ':batchUpdate', 'POST', {
-    requests: [{ addSheet: { properties: { title: tabName } } }]
-  });
-
-  // Add headers
-  await sheetsReq(token,
-    `/values/${encodeURIComponent(tabName)}!A1:H1?valueInputOption=USER_ENTERED`,
-    'PUT', { values: [SERVICE_HEADERS] }
-  );
-}
-
-async function appendRows(token, tabName, rows) {
-  await sheetsReq(token,
-    `/values/${encodeURIComponent(tabName)}!A:I:append?valueInputOption=USER_ENTERED&insertDataOption=INSERT_ROWS`,
-    'POST', { values: rows }
-  );
-}
-
-// ─── Main sheet logging ────────────────────────────────────────
-async function logToSheets(token, masterRow, serviceRow, tabName) {
-  // Get current tabs once
-  const info   = await sheetsReq(token, '');
-  const titles = (info.sheets || []).map(s => s.properties.title);
-
-  // 1. Master tab — ensure headers exist
-  if (!titles.includes('All Payments')) {
-    await sheetsReq(token, ':batchUpdate', 'POST', {
-      requests: [{ addSheet: { properties: { title: 'All Payments' } } }]
-    });
-    await sheetsReq(token,
-      `/values/All%20Payments!A1:I1?valueInputOption=USER_ENTERED`,
-      'PUT', { values: [MASTER_HEADERS] }
-    );
-  }
-  await appendRows(token, 'All Payments', [masterRow]);
-
-  // 2. Service tab — auto-create if new
-  await ensureTab(token, tabName, titles);
-  await appendRows(token, tabName, [serviceRow]);
+// ─── Sheet logging via Apps Script (GET params, no auth needed) ─
+async function logToSheets(date, service, name, email, phone, amount, paymentId) {
+  const url = new URL(APPS_SCRIPT_URL);
+  url.searchParams.set('action',    'log');
+  url.searchParams.set('date',      date);
+  url.searchParams.set('service',   service);
+  url.searchParams.set('name',      name);
+  url.searchParams.set('email',     email);
+  url.searchParams.set('phone',     phone || '');
+  url.searchParams.set('amount',    String(amount));
+  url.searchParams.set('paymentId', paymentId);
+  const r = await fetch(url.toString(), { redirect: 'follow' });
+  const j = await r.json();
+  if (!j.success) throw new Error(j.error || 'Apps Script error');
 }
 
 // ─── Email ─────────────────────────────────────────────────────
@@ -246,18 +178,12 @@ export default async function handler(req, res) {
   const date    = new Date(payment.created_at * 1000)
     .toLocaleString('en-IN', { timeZone: 'Asia/Kolkata', day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' });
 
-  // Master row (includes Service column)
-  const masterRow  = [date, svc.tab, name, payment.email, payment.contact, amount, payment.id, 'Pending', ''];
-  // Service row (no Service column — tab name implies it)
-  const serviceRow = [date, name, payment.email, payment.contact, amount, payment.id, 'Pending', ''];
-
   const d = { name, email: payment.email, phone: payment.contact, amount, paymentId: payment.id, date };
 
   // 1. Log to sheet (always first)
   let sheetOk = true;
   try {
-    const token = await getGoogleToken();
-    await logToSheets(token, masterRow, serviceRow, svc.tab);
+    await logToSheets(date, svc.tab, name, payment.email, payment.contact, amount, payment.id);
   } catch (err) {
     console.error('Sheet error:', err.message);
     sheetOk = false;
