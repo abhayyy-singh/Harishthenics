@@ -11,7 +11,7 @@
     // ==========================================
     const VIRTUALCLASS_CONFIG = {
         // Razorpay
-        razorpayKeyId: 'rzp_live_SLytjftdf8NDpx',
+        razorpayKeyId: 'rzp_live_TCuQIwcqWruqmV',
         amount: 600000, // ₹6,000 in paise
         currency: 'INR',
         businessName: 'Haristhenics',

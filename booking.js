@@ -7,7 +7,7 @@
 // CONFIGURATION
 // ==========================================
 const BOOKING_CONFIG = {
-    razorpayKey: 'rzp_live_SLytjftdf8NDpx',
+    razorpayKey: 'rzp_live_TCuQIwcqWruqmV',
     razorpayName: 'Haristhenics',
     
     // First EmailJS Account (for Consultation & Weekend Class)
