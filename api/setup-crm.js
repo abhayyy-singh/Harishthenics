@@ -72,27 +72,31 @@ export default async function handler(req, res) {
     const base  = `https://sheets.googleapis.com/v4/spreadsheets/${CRM_SHEET_ID}`;
     const auth  = { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' };
 
-    // 1. Get spreadsheet info to find the first sheet's ID
-    const infoRes  = await fetch(base, { headers: auth });
-    const info     = await infoRes.json();
-    const firstSheet = info.sheets?.[0];
-    if (!firstSheet) throw new Error('No sheets found in spreadsheet');
-    const sheetId   = firstSheet.properties.sheetId;
-    const sheetName = firstSheet.properties.title;
+    // 1. Get spreadsheet info — find tab by gid 215352154 or first available
+    const infoRes = await fetch(base, { headers: auth });
+    const info    = await infoRes.json();
+    if (!info.sheets?.length) throw new Error('No sheets found');
 
-    // 2. Rename first tab to "All Payments" (if not already)
+    // Try to find the specific tab the user shared (gid=215352154)
+    let targetSheet = info.sheets.find(s => s.properties.sheetId === 215352154);
+    // Fallback: first untitled/Sheet1 tab
+    if (!targetSheet) targetSheet = info.sheets.find(s => ['Untitled', 'Sheet1', ''].includes(s.properties.title));
+    // Last fallback: first sheet
+    if (!targetSheet) targetSheet = info.sheets[0];
+
+    const sheetId   = targetSheet.properties.sheetId;
+    const sheetName = targetSheet.properties.title;
+
+    // 2. Rename that tab to "All Payments" (if not already)
     if (sheetName !== 'All Payments') {
-      await fetch(`${base}:batchUpdate`, {
+      const renameRes = await fetch(`${base}:batchUpdate`, {
         method: 'POST', headers: auth,
         body: JSON.stringify({
-          requests: [{
-            updateSheetProperties: {
-              properties: { sheetId, title: 'All Payments' },
-              fields: 'title'
-            }
-          }]
+          requests: [{ updateSheetProperties: { properties: { sheetId, title: 'All Payments' }, fields: 'title' } }]
         })
       });
+      const renameData = await renameRes.json();
+      if (renameData.error) throw new Error(`Rename failed: ${JSON.stringify(renameData.error)}`);
     }
 
     // 3. Clear existing content and set headers in row 1
