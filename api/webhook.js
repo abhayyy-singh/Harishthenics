@@ -2,171 +2,176 @@
    HARISTHENICS — PAYMENT WEBHOOK
    /api/webhook.js — Vercel Serverless Function
 
-   Razorpay payment.captured event handler.
-   1. Verify signature
-   2. Log to Google Sheet (always first)
-   3. Send customer + admin email
-   4. Return 200 → Razorpay won't retry
+   Flow:
+   1. Verify Razorpay signature
+   2. Log to "All Payments" master tab
+   3. Log to service-specific tab (auto-created if new service)
+   4. Send customer + admin email
+   5. Return 200 (non-200 = Razorpay retries for 24h)
 
-   Dynamic: amount comes from Razorpay, no hardcoding.
-   Extensible: add new service → add one entry to SERVICE_MAP.
+   To add a new service: add ONE line to SERVICE_MAP below.
+   The sheet tab is created automatically on first payment.
    ================================================ */
 
 import crypto from 'crypto';
 
-// ─── Env vars (set in Vercel dashboard) ─────────────────────
-const RESEND_API_KEY         = process.env.RESEND_API_KEY;
+const RESEND_API_KEY          = process.env.RESEND_API_KEY;
 const RAZORPAY_WEBHOOK_SECRET = process.env.RAZORPAY_WEBHOOK_SECRET;
-const GOOGLE_SERVICE_ACCOUNT = process.env.GOOGLE_SERVICE_ACCOUNT; // full JSON string
-const CRM_SHEET_ID           = process.env.CRM_SHEET_ID;           // spreadsheet ID
-const FROM_EMAIL             = 'Haristhenics <info@haristhenics.com>';
-const ADMIN_EMAIL            = 'haristhenics06@gmail.com';
+const GOOGLE_SERVICE_ACCOUNT  = process.env.GOOGLE_SERVICE_ACCOUNT;
+const CRM_SHEET_ID            = process.env.CRM_SHEET_ID;
+const FROM_EMAIL              = 'Haristhenics <info@haristhenics.com>';
+const ADMIN_EMAIL             = 'haristhenics06@gmail.com';
 
-// ─── Service detection ───────────────────────────────────────
-// Key = substring that appears in Razorpay payment.description
-// Value = internal key used to pick email template + display name
+// ─── Add new service here — tab auto-creates on first payment ──
 const SERVICE_MAP = [
-  { match: 'Personalized Workout Program',          key: 'personalizedProgram' },
-  { match: 'Personally Train with Me at Grip',      key: 'harishTraining'      },
-  { match: 'Knee Pain Recovery',                    key: 'kneePain'            },
-  { match: 'Back Pain',                             key: 'backPain'            },
-  { match: 'Shoulder Pain',                         key: 'shoulderPain'        },
-  { match: 'Consultation',                          key: 'consultation'        },
-  { match: 'Fee Payment',                           key: 'payFee'              },
+  { match: 'Personalized Workout Program',     key: 'personalizedProgram', tab: 'Personalized Program'   },
+  { match: 'Personally Train with Me at Grip', key: 'harishTraining',      tab: 'Train at Grip&Grab'     },
+  { match: 'Knee Pain Recovery',               key: 'kneePain',            tab: 'Knee Pain Recovery'     },
+  { match: 'Back Pain',                        key: 'backPain',            tab: 'Back Pain Recovery'     },
+  { match: 'Shoulder Pain',                    key: 'shoulderPain',        tab: 'Shoulder Pain Freedom'  },
+  { match: 'Consultation',                     key: 'consultation',        tab: 'Consultation'           },
+  { match: 'Fee Payment',                      key: 'payFee',              tab: 'Pay Your Fee'           },
 ];
 
-const SERVICE_DISPLAY = {
-  personalizedProgram: 'Personalized Workout Program',
-  harishTraining:      'Train at Grip&Grab',
-  kneePain:            'Knee Pain Recovery Program',
-  backPain:            'Back Pain Recovery Program',
-  shoulderPain:        'Shoulder Pain Freedom Program',
-  consultation:        'Consultation',
-  payFee:              'Pay Your Fee',
-};
-
 function detectService(description) {
-  const desc = description || '';
-  for (const { match, key } of SERVICE_MAP) {
-    if (desc.toLowerCase().includes(match.toLowerCase())) return key;
+  const desc = (description || '').toLowerCase();
+  for (const svc of SERVICE_MAP) {
+    if (desc.includes(svc.match.toLowerCase())) return svc;
   }
-  return 'unknown';
+  // Unknown service — still log it, tab named after description
+  const fallback = description || 'Other';
+  return { key: 'other', tab: fallback, match: fallback };
 }
 
-// ─── Google Sheets (service account JWT, no npm) ─────────────
+// ─── Google Sheets auth (service account JWT, no npm) ──────────
 async function getGoogleToken() {
-  const sa = JSON.parse(GOOGLE_SERVICE_ACCOUNT);
+  const sa  = JSON.parse(GOOGLE_SERVICE_ACCOUNT);
   const now = Math.floor(Date.now() / 1000);
-  const header  = Buffer.from(JSON.stringify({ alg: 'RS256', typ: 'JWT' })).toString('base64url');
-  const payload = Buffer.from(JSON.stringify({
+  const hdr = Buffer.from(JSON.stringify({ alg: 'RS256', typ: 'JWT' })).toString('base64url');
+  const pld = Buffer.from(JSON.stringify({
     iss: sa.client_email,
     scope: 'https://www.googleapis.com/auth/spreadsheets',
     aud: 'https://oauth2.googleapis.com/token',
-    iat: now,
-    exp: now + 3600,
+    iat: now, exp: now + 3600,
   })).toString('base64url');
-
-  const unsigned  = `${header}.${payload}`;
-  const signer    = crypto.createSign('RSA-SHA256');
+  const unsigned = `${hdr}.${pld}`;
+  const signer   = crypto.createSign('RSA-SHA256');
   signer.update(unsigned);
-  const signature = signer.sign(sa.private_key, 'base64url');
-  const jwt       = `${unsigned}.${signature}`;
-
+  const jwt = `${unsigned}.${signer.sign(sa.private_key, 'base64url')}`;
   const r = await fetch('https://oauth2.googleapis.com/token', {
     method: 'POST',
     headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-    body: new URLSearchParams({
-      grant_type: 'urn:ietf:params:oauth:grant-type:jwt-bearer',
-      assertion: jwt,
-    }),
+    body: new URLSearchParams({ grant_type: 'urn:ietf:params:oauth:grant-type:jwt-bearer', assertion: jwt }),
   });
   const { access_token, error } = await r.json();
-  if (error) throw new Error(`Google token error: ${error}`);
+  if (error) throw new Error(`Google token: ${error}`);
   return access_token;
 }
 
-async function logToSheet(row) {
-  const token = await getGoogleToken();
-  const url   = `https://sheets.googleapis.com/v4/spreadsheets/${CRM_SHEET_ID}/values/All%20Payments!A:K:append?valueInputOption=USER_ENTERED&insertDataOption=INSERT_ROWS`;
-  const r = await fetch(url, {
-    method: 'POST',
+// ─── Sheets helpers ────────────────────────────────────────────
+const MASTER_HEADERS  = ['Timestamp', 'Service', 'Name', 'Email', 'Phone', 'Amount (₹)', 'Payment ID', 'Call Status', 'Notes'];
+const SERVICE_HEADERS = ['Timestamp', 'Name', 'Email', 'Phone', 'Amount (₹)', 'Payment ID', 'Call Status', 'Notes'];
+
+async function sheetsReq(token, path, method = 'GET', body) {
+  const r = await fetch(`https://sheets.googleapis.com/v4/spreadsheets/${CRM_SHEET_ID}${path}`, {
+    method,
     headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' },
-    body: JSON.stringify({ values: [row] }),
+    body: body ? JSON.stringify(body) : undefined,
   });
-  if (!r.ok) {
-    const err = await r.json();
-    throw new Error(JSON.stringify(err));
+  return r.json();
+}
+
+async function ensureTab(token, tabName, existingTitles) {
+  if (existingTitles.includes(tabName)) return;
+
+  // Create tab
+  await sheetsReq(token, ':batchUpdate', 'POST', {
+    requests: [{ addSheet: { properties: { title: tabName } } }]
+  });
+
+  // Add headers
+  await sheetsReq(token,
+    `/values/${encodeURIComponent(tabName)}!A1:H1?valueInputOption=USER_ENTERED`,
+    'PUT', { values: [SERVICE_HEADERS] }
+  );
+}
+
+async function appendRows(token, tabName, rows) {
+  await sheetsReq(token,
+    `/values/${encodeURIComponent(tabName)}!A:I:append?valueInputOption=USER_ENTERED&insertDataOption=INSERT_ROWS`,
+    'POST', { values: rows }
+  );
+}
+
+// ─── Main sheet logging ────────────────────────────────────────
+async function logToSheets(token, masterRow, serviceRow, tabName) {
+  // Get current tabs once
+  const info   = await sheetsReq(token, '');
+  const titles = (info.sheets || []).map(s => s.properties.title);
+
+  // 1. Master tab — ensure headers exist
+  if (!titles.includes('All Payments')) {
+    await sheetsReq(token, ':batchUpdate', 'POST', {
+      requests: [{ addSheet: { properties: { title: 'All Payments' } } }]
+    });
+    await sheetsReq(token,
+      `/values/All%20Payments!A1:I1?valueInputOption=USER_ENTERED`,
+      'PUT', { values: [MASTER_HEADERS] }
+    );
   }
+  await appendRows(token, 'All Payments', [masterRow]);
+
+  // 2. Service tab — auto-create if new
+  await ensureTab(token, tabName, titles);
+  await appendRows(token, tabName, [serviceRow]);
 }
 
-// ─── Email sending ───────────────────────────────────────────
-async function sendEmail(to, subject, html) {
-  const r = await fetch('https://api.resend.com/emails', {
-    method: 'POST',
-    headers: { 'Authorization': `Bearer ${RESEND_API_KEY}`, 'Content-Type': 'application/json' },
-    body: JSON.stringify({ from: FROM_EMAIL, to, reply_to: ADMIN_EMAIL, subject, html }),
-  });
-  if (!r.ok) throw new Error(await r.text());
-}
-
-// ─── Email templates ─────────────────────────────────────────
-function buildEmail(serviceKey, d, isAdmin) {
-  const service = SERVICE_DISPLAY[serviceKey] || serviceKey;
-  const name    = isAdmin ? `Admin — ${d.name}` : d.name;
+// ─── Email ─────────────────────────────────────────────────────
+function buildEmail(serviceKey, tabName, d, isAdmin) {
   const subject = isAdmin
-    ? `[New Payment] ${service} — ${d.name}`
-    : `${service} — Payment Confirmed`;
+    ? `[New Payment] ${tabName} — ${d.name}`
+    : `${tabName} — Payment Confirmed`;
 
-  const iconRow = (icon, label, value) => `
+  const row = (icon, label, val) => `
     <tr>
-      <td style="padding:10px 0;border-bottom:1px solid #f0f0f0;width:28px;vertical-align:middle;">
-        <span style="font-size:18px;">${icon}</span>
-      </td>
-      <td style="padding:10px 12px;border-bottom:1px solid #f0f0f0;color:#888;font-size:13px;vertical-align:middle;">${label}</td>
-      <td style="padding:10px 0;border-bottom:1px solid #f0f0f0;font-weight:600;font-size:14px;color:#222;vertical-align:middle;">${value}</td>
+      <td style="padding:9px 0;border-bottom:1px solid #f0f0f0;font-size:18px;width:28px">${icon}</td>
+      <td style="padding:9px 12px;border-bottom:1px solid #f0f0f0;color:#888;font-size:13px">${label}</td>
+      <td style="padding:9px 0;border-bottom:1px solid #f0f0f0;font-weight:600;font-size:14px;color:#222">${val}</td>
     </tr>`;
 
-  // Service-specific greeting
   const greetings = {
-    personalizedProgram: `Your Personalized Workout Program is now confirmed. Please be patient — Harish Sharma will personally call you and reach out within 5–7 days to begin your program.`,
-    harishTraining:      `Your personal training at Grip&Grab is now confirmed. All sessions are conducted in-person at Grip&Grab — Harish will reach out within 5–7 working days to confirm your schedule. Sessions run Mon–Sat | 5:30 PM – 8:30 PM.`,
-    kneePain:            `Your Knee Pain Recovery Program is now confirmed. Harish Sharma will personally reach out within 5–7 days to guide you through the next steps.`,
-    backPain:            `Your Back Pain Recovery Program is now confirmed. Harish Sharma will personally reach out within 5–7 days to guide you through the next steps.`,
-    shoulderPain:        `Your Shoulder Pain Freedom Program is now confirmed. Harish Sharma will personally reach out within 5–7 days to guide you through the next steps.`,
-    consultation:        `Your consultation is now confirmed. Harish Sharma will reach out within 5–7 working days to schedule your session.`,
-    payFee:              `Your payment has been received successfully. Thank you for your trust in Haristhenics.`,
+    personalizedProgram: 'Your Personalized Workout Program is now confirmed. Harish Sharma will personally call you within 5–7 days to begin your program.',
+    harishTraining:      'Your personal training at Grip&Grab is now confirmed. Harish will reach out within 5–7 working days to confirm your schedule. Sessions: Mon–Sat | 5:30 PM – 8:30 PM.',
+    kneePain:            'Your Knee Pain Recovery Program is confirmed. Harish Sharma will personally reach out within 5–7 days with your next steps.',
+    backPain:            'Your Back Pain Recovery Program is confirmed. Harish Sharma will personally reach out within 5–7 days with your next steps.',
+    shoulderPain:        'Your Shoulder Pain Freedom Program is confirmed. Harish Sharma will personally reach out within 5–7 days with your next steps.',
+    consultation:        'Your consultation is confirmed. Harish will reach out within 5–7 working days to schedule your session.',
+    payFee:              'Your payment has been received. Thank you for trusting Haristhenics.',
   };
 
-  const greeting = greetings[serviceKey] || `Your payment for ${service} has been received.`;
+  const greeting = greetings[serviceKey] || `Your payment for ${tabName} has been received.`;
+  const displayName = isAdmin ? d.name : d.name;
 
   const html = `
 <div style="font-family:'Segoe UI',Arial,sans-serif;background:#f4f7fa;padding:40px 20px;">
 <table width="100%" cellpadding="0" cellspacing="0"><tr><td align="center">
 <table width="600" cellpadding="0" cellspacing="0" style="background:#fff;border-radius:16px;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,0.08);">
-
-  <!-- Header -->
   <tr><td style="background:#111;padding:36px 30px;text-align:center;">
     <div style="font-size:22px;font-weight:700;color:#fff;letter-spacing:1px;">HARISTHENICS</div>
-    <div style="font-size:13px;color:#aaa;margin-top:6px;">${service}</div>
+    <div style="font-size:13px;color:#aaa;margin-top:6px;">${tabName}</div>
   </td></tr>
-
-  <!-- Body -->
   <tr><td style="padding:36px 30px;">
-    <p style="font-size:16px;color:#333;margin:0 0 8px;">Hi ${isAdmin ? d.name : name},</p>
-    <p style="font-size:14px;color:#555;line-height:1.7;margin:0 0 28px;">${greeting}</p>
-
-    <!-- Details table -->
+    <p style="font-size:16px;color:#333;margin:0 0 8px;">Hi ${displayName},</p>
+    <p style="font-size:14px;color:#555;line-height:1.7;margin:0 0 28px;">${isAdmin ? `New payment received for <strong>${tabName}</strong>.` : greeting}</p>
     <table width="100%" cellpadding="0" cellspacing="0" style="border-left:3px solid #111;padding-left:16px;margin-bottom:28px;">
-      ${iconRow('👤', 'Name',       d.name)}
-      ${iconRow('📧', 'Email',      d.email)}
-      ${iconRow('📱', 'Phone',      d.phone || '—')}
-      ${iconRow('💰', 'Amount',     `₹${Number(d.amount).toLocaleString('en-IN')}`)}
-      ${iconRow('🧾', 'Payment ID', d.paymentId)}
-      ${iconRow('📅', 'Date',       d.date)}
+      ${row('👤', 'Name',       d.name)}
+      ${row('📧', 'Email',      d.email)}
+      ${row('📱', 'Phone',      d.phone || '—')}
+      ${row('💰', 'Amount',     `₹${Number(d.amount).toLocaleString('en-IN')}`)}
+      ${row('🧾', 'Payment ID', d.paymentId)}
+      ${row('📅', 'Date',       d.date)}
     </table>
-
     ${!isAdmin ? `
-    <!-- CTA buttons -->
     <table cellpadding="0" cellspacing="0" style="margin:0 auto;">
       <tr>
         <td style="padding-right:12px;">
@@ -178,20 +183,24 @@ function buildEmail(serviceKey, d, isAdmin) {
       </tr>
     </table>` : ''}
   </td></tr>
-
-  <!-- Footer -->
   <tr><td style="background:#f9f9f9;padding:20px 30px;text-align:center;border-top:1px solid #eee;">
     <p style="margin:0;font-size:12px;color:#999;">© Haristhenics | <a href="https://haristhenics.com" style="color:#7C9CB5;">haristhenics.com</a></p>
   </td></tr>
-
-</table>
-</td></tr></table>
-</div>`;
+</table></td></tr></table></div>`;
 
   return { subject, html };
 }
 
-// ─── Raw body helper (needed for signature verification) ──────
+async function sendEmail(to, subject, html) {
+  const r = await fetch('https://api.resend.com/emails', {
+    method: 'POST',
+    headers: { 'Authorization': `Bearer ${RESEND_API_KEY}`, 'Content-Type': 'application/json' },
+    body: JSON.stringify({ from: FROM_EMAIL, to, reply_to: ADMIN_EMAIL, subject, html }),
+  });
+  if (!r.ok) throw new Error(await r.text());
+}
+
+// ─── Raw body (needed for Razorpay signature) ──────────────────
 function readRawBody(req) {
   return new Promise((resolve, reject) => {
     const chunks = [];
@@ -201,79 +210,76 @@ function readRawBody(req) {
   });
 }
 
-// ─── Main handler ─────────────────────────────────────────────
+function nameFromEmail(email) {
+  if (!email) return 'Customer';
+  return (email.split('@')[0].replace(/[._\-0-9]/g, ' ').trim())
+    .replace(/\b\w/g, c => c.toUpperCase());
+}
+
+// ─── Handler ───────────────────────────────────────────────────
 export default async function handler(req, res) {
   if (req.method !== 'POST') return res.status(405).end();
 
-  // 1. Read raw body (required for Razorpay signature check)
   let rawBody, body;
   try {
     rawBody = await readRawBody(req);
     body    = JSON.parse(rawBody.toString('utf8'));
-  } catch (e) {
-    return res.status(400).json({ error: 'Bad request body' });
+  } catch {
+    return res.status(400).json({ error: 'Bad body' });
   }
 
-  // 2. Verify Razorpay webhook signature
+  // Signature check
   if (RAZORPAY_WEBHOOK_SECRET) {
-    const signature = req.headers['x-razorpay-signature'];
-    const expected  = crypto.createHmac('sha256', RAZORPAY_WEBHOOK_SECRET)
-      .update(rawBody).digest('hex');
-    if (signature !== expected) {
-      console.error('Webhook: invalid signature');
-      return res.status(400).json({ error: 'Invalid signature' });
-    }
+    const sig      = req.headers['x-razorpay-signature'];
+    const expected = crypto.createHmac('sha256', RAZORPAY_WEBHOOK_SECRET).update(rawBody).digest('hex');
+    if (sig !== expected) return res.status(400).json({ error: 'Invalid signature' });
   }
 
-  // 3. Only process payment.captured
   if (body.event !== 'payment.captured') {
     return res.status(200).json({ status: 'ignored', event: body.event });
   }
 
   const payment = body.payload.payment.entity;
-  const serviceKey     = detectService(payment.description);
-  const serviceDisplay = SERVICE_DISPLAY[serviceKey] || payment.description || 'Unknown';
-  const amount  = payment.amount / 100; // paise → rupees
+  const svc     = detectService(payment.description);
+  const amount  = payment.amount / 100;
   const name    = payment.notes?.name || payment.notes?.user_name || nameFromEmail(payment.email);
   const date    = new Date(payment.created_at * 1000)
     .toLocaleString('en-IN', { timeZone: 'Asia/Kolkata', day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' });
 
-  const data = { name, email: payment.email, phone: payment.contact, amount, paymentId: payment.id, date };
+  // Master row (includes Service column)
+  const masterRow  = [date, svc.tab, name, payment.email, payment.contact, amount, payment.id, 'Pending', ''];
+  // Service row (no Service column — tab name implies it)
+  const serviceRow = [date, name, payment.email, payment.contact, amount, payment.id, 'Pending', ''];
 
-  // 4. Log to sheet FIRST — even if email fails, lead is saved
+  const d = { name, email: payment.email, phone: payment.contact, amount, paymentId: payment.id, date };
+
+  // 1. Log to sheet (always first)
   let sheetOk = true;
   try {
-    await logToSheet([date, serviceDisplay, name, payment.email, payment.contact, amount, payment.id, 'Pending', 'Sending', serviceDisplay]);
+    const token = await getGoogleToken();
+    await logToSheets(token, masterRow, serviceRow, svc.tab);
   } catch (err) {
-    console.error('Sheet log error:', err.message);
+    console.error('Sheet error:', err.message);
     sheetOk = false;
-    // Don't return — still try to send email
   }
 
-  // 5. Send customer email
+  // 2. Customer email
   let emailOk = true;
   try {
-    const { subject, html } = buildEmail(serviceKey, data, false);
+    const { subject, html } = buildEmail(svc.key, svc.tab, d, false);
     await sendEmail(payment.email, subject, html);
   } catch (err) {
     console.error('Customer email error:', err.message);
     emailOk = false;
   }
 
-  // 6. Send admin email
+  // 3. Admin email
   try {
-    const { subject, html } = buildEmail(serviceKey, data, true);
+    const { subject, html } = buildEmail(svc.key, svc.tab, d, true);
     await sendEmail(ADMIN_EMAIL, subject, html);
   } catch (err) {
     console.error('Admin email error:', err.message);
   }
 
-  // 7. Always return 200 — non-200 makes Razorpay retry
-  return res.status(200).json({ status: 'ok', sheetOk, emailOk, service: serviceDisplay });
-}
-
-function nameFromEmail(email) {
-  if (!email) return 'Customer';
-  const local = email.split('@')[0].replace(/[._\-0-9]/g, ' ').trim();
-  return local.replace(/\b\w/g, c => c.toUpperCase());
+  return res.status(200).json({ status: 'ok', service: svc.tab, sheetOk, emailOk });
 }
