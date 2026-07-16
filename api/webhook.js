@@ -23,13 +23,12 @@ const ADMIN_EMAIL             = 'haristhenics06@gmail.com';
 
 // ─── Add new service here — tab auto-creates on first payment ──
 const SERVICE_MAP = [
-  { match: 'Personalized Workout Program',     key: 'personalizedProgram', tab: 'Personalized Program'   },
-  { match: 'Personally Train with Me at Grip', key: 'harishTraining',      tab: 'Train at Grip&Grab'     },
-  { match: 'Knee Pain Recovery',               key: 'kneePain',            tab: 'Knee Pain Recovery'     },
-  { match: 'Back Pain',                        key: 'backPain',            tab: 'Back Pain Recovery'     },
-  { match: 'Shoulder Pain',                    key: 'shoulderPain',        tab: 'Shoulder Pain Freedom'  },
-  { match: 'Consultation',                     key: 'consultation',        tab: 'Consultation'           },
-  { match: 'Fee Payment',                      key: 'payFee',              tab: 'Pay Your Fee'           },
+  { match: 'Personalized Workout Program',     key: 'personalizedProgram', tab: 'Personalized Program' },
+  { match: 'Personally Train with Me at Grip', key: 'harishTraining',      tab: 'Train at Grip&Grab'   },
+  { match: 'Knee Pain Recovery',               key: 'kneePain',            tab: 'Knee Pain Recovery'   },
+  { match: 'Back Pain',                        key: 'backPain',            tab: 'Back Pain Recovery'   },
+  { match: 'Consultation',                     key: 'consultation',        tab: 'Consultation'         },
+  { match: 'Fee Payment',                      key: 'payFee',              tab: 'Pay Your Fee'         },
 ];
 
 function detectService(description) {
