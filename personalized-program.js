@@ -16,7 +16,7 @@
     };
 
     const PERSONALIZED_SLOTS_OPEN = false;       // online personalized program
-    const HARISH_TRAINING_SLOTS_OPEN = true;     // offline Train with Haristhenics
+    const HARISH_TRAINING_SLOTS_OPEN = false;    // offline Train with Haristhenics
 
     /* ── Personalized Program (online) ── */
     function openPersonalizedModal() {
