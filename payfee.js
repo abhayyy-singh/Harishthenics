@@ -11,7 +11,7 @@
     // ==========================================
     const PAYFEE_CONFIG = {
         // Razorpay
-        razorpayKeyId: 'rzp_live_TCuQIwcqWruqmV',
+        razorpayKeyId: 'rzp_live_SwjC4BfDWgdJ2o',
         currency: 'INR',
         businessName: 'HS FutureWorld',
         description: 'Fee Payment - Haristhenics',
