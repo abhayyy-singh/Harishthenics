@@ -291,10 +291,6 @@
                         prefill: { name, email, contact: phone },
                         theme: { color: '#000000' },
                         handler: async function (response) {
-                            const paymentDate = new Date().toLocaleDateString('en-IN', { day: '2-digit', month: '2-digit', year: '2-digit' });
-                            fetch(PROGRAM_CONFIG.SHEET_URL, { method: 'POST', body: JSON.stringify({ service_type: 'personalizedProgram', user_name: name, user_email: email, user_phone: phone, amount: '15000', payment_id: response.razorpay_payment_id, email_status: 'Pending' }) }).catch(e => console.warn('Sheet error:', e));
-                            fetch('/api/send-email', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ service_type: 'personalizedProgram', user_name: name, user_email: email, user_phone: phone, amount: '15000', payment_id: response.razorpay_payment_id, payment_date: paymentDate }) }).catch(e => console.warn('Email error:', e));
-                            fetch('/api/send-email', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ service_type: 'personalizedProgram', user_name: 'Admin — ' + name, user_email: 'haristhenics06@gmail.com', user_phone: phone, amount: '15000', payment_id: response.razorpay_payment_id, payment_date: paymentDate }) }).catch(e => console.warn('Admin email error:', e));
                             const f = document.getElementById('personalizedForm');
                             const s = document.getElementById('personalizedSuccess');
                             if (f) f.style.display = 'none';
@@ -341,10 +337,6 @@
                         prefill: { name, email, contact: phone },
                         theme: { color: '#000000' },
                         handler: async function (response) {
-                            const paymentDate = new Date().toLocaleDateString('en-IN', { day: '2-digit', month: '2-digit', year: '2-digit' });
-                            fetch(PROGRAM_CONFIG.SHEET_URL, { method: 'POST', body: JSON.stringify({ service_type: 'harishTraining', user_name: name, user_email: email, user_phone: phone, amount: '15000', payment_id: response.razorpay_payment_id, email_status: 'Pending' }) }).catch(e => console.warn('Sheet error:', e));
-                            fetch('/api/send-email', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ service_type: 'harishTraining', user_name: name, user_email: email, user_phone: phone, amount: '15000', payment_id: response.razorpay_payment_id, payment_date: paymentDate }) }).catch(e => console.warn('Email error:', e));
-                            fetch('/api/send-email', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ service_type: 'harishTraining', user_name: 'Admin — ' + name, user_email: 'haristhenics06@gmail.com', user_phone: phone, amount: '15000', payment_id: response.razorpay_payment_id, payment_date: paymentDate }) }).catch(e => console.warn('Admin email error:', e));
                             const f = document.getElementById('harishTrainingForm');
                             const s = document.getElementById('harishTrainingSuccess');
                             if (f) f.style.display = 'none';
