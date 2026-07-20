@@ -179,7 +179,7 @@ export default async function handler(req, res) {
 
   const d = { name, email: payment.email, phone: payment.contact, amount, paymentId: payment.id, date };
 
-  // 1. Log to sheet (always first)
+  // Log to sheet only — emails are handled by /api/send-email from frontend
   let sheetOk = true;
   try {
     await logToSheets(date, svc.tab, name, payment.email, payment.contact, amount, payment.id);
@@ -188,23 +188,5 @@ export default async function handler(req, res) {
     sheetOk = false;
   }
 
-  // 2. Customer email
-  let emailOk = true;
-  try {
-    const { subject, html } = buildEmail(svc.key, svc.tab, d, false);
-    await sendEmail(payment.email, subject, html);
-  } catch (err) {
-    console.error('Customer email error:', err.message);
-    emailOk = false;
-  }
-
-  // 3. Admin email
-  try {
-    const { subject, html } = buildEmail(svc.key, svc.tab, d, true);
-    await sendEmail(ADMIN_EMAIL, subject, html);
-  } catch (err) {
-    console.error('Admin email error:', err.message);
-  }
-
-  return res.status(200).json({ status: 'ok', service: svc.tab, sheetOk, emailOk });
+  return res.status(200).json({ status: 'ok', service: svc.tab, sheetOk });
 }
