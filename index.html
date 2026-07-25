@@ -485,9 +485,9 @@ During this consultation, we will thoroughly discuss your specific concerns and 
 
               <button
                 class="pricing-option__cta"
-              onclick="event.stopPropagation(); openConsultationFullyBookedModal()"
+              onclick="event.stopPropagation(); handleConsultationClick()"
               >
-                <!-- Book Consultation - ₹2,000 --> Book Now 
+                <!-- Book Consultation - ₹2,000 --> Book Now
               </button>
             </div>
           </div>
@@ -593,13 +593,13 @@ During this consultation, we will thoroughly discuss your specific concerns and 
         Structured workout programs designed to fix specific problems. Each program includes detailed exercise guides, video demonstrations, and progressive plans.
       </p>
 
-      <!-- Programs List -->
-      <div class="workout-programs-list">
+      <!-- Programs List — rendered live from the admin panel, see renderWorkoutProgramsList() in main.js -->
+      <div class="workout-programs-list" id="workoutProgramsList">
         <a href="workout-program.html?type=back-pain" class="workout-program-link">
           <span class="workout-program-link__icon">🔙</span>
           <span class="workout-program-link__content">
             <span class="workout-program-link__name">Back Pain / Disc Buldge Recovery Program</span>
-            <!-- <span class="workout-program-link__price">₹999</span> -->
+            <span class="workout-program-link__price">₹4,999</span>
           </span>
           <span class="workout-program-link__arrow">→</span>
         </a>
@@ -1236,7 +1236,7 @@ During this consultation, we will thoroughly discuss your specific concerns and 
         <h3 class="booking-modal__title">Personalized Workout Programs</h3>
         <p class="booking-modal__subtitle">Harish will personally call &amp; assess you</p>
         <div class="booking-modal__price-badge">
-          <span class="booking-modal__price-amount">₹15,000</span>
+          <span class="booking-modal__price-amount" id="pPriceAmount">₹15,000</span>
           <span class="booking-modal__price-sep">/</span>
           <span class="booking-modal__price-period">month</span>
         </div>
@@ -1255,7 +1255,7 @@ During this consultation, we will thoroughly discuss your specific concerns and 
           </div>
           <span class="booking-form__error" id="personalizedError"></span>
           <button type="submit" class="booking-form__submit" id="personalizedSubmitBtn">
-            <span class="booking-form__submit-text">Pay ₹15,000 &amp; Get Started</span>
+            <span class="booking-form__submit-text" id="pSubmitPriceText">Pay ₹15,000 &amp; Get Started</span>
             <span class="booking-form__submit-loader"></span>
           </button>
         </form>
@@ -1297,7 +1297,7 @@ During this consultation, we will thoroughly discuss your specific concerns and 
         <h3 class="booking-modal__title">Personally Train with Me at Grip&amp;Grab</h3>
         <p class="booking-modal__subtitle">at Grip&amp;Grab · Mon–Sat · 5:30–8:30 PM</p>
         <div class="booking-modal__price-badge">
-          <span class="booking-modal__price-amount">₹15,000</span>
+          <span class="booking-modal__price-amount" id="htPriceAmount">₹15,000</span>
           <span class="booking-modal__price-sep">/</span>
           <span class="booking-modal__price-period">month</span>
         </div>
@@ -1316,7 +1316,7 @@ During this consultation, we will thoroughly discuss your specific concerns and 
           </div>
           <span class="booking-form__error" id="harishTrainingError"></span>
           <button type="submit" class="booking-form__submit" id="harishTrainingSubmitBtn">
-            <span class="booking-form__submit-text">Pay ₹15,000 & Join</span>
+            <span class="booking-form__submit-text" id="htSubmitPriceText">Pay ₹15,000 & Join</span>
             <span class="booking-form__submit-loader"></span>
           </button>
         </form>
@@ -1329,11 +1329,11 @@ During this consultation, we will thoroughly discuss your specific concerns and 
   </div>
 </div>
 
-<!-- Personalized Fully Booked Modal -->
-<div id="personalized-fullybooked-modal" class="sunday-fullybooked-modal">
-  <div id="personalized-fullybooked-overlay" class="sunday-fullybooked-overlay"></div>
+<!-- Shared "Fully Booked / Unavailable" Modal — used by every service (consultation, personalized program, harish training, knee/back pain, and any future service) -->
+<div id="service-fullybooked-modal" class="sunday-fullybooked-modal">
+  <div id="service-fullybooked-overlay" class="sunday-fullybooked-overlay"></div>
   <div class="sunday-fullybooked-container">
-    <button class="sunday-fullybooked-close" onclick="closePersonalizedFullyBookedModal()">
+    <button class="sunday-fullybooked-close" onclick="closeServiceFullyBookedModal()">
       <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
       </svg>
@@ -1344,8 +1344,8 @@ During this consultation, we will thoroughly discuss your specific concerns and 
       </svg>
     </div>
     <h2 class="sunday-fullybooked-title">Slots Are Fully Booked</h2>
-    <p class="sunday-fullybooked-message">All personalized Workout programs slots are Fully Booked.</p>
-    <p class="sunday-fullybooked-message" style="margin-top:12px; font-size:13px; color:#aaa;">Join our channels to get the latest updates about Personalized Workout Programs and other announcements.</p>
+    <p class="sunday-fullybooked-message" id="service-fullybooked-message">All slots are Fully Booked.</p>
+    <p class="sunday-fullybooked-message" style="margin-top:12px; font-size:13px; color:#aaa;">Join our channels to get the latest updates and other announcements.</p>
     <div style="display:flex; gap:12px; justify-content:center; flex-wrap:wrap; margin-top:16px;">
         <a href="https://whatsapp.com/channel/0029VbCLLJrAYlUI1VFDvr2e" target="_blank"
            style="display:inline-flex; align-items:center; gap:8px; padding:12px 20px; background:#25D366; color:#fff; border-radius:8px; font-weight:600; text-decoration:none; font-size:14px;">
@@ -1356,40 +1356,7 @@ During this consultation, we will thoroughly discuss your specific concerns and 
             📢 Notify Me — Instagram
         </a>
     </div>
-    <!-- <button class="sunday-fullybooked-btn sunday-fullybooked-btn--primary" onclick="closePersonalizedFullyBookedModal()" style="margin-top:16px;">Got It, Thanks!</button> -->
   </div>
-</div>
-<div id="consultation-fullybooked-modal" class="sunday-fullybooked-modal">
-    <div id="consultation-fullybooked-overlay" class="sunday-fullybooked-overlay"></div>
-    <div class="sunday-fullybooked-container">
-        <button id="consultation-fullybooked-close" class="sunday-fullybooked-close" onclick="closeConsultationFullyBookedModal()">
-            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
-            </svg>
-        </button>
-        <div class="sunday-fullybooked-icon">
-            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
-            </svg>
-        </div>
-       <h2 class="sunday-fullybooked-title">Currently Unavailable</h2>
-        <p class="sunday-fullybooked-message">
-            Consultations are currently unavailable. Join our Instagram and WhatsApp channels to get the latest updates on consultation availabilities and workout programs.
-        </p>
-        <div style="display:flex; gap:12px; justify-content:center; flex-wrap:wrap; margin-top:16px;">
-            <a href="https://www.instagram.com/channel/AbZXE4Jq76d7C_Fa/" target="_blank" 
-               style="display:inline-flex; align-items:center; gap:8px; padding:12px 20px; background:#E1306C; color:#fff; border-radius:8px; font-weight:600; text-decoration:none; font-size:14px;">
-                📢 Notify Me — Instagram
-            </a>
-            <a href="https://whatsapp.com/channel/0029VbCLLJrAYlUI1VFDvr2e" target="_blank"
-               style="display:inline-flex; align-items:center; gap:8px; padding:12px 20px; background:#25D366; color:#fff; border-radius:8px; font-weight:600; text-decoration:none; font-size:14px;">
-                📲 Notify Me — WhatsApp
-            </a>
-        </div>
-        <button class="sunday-fullybooked-btn sunday-fullybooked-btn--primary" onclick="closeConsultationFullyBookedModal()" style="margin-top:12px;">
-            Got It, Thanks!
-        </button>
-    </div>
 </div>
 
 

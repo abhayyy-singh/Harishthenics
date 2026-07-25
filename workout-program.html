@@ -781,6 +781,43 @@
           max-width: 240px;
         }
       }
+
+      /* Shared "Fully Booked" modal — same styling as the rest of the site (components.css) */
+      .sunday-fullybooked-modal {
+        position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 9999;
+        display: flex; align-items: center; justify-content: center;
+        opacity: 0; pointer-events: none; transition: opacity 0.3s ease;
+      }
+      .sunday-fullybooked-modal.active { opacity: 1; pointer-events: all; }
+      .sunday-fullybooked-overlay {
+        position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+        background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(8px);
+      }
+      .sunday-fullybooked-container {
+        position: relative; width: 85%; max-width: 480px; background: #111111;
+        border: 1px solid rgba(124, 156, 181, 0.3); border-radius: 16px;
+        padding: 40px 24px; text-align: center; box-sizing: border-box; z-index: 10000;
+      }
+      .sunday-fullybooked-close {
+        position: absolute; top: 12px; right: 12px;
+        background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 8px; width: 32px; height: 32px;
+        display: flex; align-items: center; justify-content: center;
+        cursor: pointer; transition: all 0.3s ease; color: rgba(255, 255, 255, 0.6);
+      }
+      .sunday-fullybooked-close:hover {
+        background: rgba(255, 255, 255, 0.1); border-color: rgba(124, 156, 181, 0.3);
+        color: #ffffff; transform: rotate(90deg);
+      }
+      .sunday-fullybooked-icon {
+        width: 64px; height: 64px; margin: 0 auto 20px;
+        display: flex; align-items: center; justify-content: center;
+        background: rgba(124, 156, 181, 0.1); border: 2px solid rgba(124, 156, 181, 0.3);
+        border-radius: 50%; color: #7C9CB5;
+      }
+      .sunday-fullybooked-icon svg { width: 32px; height: 32px; }
+      .sunday-fullybooked-title { font-size: 22px; font-weight: 700; color: #ffffff; margin-bottom: 14px; line-height: 1.3; }
+      .sunday-fullybooked-message { font-size: 15px; line-height: 1.6; color: #d1d1d1; margin-bottom: 10px; }
     </style>
   </head>
 
@@ -854,7 +891,7 @@
             </div>
             <h3 class="wp-success__title">Payment Successful! 🎉</h3>
             <p class="wp-success__text">
-              Your workout program has been sent to your email. Check your inbox!
+              Check your email — your Haristhenics app login details are on their way!
             </p>
             <div class="wp-success__details">
               <div class="wp-success__detail-item">
@@ -867,6 +904,36 @@
               </div>
             </div>
           </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Shared "Fully Booked / Unavailable" Modal — same one used everywhere else on the site -->
+    <div id="service-fullybooked-modal" class="sunday-fullybooked-modal">
+      <div id="service-fullybooked-overlay" class="sunday-fullybooked-overlay"></div>
+      <div class="sunday-fullybooked-container">
+        <button class="sunday-fullybooked-close" onclick="closeServiceFullyBookedModal()">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+          </svg>
+        </button>
+        <div class="sunday-fullybooked-icon">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+          </svg>
+        </div>
+        <h2 class="sunday-fullybooked-title">Slots Are Fully Booked</h2>
+        <p class="sunday-fullybooked-message" id="service-fullybooked-message">All slots are Fully Booked.</p>
+        <p class="sunday-fullybooked-message" style="margin-top:12px; font-size:13px; color:#aaa;">Join our channels to get the latest updates and other announcements.</p>
+        <div style="display:flex; gap:12px; justify-content:center; flex-wrap:wrap; margin-top:16px;">
+            <a href="https://whatsapp.com/channel/0029VbCLLJrAYlUI1VFDvr2e" target="_blank"
+               style="display:inline-flex; align-items:center; gap:8px; padding:12px 20px; background:#25D366; color:#fff; border-radius:8px; font-weight:600; text-decoration:none; font-size:14px;">
+                📲 Notify Me — WhatsApp
+            </a>
+            <a href="https://www.instagram.com/channel/AbZXE4Jq76d7C_Fa/" target="_blank"
+               style="display:inline-flex; align-items:center; gap:8px; padding:12px 20px; background:#E1306C; color:#fff; border-radius:8px; font-weight:600; text-decoration:none; font-size:14px;">
+                📢 Notify Me — Instagram
+            </a>
         </div>
       </div>
     </div>

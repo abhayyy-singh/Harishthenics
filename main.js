@@ -16,6 +16,59 @@ const SUNDAY_CLASS_CONFIG = {
 };
 
     // ==========================================
+    // LIVE APP CONFIG — consultation price/availability from admin panel
+    // Fails safe to "unavailable" if the fetch doesn't come back in time
+    // ==========================================
+    window.LIVE_APP_CONFIG = { consultationAvailable: false, consultationPrice: 0, consultationFullyBookedMessage: '' };
+    fetch('https://haristhenics-backend.vercel.app/api/app-config')
+        .then(function(res) { return res.ok ? res.json() : null; })
+        .then(function(data) { if (data) window.LIVE_APP_CONFIG = data; })
+        .catch(function(err) { console.warn('Live config fetch failed, using defaults:', err.message); });
+
+    // ==========================================
+    // LIVE SITE SERVICES — rehab programs list + personalized/harish training prices
+    // ==========================================
+    const PROGRAM_ICONS = { 'back-pain': '🔙', 'knee-pain': '🦵', 'shoulder-pain': '💪', 'ankle-pain': '🦶', 'neck-pain': '🧘' };
+
+    function renderWorkoutProgramsList(services) {
+        const list = document.getElementById('workoutProgramsList');
+        if (!list) return;
+        const programs = services
+            .filter(function(s) { return s.type === 'rehabProgram' && s.isActive; })
+            .sort(function(a, b) { return (a.displayOrder || 0) - (b.displayOrder || 0); });
+        if (programs.length === 0) return; // keep the static fallback markup rather than showing an empty list
+        list.innerHTML = programs.map(function(p) {
+            return '<a href="workout-program.html?type=' + p.id + '" class="workout-program-link">' +
+                '<span class="workout-program-link__icon">' + (PROGRAM_ICONS[p.id] || '💪') + '</span>' +
+                '<span class="workout-program-link__content">' +
+                    '<span class="workout-program-link__name">' + p.name + '</span>' +
+                    '<span class="workout-program-link__price">₹' + Number(p.price).toLocaleString('en-IN') + '</span>' +
+                '</span>' +
+                '<span class="workout-program-link__arrow">→</span>' +
+            '</a>';
+        }).join('');
+    }
+
+    function updatePriceBadge(amountElId, submitTextElId, price, submitSuffix) {
+        const amountEl = document.getElementById(amountElId);
+        if (amountEl) amountEl.textContent = '₹' + Number(price).toLocaleString('en-IN');
+        const submitEl = document.getElementById(submitTextElId);
+        if (submitEl) submitEl.textContent = 'Pay ₹' + Number(price).toLocaleString('en-IN') + ' ' + submitSuffix;
+    }
+
+    fetch('https://haristhenics-backend.vercel.app/api/site-config')
+        .then(function(res) { return res.ok ? res.json() : null; })
+        .then(function(data) {
+            if (!data || !data.services) return;
+            renderWorkoutProgramsList(data.services);
+            data.services.forEach(function(svc) {
+                if (svc.id === 'personalizedProgram') updatePriceBadge('pPriceAmount', 'pSubmitPriceText', svc.price, '& Get Started');
+                if (svc.id === 'harishTraining') updatePriceBadge('htPriceAmount', 'htSubmitPriceText', svc.price, '& Join');
+            });
+        })
+        .catch(function(err) { console.warn('Live services fetch failed, using defaults:', err.message); });
+
+    // ==========================================
     // PAGE LOADER
     // ==========================================
     window.addEventListener('load', function() {
@@ -408,14 +461,13 @@ window.addEventListener('load', function() {
     }
 });
 
-function openConsultationFullyBookedModal() {
-    const modal = document.getElementById('consultation-fullybooked-modal');
-    if (modal) modal.classList.add('active');
+// Book Now on the Consultation card — routes to real booking if admin has it open,
+// else the same shared "Fully Booked" popup every other service uses (defined in personalized-program.js)
+function handleConsultationClick() {
+    if (window.LIVE_APP_CONFIG && window.LIVE_APP_CONFIG.consultationAvailable) {
+        if (typeof window.openBookingModal === 'function') window.openBookingModal('consultation');
+    } else if (typeof window.openServiceFullyBookedModal === 'function') {
+        window.openServiceFullyBookedModal({ fullyBookedMessage: window.LIVE_APP_CONFIG && window.LIVE_APP_CONFIG.consultationFullyBookedMessage });
+    }
 }
-
-function closeConsultationFullyBookedModal() {
-    const modal = document.getElementById('consultation-fullybooked-modal');
-    if (modal) modal.classList.remove('active');
-}
-
-document.getElementById('consultation-fullybooked-overlay')?.addEventListener('click', closeConsultationFullyBookedModal);
+window.handleConsultationClick = handleConsultationClick;

@@ -3,6 +3,9 @@
    booking.js - Modal, Payment, Email
    ================================================ */
 
+// Backend — server-verified pricing + live admin-panel config
+const BACKEND_URL = 'https://haristhenics-backend.vercel.app';
+
 // ==========================================
 // CONFIGURATION
 // ==========================================
@@ -84,7 +87,13 @@ function openBookingModal(bookingType) {
         console.error('Invalid booking type:', bookingType);
         return;
     }
-    
+
+    // Consultation price/availability comes from the live admin-panel config, not the hardcoded default
+    if (bookingType === 'consultation' && window.LIVE_APP_CONFIG) {
+        booking.amount = Math.round((window.LIVE_APP_CONFIG.consultationPrice || 0) * 100);
+        booking.displayAmount = '₹' + (window.LIVE_APP_CONFIG.consultationPrice || 0).toLocaleString('en-IN');
+    }
+
     // Set modal content
     if (title) title.textContent = 'Book ' + booking.name;
     if (subtitle) subtitle.textContent = 'Complete your booking for ' + booking.displayAmount;
@@ -222,13 +231,39 @@ if (bookingForm) {
             if (typeof Razorpay === 'undefined') {
                 throw new Error('Payment system not loaded. Please refresh the page.');
             }
-            
-            const options = {
-                key: BOOKING_CONFIG.razorpayKey,
-                amount: booking.amount,
-                currency: 'INR',
-                name: BOOKING_CONFIG.razorpayName,
-                description: booking.name,
+
+            let options;
+
+            if (planType === 'consultation') {
+                // Server creates the order with the real price — browser can no longer set its own amount
+                const orderRes = await fetch(`${BACKEND_URL}/api/create-website-order`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ serviceKey: 'consultation' })
+                });
+                const orderData = await orderRes.json();
+                if (!orderRes.ok) throw new Error(orderData.error || 'Could not start booking. Please try again.');
+
+                options = {
+                    key: orderData.keyId,
+                    order_id: orderData.orderId,
+                    amount: orderData.amount,
+                    currency: orderData.currency,
+                    name: BOOKING_CONFIG.razorpayName,
+                    description: orderData.serviceTitle,
+                };
+            } else {
+                // Weekend Class / Virtual Class — not linked from the live site today
+                options = {
+                    key: BOOKING_CONFIG.razorpayKey,
+                    amount: booking.amount,
+                    currency: 'INR',
+                    name: BOOKING_CONFIG.razorpayName,
+                    description: booking.name,
+                };
+            }
+
+            Object.assign(options, {
                 handler: async function(response) {
                     console.log('✅ Payment successful:', response.razorpay_payment_id);
                     
@@ -266,8 +301,8 @@ if (bookingForm) {
                         }
                     }
                 }
-            };
-            
+            });
+
             const razorpay = new Razorpay(options);
             
             razorpay.on('payment.failed', function(response) {
@@ -296,11 +331,15 @@ if (bookingForm) {
 // SEND CONFIRMATION EMAILS
 // ==========================================
 async function sendEmails(formData, paymentResponse) {
-    if (typeof emailjs === 'undefined') {
+    // Consultation confirmation + app account are handled server-side by the Razorpay webhook now —
+    // still fall through to sheet tracking below, just skip the old EmailJS send for this type.
+    const isConsultation = formData.planType === 'consultation';
+
+    if (!isConsultation && typeof emailjs === 'undefined') {
         console.warn('EmailJS not available');
         return;
     }
-    
+
     try {
         // Virtual Class — 2nd EmailJS Account
         if (formData.planType === 'virtualClass') {
@@ -324,47 +363,44 @@ async function sendEmails(formData, paymentResponse) {
             return;
         }
         
-        // Consultation & Weekend Class — 1st EmailJS Account
-        emailjs.init(BOOKING_CONFIG.emailjsPublicKey);
-        
-        // Template select karo
-        const templateId = formData.planType.startsWith('weekendClass')
-            ? BOOKING_CONFIG.emailjsTemplates.weekendClass
-            : BOOKING_CONFIG.emailjsTemplates[formData.planType];
-        
-        let templateParams = {
-            user_name: formData.name,
-            user_email: formData.email,
-            user_phone: formData.phone,
-            payment_id: paymentResponse.razorpay_payment_id
-        };
-        
-        // Weekend class — date + plan type add karo
-        if (formData.planType.startsWith('weekendClass')) {
-            if (formData.planType === 'weekendClass_saturday') {
-                templateParams.class_date = getNextSaturdayFormatted();
-            } else if (formData.planType === 'weekendClass_sunday') {
-                templateParams.class_date = getNextSundayFormatted();
-            } else if (formData.planType === 'weekendClass_both') {
-                templateParams.class_date = getNextSaturdayFormatted() + ' & ' + getNextSundayFormatted();
-            }
-            templateParams.plan_type = BOOKING_CONFIG.bookingTypes[formData.planType].name;
-        }
-        
-        // Consultation — booking date add karo
-        if (formData.planType === 'consultation') {
-            templateParams.booking_date = getTodayFormatted();
-        }
-        
-        await emailjs.send(
-            BOOKING_CONFIG.emailjsServiceId,
-            templateId,
-            templateParams
-        );
-        
-        console.log('✅ Email sent successfully (1st account)');
+        // Consultation & Weekend Class — 1st EmailJS Account (consultation now handled by the backend webhook instead)
+        if (!isConsultation) {
+            emailjs.init(BOOKING_CONFIG.emailjsPublicKey);
 
-        // Sheet tracking
+            // Template select karo
+            const templateId = formData.planType.startsWith('weekendClass')
+                ? BOOKING_CONFIG.emailjsTemplates.weekendClass
+                : BOOKING_CONFIG.emailjsTemplates[formData.planType];
+
+            let templateParams = {
+                user_name: formData.name,
+                user_email: formData.email,
+                user_phone: formData.phone,
+                payment_id: paymentResponse.razorpay_payment_id
+            };
+
+            // Weekend class — date + plan type add karo
+            if (formData.planType.startsWith('weekendClass')) {
+                if (formData.planType === 'weekendClass_saturday') {
+                    templateParams.class_date = getNextSaturdayFormatted();
+                } else if (formData.planType === 'weekendClass_sunday') {
+                    templateParams.class_date = getNextSundayFormatted();
+                } else if (formData.planType === 'weekendClass_both') {
+                    templateParams.class_date = getNextSaturdayFormatted() + ' & ' + getNextSundayFormatted();
+                }
+                templateParams.plan_type = BOOKING_CONFIG.bookingTypes[formData.planType].name;
+            }
+
+            await emailjs.send(
+                BOOKING_CONFIG.emailjsServiceId,
+                templateId,
+                templateParams
+            );
+
+            console.log('✅ Email sent successfully (1st account)');
+        }
+
+        // Sheet tracking — kept for consultation too, so Harish's existing tracking sheet still gets every booking
         await sendToSheet({
             type: 'booking',
             name: formData.name,

@@ -8,19 +8,33 @@
 
     const PROGRAM_CONFIG = {
         razorpayKey: 'rzp_live_SwjC4BfDWgdJ2o',
-        amount: 1500000,
         currency: 'INR',
         businessName: 'Haristhenics',
-        description: 'Personalized Workout Program',
-        SHEET_URL: 'https://script.google.com/macros/s/AKfycbxvPsHy1S3Mav7cKkJ6k1Ep8oS8dxELeyXLlZZuhXp2HN1wCRGQJx7uzNJcBjPhvzyT6A/exec'
     };
 
-    const PERSONALIZED_SLOTS_OPEN = false;       // online personalized program
-    const HARISH_TRAINING_SLOTS_OPEN = false;    // offline Train with Haristhenics
+    // Backend — server-verified pricing + live admin-panel availability
+    const BACKEND_URL = 'https://haristhenics-backend.vercel.app';
+
+    // Fails safe to "closed" if the live fetch doesn't come back in time
+    const LIVE_SERVICES = {
+        personalizedProgram: { price: 15000, isActive: false, isFullyBooked: true, fullyBookedMessage: '' },
+        harishTraining:       { price: 15000, isActive: false, isFullyBooked: true, fullyBookedMessage: '' },
+    };
+    fetch(`${BACKEND_URL}/api/site-config`)
+        .then(function (res) { return res.ok ? res.json() : null; })
+        .then(function (data) {
+            if (data && data.services) {
+                data.services.forEach(function (svc) {
+                    if (LIVE_SERVICES[svc.id]) LIVE_SERVICES[svc.id] = svc;
+                });
+            }
+        })
+        .catch(function (err) { console.warn('Live services fetch failed, using defaults:', err.message); });
 
     /* ── Personalized Program (online) ── */
     function openPersonalizedModal() {
-        if (!PERSONALIZED_SLOTS_OPEN) { openPersonalizedFullyBookedModal(); return; }
+        const svc = LIVE_SERVICES.personalizedProgram;
+        if (!svc.isActive || svc.isFullyBooked) { openServiceFullyBookedModal(svc); return; }
         const modal = document.getElementById('personalizedModal');
         if (modal) {
             document.getElementById('pStepManifesto').style.display = 'block';
@@ -46,19 +60,26 @@
         }
     }
 
-    function openPersonalizedFullyBookedModal() {
-        const modal = document.getElementById('personalized-fullybooked-modal');
+    // Shared across every service on the site — consultation (main.js), knee/back pain (workout-program.js),
+    // personalized program + harish training (below). One popup, same look, everywhere.
+    function openServiceFullyBookedModal(svc) {
+        const modal = document.getElementById('service-fullybooked-modal');
+        const msgEl = document.getElementById('service-fullybooked-message');
+        if (msgEl) {
+            msgEl.textContent = (svc && svc.fullyBookedMessage) || 'All slots are Fully Booked.';
+        }
         if (modal) modal.classList.add('active');
     }
 
-    function closePersonalizedFullyBookedModal() {
-        const modal = document.getElementById('personalized-fullybooked-modal');
+    function closeServiceFullyBookedModal() {
+        const modal = document.getElementById('service-fullybooked-modal');
         if (modal) modal.classList.remove('active');
     }
 
     /* ── Train with Haristhenics (offline) ── */
     function openHarishTrainingModal() {
-        if (!HARISH_TRAINING_SLOTS_OPEN) { openHarishTrainingFullyBookedModal(); return; }
+        const svc = LIVE_SERVICES.harishTraining;
+        if (!svc.isActive || svc.isFullyBooked) { openServiceFullyBookedModal(svc); return; }
         const modal = document.getElementById('harishTrainingModal');
         if (modal) {
             // Always start at manifesto step
@@ -84,15 +105,6 @@
             if (manifesto) manifesto.style.display = 'block';
             if (formStep) formStep.style.display = 'none';
         }
-    }
-
-    function openHarishTrainingFullyBookedModal() {
-        const modal = document.getElementById('personalized-fullybooked-modal');
-        if (modal) modal.classList.add('active');
-    }
-
-    function closeHarishTrainingFullyBookedModal() {
-        closePersonalizedFullyBookedModal();
     }
 
     /* ── Personalized Program — in-card video ── */
@@ -159,8 +171,8 @@
         if (overlay) overlay.addEventListener('click', closePersonalizedModal);
         const closeBtn = document.getElementById('personalizedModalClose');
         if (closeBtn) closeBtn.addEventListener('click', closePersonalizedModal);
-        const fbOverlay = document.getElementById('personalized-fullybooked-overlay');
-        if (fbOverlay) fbOverlay.addEventListener('click', closePersonalizedFullyBookedModal);
+        const fbOverlay = document.getElementById('service-fullybooked-overlay');
+        if (fbOverlay) fbOverlay.addEventListener('click', closeServiceFullyBookedModal);
 
         /* ── Harish Training modal listeners ── */
         const htOverlay = document.getElementById('harishTrainingModalOverlay');
@@ -247,7 +259,7 @@
         document.addEventListener('keydown', function (e) {
             if (e.key === 'Escape') {
                 closePersonalizedModal();
-                closePersonalizedFullyBookedModal();
+                closeServiceFullyBookedModal();
                 closeHarishTrainingModal();
             }
         });
@@ -282,18 +294,27 @@
 
                 try {
                     if (typeof Razorpay === 'undefined') throw new Error('Payment system not loaded. Please refresh.');
+
+                    // Server creates the order with the real price — browser can no longer set its own amount
+                    const orderRes = await fetch(`${BACKEND_URL}/api/create-website-order`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ serviceKey: 'personalizedProgram' })
+                    });
+                    const orderData = await orderRes.json();
+                    if (!orderRes.ok) throw new Error(orderData.error || 'Could not start payment. Please try again.');
+
                     const options = {
-                        key: PROGRAM_CONFIG.razorpayKey,
-                        amount: PROGRAM_CONFIG.amount,
-                        currency: PROGRAM_CONFIG.currency,
+                        key: orderData.keyId,
+                        order_id: orderData.orderId,
+                        amount: orderData.amount,
+                        currency: orderData.currency,
                         name: PROGRAM_CONFIG.businessName,
-                        description: 'Personalized Workout Program',
+                        description: orderData.serviceTitle,
                         prefill: { name, email, contact: phone },
                         theme: { color: '#000000' },
                         handler: async function (response) {
-                            const paymentDate = new Date().toLocaleDateString('en-IN', { day: '2-digit', month: '2-digit', year: '2-digit' });
-                            fetch('/api/send-email', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ service_type: 'personalizedProgram', user_name: name, user_email: email, user_phone: phone, amount: '15000', payment_id: response.razorpay_payment_id, payment_date: paymentDate }) }).catch(e => console.warn('Email error:', e));
-                            fetch('/api/send-email', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ service_type: 'personalizedProgram', user_name: 'Admin — ' + name, user_email: 'haristhenics06@gmail.com', user_phone: phone, amount: '15000', payment_id: response.razorpay_payment_id, payment_date: paymentDate }) }).catch(e => console.warn('Admin email error:', e));
+                            // Confirmation email + app account are handled server-side by the Razorpay webhook
                             const f = document.getElementById('personalizedForm');
                             const s = document.getElementById('personalizedSuccess');
                             if (f) f.style.display = 'none';
@@ -331,18 +352,27 @@
 
                 try {
                     if (typeof Razorpay === 'undefined') throw new Error('Payment system not loaded. Please refresh.');
+
+                    // Server creates the order with the real price — browser can no longer set its own amount
+                    const orderRes = await fetch(`${BACKEND_URL}/api/create-website-order`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ serviceKey: 'harishTraining' })
+                    });
+                    const orderData = await orderRes.json();
+                    if (!orderRes.ok) throw new Error(orderData.error || 'Could not start payment. Please try again.');
+
                     const options = {
-                        key: PROGRAM_CONFIG.razorpayKey,
-                        amount: PROGRAM_CONFIG.amount,
-                        currency: PROGRAM_CONFIG.currency,
+                        key: orderData.keyId,
+                        order_id: orderData.orderId,
+                        amount: orderData.amount,
+                        currency: orderData.currency,
                         name: PROGRAM_CONFIG.businessName,
-                        description: 'Personally Train with Me at Grip&Grab',
+                        description: orderData.serviceTitle,
                         prefill: { name, email, contact: phone },
                         theme: { color: '#000000' },
                         handler: async function (response) {
-                            const paymentDate = new Date().toLocaleDateString('en-IN', { day: '2-digit', month: '2-digit', year: '2-digit' });
-                            fetch('/api/send-email', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ service_type: 'harishTraining', user_name: name, user_email: email, user_phone: phone, amount: '15000', payment_id: response.razorpay_payment_id, payment_date: paymentDate }) }).catch(e => console.warn('Email error:', e));
-                            fetch('/api/send-email', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ service_type: 'harishTraining', user_name: 'Admin — ' + name, user_email: 'haristhenics06@gmail.com', user_phone: phone, amount: '15000', payment_id: response.razorpay_payment_id, payment_date: paymentDate }) }).catch(e => console.warn('Admin email error:', e));
+                            // Confirmation email + app account are handled server-side by the Razorpay webhook
                             const f = document.getElementById('harishTrainingForm');
                             const s = document.getElementById('harishTrainingSuccess');
                             if (f) f.style.display = 'none';
@@ -369,11 +399,11 @@
 
     window.openPersonalizedModal = openPersonalizedModal;
     window.closePersonalizedModal = closePersonalizedModal;
-    window.openPersonalizedFullyBookedModal = openPersonalizedFullyBookedModal;
-    window.closePersonalizedFullyBookedModal = closePersonalizedFullyBookedModal;
+    window.openServiceFullyBookedModal = openServiceFullyBookedModal;
+    window.closeServiceFullyBookedModal = closeServiceFullyBookedModal;
     window.openHarishTrainingModal = openHarishTrainingModal;
     window.closeHarishTrainingModal = closeHarishTrainingModal;
 
-    console.log('✅ Programs loaded | Personalized:', PERSONALIZED_SLOTS_OPEN, '| Harish Training:', HARISH_TRAINING_SLOTS_OPEN);
+    console.log('✅ Programs loaded');
 
 })();

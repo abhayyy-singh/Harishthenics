@@ -10,18 +10,11 @@
     // CONFIGURATION
     // ==========================================
     const PAYFEE_CONFIG = {
-        // Razorpay
-        razorpayKeyId: 'rzp_live_SwjC4BfDWgdJ2o',
-        currency: 'INR',
         businessName: 'HS FutureWorld',
-        description: 'Fee Payment - Haristhenics',
-        
-        // EmailJS - 2nd Account (PLACEHOLDER - Replace with actual)
-        emailjsPublicKey: 'tH2TNN9GskYvmvT62',
-        emailjsServiceId: 'HARISH_EMAIL',
-        emailjsTemplateId: 'FEE_CONFIRMATION'
-        
     };
+
+    // Backend — server-verified order creation
+    const BACKEND_URL = 'https://haristhenics-backend.vercel.app';
 
     // ==========================================
     // DOM ELEMENTS
@@ -200,12 +193,22 @@
     // RAZORPAY PAYMENT
     // ==========================================
     async function initiatePayment(name, phone, email, amount) {
+        // Server creates the order — locks in the discussed amount so it can't be tampered with in the browser
+        const orderRes = await fetch(`${BACKEND_URL}/api/create-website-order`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ serviceKey: 'payFee', amount: amount })
+        });
+        const orderData = await orderRes.json();
+        if (!orderRes.ok) throw new Error(orderData.error || 'Could not start payment. Please try again.');
+
         const options = {
-            key: PAYFEE_CONFIG.razorpayKeyId,
-            amount: amount * 100,
-            currency: PAYFEE_CONFIG.currency,
+            key: orderData.keyId,
+            order_id: orderData.orderId,
+            amount: orderData.amount,
+            currency: orderData.currency,
             name: PAYFEE_CONFIG.businessName,
-            description: PAYFEE_CONFIG.description,
+            description: orderData.serviceTitle,
             prefill: {
                 name: name,
                 contact: phone,
@@ -242,9 +245,7 @@
         submitBtn.classList.remove('loading');
         submitBtn.disabled = false;
 
-        // Send email notification
-       // Send email notification
-        await sendEmailNotification(formData, response);
+        // Confirmation email + app account are handled server-side by the Razorpay webhook
 
         // Sheet tracking
         await sendToSheet({
@@ -258,53 +259,6 @@
 
         console.log('✅ Payment successful:', response.razorpay_payment_id);
     }
-    // ==========================================
-    // EMAIL NOTIFICATION (2nd EmailJS Account)
-    // ==========================================
-    async function sendEmailNotification(formData, paymentResponse) {
-        // Check if EmailJS is loaded and configured
-        if (typeof emailjs === 'undefined') {
-            console.warn('EmailJS not loaded');
-            return;
-        }
-
-        // Skip if placeholder values
-        if (PAYFEE_CONFIG.emailjsPublicKey.includes('YOUR_')) {
-            console.log('EmailJS not configured - skipping email');
-            return;
-        }
-
-        try {
-            // Initialize 2nd EmailJS account
-            emailjs.init(PAYFEE_CONFIG.emailjsPublicKey);
-
-            const templateParams = {
-                user_name: formData.name,
-                user_email: formData.email,
-                user_phone: formData.phone,
-                amount: formData.amount,
-                payment_id: paymentResponse.razorpay_payment_id,
-                payment_date: new Date().toLocaleDateString('en-IN', {
-                    weekday: 'long',
-                    day: 'numeric',
-                    month: 'long',
-                    year: 'numeric'
-                })
-            };
-
-            await emailjs.send(
-                PAYFEE_CONFIG.emailjsServiceId,
-                PAYFEE_CONFIG.emailjsTemplateId,
-                templateParams
-            );
-
-            console.log('✅ Email sent successfully');
-
-        } catch (error) {
-            console.error('Email error:', error);
-        }
-    }
-
     console.log('✅ PayFee.js loaded successfully');
 
 })();

@@ -9,24 +9,20 @@
    (function() {
     'use strict';
 
+    // Backend — server-verified pricing + live admin-panel config
+    const BACKEND_URL = 'https://haristhenics-backend.vercel.app';
+
     // ==========================================
     // 🔧 MASTER CONFIGURATION - EDIT HERE ONLY!
     // ==========================================
     const CONFIG = {
-        
+
         // Razorpay Settings
         razorpay: {
             keyId: 'rzp_live_SwjC4BfDWgdJ2o',
             businessName: 'HS FutureWorld',
             currency: 'INR',
             themeColor: '#7C9CB5'
-        },
-
-        // EmailJS Settings (3rd Account - use 2nd account credentials for now)
-        emailjs: {
-            publicKey: 'BFneCQi-ij58Ef_9C',
-            serviceId: 'ABHAYPVT',
-            templateId: 'WORKOUT_PROGRAM_TEMPLATE'  // Create this template
         },
 
         // Google Form Link for Reviews
@@ -85,8 +81,6 @@
                 price: 999,
                 tagline: 'Say goodbye to back pain forever',
                 videoId: 'iPG7vkdYT-o',  // Replace with actual YouTube video ID
-                excelLink: 'https://docs.google.com/spreadsheets/d/19O1fABG9o16UcXrGhrxrlVX0fOoLl9MNDu1ucpZik0Q/edit?usp=sharing',
-                ytMembershipLink: 'https://youtu.be/WD_V8DYQ3QM?si=m_apSpTmox-LWmjW',                
               description: [
     'This recovery program helps you understand the root cause of your back pain and work on it safely.',
     'Whether you have a disc bulge, herniated disc, weak lower back, or stiffness, the program focuses on reducing pain, restoring pain-free movement, and improving strength & mobility.',
@@ -101,8 +95,7 @@
                 price: 4999,
                 tagline: 'Rebuild strong, pain-free knees',
                 videoId: 'uJUAl-HzkIQ',  // Updated with actual YouTube video ID
-                excelLink: 'https://docs.google.com/spreadsheets/d/1cc9ri9xKXHB1XI09U0fl7D-9PZpf3Xl1Ubfmjgu0LnM/edit?usp=sharing',  // Replace with actual link
-                
+
                 description: [
     'I built this knee pain recovery program after years of dedicated work, hands-on experience, and careful movement selection — designed to help you achieve pain-free movement.',
     'This program has already helped many people move better and reclaim their daily life. If you commit to it, it will do the same for you.',
@@ -270,23 +263,8 @@
                     ${descriptionHTML}
                 </div>
 
-                <!-- CTA -->
+                <!-- CTA — always shows the button; availability is checked when it's clicked (same pattern as every other service) -->
                 <div class="wp-cta wp-cta--compact">
-                    ${program.id === 'back-pain' ? `
-                    <p class="wp-cta__price-label">Available via</p>
-                    <p class="wp-cta__price" style="font-size:28px;">YouTube Membership</p>
-                    <p class="wp-cta__price-note">Join to get full access</p>
-                    <a href="${program.ytMembershipLink || '#'}" target="_blank" class="wp-cta__button" style="text-decoration:none; display:inline-flex; align-items:center; gap:10px;">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
-                        Get This Program
-                    </a>
-                    <p class="wp-cta__secure">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
-                        </svg>
-                        Redirects to YouTube Membership
-                    </p>
-                    ` : `
                     <p class="wp-cta__price-label">One-Time Payment</p>
                     <p class="wp-cta__price">₹${program.price.toLocaleString('en-IN')}</p>
                     <p class="wp-cta__price-note">Lifetime access</p>
@@ -303,7 +281,6 @@
                         </svg>
                         Secure payment via Razorpay
                     </p>
-                    `}
                 </div>
 
                 <!-- Reviews Section -->
@@ -324,9 +301,15 @@
             </footer>
         `;
         
-        // Attach buy button listener
+        // Attach buy button listener — checks live availability first, same pattern as every other service on the site
         const buyBtn = document.getElementById('buyNowBtn');
-if (buyBtn) buyBtn.addEventListener('click', () => openModal(program));
+        if (buyBtn) buyBtn.addEventListener('click', () => {
+            if (program.isActive === false || program.isFullyBooked) {
+                openServiceFullyBookedModal(program);
+            } else {
+                openModal(program);
+            }
+        });
         
         // Initialize reviews slider
         initReviewsSlider();
@@ -480,12 +463,36 @@ function initReviewsSlider() {
     // Modal close listeners
     if (modalOverlay) modalOverlay.addEventListener('click', closeModal);
     if (modalClose) modalClose.addEventListener('click', closeModal);
-    
+
     document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape' && modal.classList.contains('active')) {
             closeModal();
         }
     });
+
+    // ==========================================
+    // Shared "Fully Booked" Modal — same one used on every page of the site
+    // ==========================================
+    const fbModal = document.getElementById('service-fullybooked-modal');
+    const fbOverlay = document.getElementById('service-fullybooked-overlay');
+
+    function openServiceFullyBookedModal(svc) {
+        const msgEl = document.getElementById('service-fullybooked-message');
+        if (msgEl) msgEl.textContent = (svc && svc.fullyBookedMessage) || 'All slots are Fully Booked.';
+        if (fbModal) fbModal.classList.add('active');
+    }
+
+    function closeServiceFullyBookedModal() {
+        if (fbModal) fbModal.classList.remove('active');
+    }
+
+    if (fbOverlay) fbOverlay.addEventListener('click', closeServiceFullyBookedModal);
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && fbModal && fbModal.classList.contains('active')) {
+            closeServiceFullyBookedModal();
+        }
+    });
+    window.closeServiceFullyBookedModal = closeServiceFullyBookedModal;
 
     // ==========================================
     // Form Submission & Payment
@@ -525,13 +532,23 @@ function initReviewsSlider() {
                 if (typeof Razorpay === 'undefined') {
                     throw new Error('Payment system not loaded. Please refresh.');
                 }
-                
+
+                // Server creates the order with the real price — browser can no longer set its own amount
+                const orderRes = await fetch(`${BACKEND_URL}/api/create-website-order`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ serviceKey: currentProgram.id })
+                });
+                const orderData = await orderRes.json();
+                if (!orderRes.ok) throw new Error(orderData.error || 'Could not start payment. Please try again.');
+
                 const options = {
-                    key: CONFIG.razorpay.keyId,
-                    amount: currentProgram.price * 100,
-                    currency: CONFIG.razorpay.currency,
+                    key: orderData.keyId,
+                    order_id: orderData.orderId,
+                    amount: orderData.amount,
+                    currency: orderData.currency,
                     name: CONFIG.razorpay.businessName,
-                    description: currentProgram.name,
+                    description: orderData.serviceTitle,
                     handler: async function(response) {
                         // Payment successful
                         await handlePaymentSuccess(response, {
@@ -588,10 +605,8 @@ function initReviewsSlider() {
         // Show success
         formContainer.style.display = 'none';
         successDiv.classList.add('show');
-        
-        // Send email with download link
-       // Send email with download link
-        await sendEmail(userData, response);
+
+        // Confirmation email + app account are handled server-side by the Razorpay webhook
 
         // Sheet tracking
         await sendToSheet({
@@ -607,59 +622,36 @@ function initReviewsSlider() {
         console.log('✅ Payment successful:', response.razorpay_payment_id);
     }
     // ==========================================
-    // Send Email with Download Link
-    // ==========================================
-    async function sendEmail(userData, paymentResponse) {
-        if (typeof emailjs === 'undefined') {
-            console.warn('EmailJS not loaded');
-            return;
-        }
-        
-        try {
-            emailjs.init(CONFIG.emailjs.publicKey);
-            
-            const templateParams = {
-                user_name: userData.name,
-                user_email: userData.email,
-                user_phone: userData.phone,
-                program_name: currentProgram.name,
-                amount: currentProgram.price.toLocaleString('en-IN'),
-                payment_id: paymentResponse.razorpay_payment_id,
-                download_link: currentProgram.excelLink,
-                payment_date: new Date().toLocaleDateString('en-IN', {
-                    weekday: 'long',
-                    day: 'numeric',
-                    month: 'long',
-                    year: 'numeric'
-                })
-            };
-            
-            await emailjs.send(
-                CONFIG.emailjs.serviceId,
-                CONFIG.emailjs.templateId,
-                templateParams
-            );
-            
-            console.log('✅ Email sent with download link');
-            
-        } catch (error) {
-            console.error('Email error:', error);
-            // Don't show error to user - payment was successful
-        }
-    }
-
-    // ==========================================
     // Initialize Page
     // ==========================================
-    function init() {
+    async function init() {
         const programType = getProgramType();
         const program = getProgram(programType);
-        
-        if (program) {
-            renderProgram(program);
-        } else {
+
+        if (!program) {
             renderError();
+            return;
         }
+
+        // Live price/availability from the admin panel — falls back to the defaults above if it fails
+        program.isActive = true;
+        program.isFullyBooked = false;
+        try {
+            const res = await fetch(`${BACKEND_URL}/api/site-config?slug=${programType}`);
+            if (res.ok) {
+                const { service } = await res.json();
+                if (service) {
+                    program.price = service.price ?? program.price;
+                    program.isActive = service.isActive;
+                    program.isFullyBooked = service.isFullyBooked;
+                    program.fullyBookedMessage = service.fullyBookedMessage;
+                }
+            }
+        } catch (err) {
+            console.warn('Live config fetch failed, using defaults:', err.message);
+        }
+
+        renderProgram(program);
     }
 
     // Run on load
