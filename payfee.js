@@ -183,6 +183,7 @@
                 await initiatePayment(name, phone, email, amount);
             } catch (error) {
                 console.error('Payment error:', error);
+                alert(error.message || 'Payment failed. Please try again.');
                 submitBtn.classList.remove('loading');
                 submitBtn.disabled = false;
             }
