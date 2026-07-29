@@ -102,8 +102,8 @@
         var errEl     = document.getElementById('notify-error');
         var btn       = document.getElementById('notify-submit-btn');
 
-        if (!name || !email) {
-            if (errEl) { errEl.textContent = 'Please enter your name and email.'; errEl.style.display = 'block'; }
+        if (!name || !email || !phone) {
+            if (errEl) { errEl.textContent = 'Please fill in all fields.'; errEl.style.display = 'block'; }
             return;
         }
 
