@@ -99,6 +99,7 @@
         var email     = (document.getElementById('notify-email')?.value || '').trim();
         var phone     = (document.getElementById('notify-phone')?.value || '').trim();
         var serviceId = document.getElementById('notify-service-id')?.value || '';
+        var hp        = document.getElementById('notify-hp')?.value || '';
         var errEl     = document.getElementById('notify-error');
         var btn       = document.getElementById('notify-submit-btn');
 
@@ -113,7 +114,7 @@
         fetch(BACKEND_URL + '/api/notify', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ action: 'subscribe', serviceId: serviceId, name: name, email: email, phone: phone || null }),
+            body: JSON.stringify({ action: 'subscribe', serviceId: serviceId, name: name, email: email, phone: phone || null, _hp: hp || undefined }),
         })
         .then(function (r) { return r.json(); })
         .then(function (data) {

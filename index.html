@@ -1355,6 +1355,10 @@ During this consultation, we will thoroughly discuss your specific concerns and 
         <input id="notify-phone" type="tel" placeholder="WhatsApp number"
           style="width:100%; padding:10px 12px; border:1px solid rgba(255,255,255,0.12); border-radius:8px; background:rgba(255,255,255,0.07); color:#fff; font-size:13px; box-sizing:border-box; outline:none;"/>
         <input id="notify-service-id" type="hidden" value=""/>
+        <!-- Honeypot: hidden from humans, bots fill it automatically -->
+        <div style="position:absolute;left:-9999px;height:0;overflow:hidden;" aria-hidden="true">
+          <input id="notify-hp" type="text" name="website" tabindex="-1" autocomplete="off" placeholder="Website">
+        </div>
         <button id="notify-submit-btn" onclick="submitNotifyMe()"
           style="width:100%; padding:11px; background:#fff; color:#111; border:none; border-radius:8px; font-size:13px; font-weight:700; cursor:pointer; letter-spacing:0.3px; margin-top:2px;">
           Notify Me When Slots Open
