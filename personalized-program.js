@@ -34,7 +34,7 @@
     /* ── Personalized Program (online) ── */
     function openPersonalizedModal() {
         const svc = LIVE_SERVICES.personalizedProgram;
-        if (!svc.isActive || svc.isFullyBooked) { openServiceFullyBookedModal(svc); return; }
+        if (!svc.isActive || svc.isFullyBooked) { openServiceFullyBookedModal(svc, 'personalizedProgram'); return; }
         const modal = document.getElementById('personalizedModal');
         if (modal) {
             document.getElementById('pStepManifesto').style.display = 'block';
@@ -62,12 +62,30 @@
 
     // Shared across every service on the site — consultation (main.js), knee/back pain (workout-program.js),
     // personalized program + harish training (below). One popup, same look, everywhere.
-    function openServiceFullyBookedModal(svc) {
+    function openServiceFullyBookedModal(svc, serviceId) {
         const modal = document.getElementById('service-fullybooked-modal');
         const msgEl = document.getElementById('service-fullybooked-message');
         if (msgEl) {
             msgEl.textContent = (svc && svc.fullyBookedMessage) || 'All slots are Fully Booked.';
         }
+        // Set serviceId for the Notify Me form
+        var serviceIdInput = document.getElementById('notify-service-id');
+        if (serviceIdInput) serviceIdInput.value = serviceId || '';
+        // Reset form state
+        var fields  = document.getElementById('notify-form-fields');
+        var success = document.getElementById('notify-success');
+        var errEl   = document.getElementById('notify-error');
+        var btn     = document.getElementById('notify-submit-btn');
+        var name    = document.getElementById('notify-name');
+        var email   = document.getElementById('notify-email');
+        var phone   = document.getElementById('notify-phone');
+        if (fields)  { fields.style.display = 'flex'; }
+        if (success) { success.style.display = 'none'; }
+        if (errEl)   { errEl.style.display = 'none'; errEl.textContent = ''; }
+        if (btn)     { btn.textContent = 'Notify Me When Slots Open'; btn.disabled = false; }
+        if (name)    { name.value = ''; }
+        if (email)   { email.value = ''; }
+        if (phone)   { phone.value = ''; }
         if (modal) modal.classList.add('active');
     }
 
@@ -76,10 +94,49 @@
         if (modal) modal.classList.remove('active');
     }
 
+    window.submitNotifyMe = function () {
+        var name      = (document.getElementById('notify-name')?.value || '').trim();
+        var email     = (document.getElementById('notify-email')?.value || '').trim();
+        var phone     = (document.getElementById('notify-phone')?.value || '').trim();
+        var serviceId = document.getElementById('notify-service-id')?.value || '';
+        var errEl     = document.getElementById('notify-error');
+        var btn       = document.getElementById('notify-submit-btn');
+
+        if (!name || !email) {
+            if (errEl) { errEl.textContent = 'Please enter your name and email.'; errEl.style.display = 'block'; }
+            return;
+        }
+
+        if (btn) { btn.textContent = 'Sending...'; btn.disabled = true; }
+        if (errEl) { errEl.style.display = 'none'; }
+
+        fetch(BACKEND_URL + '/api/notify', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ action: 'subscribe', serviceId: serviceId, name: name, email: email, phone: phone || null }),
+        })
+        .then(function (r) { return r.json(); })
+        .then(function (data) {
+            if (data.success) {
+                var fields  = document.getElementById('notify-form-fields');
+                var success = document.getElementById('notify-success');
+                if (fields)  fields.style.display = 'none';
+                if (success) success.style.display = 'block';
+            } else {
+                if (errEl) { errEl.textContent = 'Something went wrong. Please try again.'; errEl.style.display = 'block'; }
+                if (btn)   { btn.textContent = 'Notify Me When Slots Open'; btn.disabled = false; }
+            }
+        })
+        .catch(function () {
+            if (errEl) { errEl.textContent = 'Connection error. Please try again.'; errEl.style.display = 'block'; }
+            if (btn)   { btn.textContent = 'Notify Me When Slots Open'; btn.disabled = false; }
+        });
+    };
+
     /* ── Train with Haristhenics (offline) ── */
     function openHarishTrainingModal() {
         const svc = LIVE_SERVICES.harishTraining;
-        if (!svc.isActive || svc.isFullyBooked) { openServiceFullyBookedModal(svc); return; }
+        if (!svc.isActive || svc.isFullyBooked) { openServiceFullyBookedModal(svc, 'harishTraining'); return; }
         const modal = document.getElementById('harishTrainingModal');
         if (modal) {
             // Always start at manifesto step

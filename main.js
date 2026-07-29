@@ -467,7 +467,7 @@ function handleConsultationClick() {
     if (window.LIVE_APP_CONFIG && window.LIVE_APP_CONFIG.consultationAvailable) {
         if (typeof window.openBookingModal === 'function') window.openBookingModal('consultation');
     } else if (typeof window.openServiceFullyBookedModal === 'function') {
-        window.openServiceFullyBookedModal({ fullyBookedMessage: window.LIVE_APP_CONFIG && window.LIVE_APP_CONFIG.consultationFullyBookedMessage });
+        window.openServiceFullyBookedModal({ fullyBookedMessage: window.LIVE_APP_CONFIG && window.LIVE_APP_CONFIG.consultationFullyBookedMessage }, 'consultation');
     }
 }
 window.handleConsultationClick = handleConsultationClick;

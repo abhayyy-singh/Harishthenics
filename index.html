@@ -1345,16 +1345,26 @@ During this consultation, we will thoroughly discuss your specific concerns and 
     </div>
     <h2 class="sunday-fullybooked-title">Slots Are Fully Booked</h2>
     <p class="sunday-fullybooked-message" id="service-fullybooked-message">All slots are Fully Booked.</p>
-    <p class="sunday-fullybooked-message" style="margin-top:12px; font-size:13px; color:#aaa;">Join our channels to get the latest updates and other announcements.</p>
-    <div style="display:flex; gap:12px; justify-content:center; flex-wrap:wrap; margin-top:16px;">
-        <a href="https://whatsapp.com/channel/0029VbCLLJrAYlUI1VFDvr2e" target="_blank"
-           style="display:inline-flex; align-items:center; gap:8px; padding:12px 20px; background:#25D366; color:#fff; border-radius:8px; font-weight:600; text-decoration:none; font-size:14px;">
-            📲 Notify Me — WhatsApp
-        </a>
-        <a href="https://www.instagram.com/channel/AbZXE4Jq76d7C_Fa/" target="_blank"
-           style="display:inline-flex; align-items:center; gap:8px; padding:12px 20px; background:#E1306C; color:#fff; border-radius:8px; font-weight:600; text-decoration:none; font-size:14px;">
-            📢 Notify Me — Instagram
-        </a>
+    <div id="notify-form-wrap" style="margin-top:16px; width:100%; text-align:left;">
+      <p style="font-size:12px; color:#888; margin:0 0 10px; text-align:center;">Get notified when slots open up:</p>
+      <div id="notify-form-fields" style="display:flex; flex-direction:column; gap:8px;">
+        <input id="notify-name" type="text" placeholder="Your name"
+          style="width:100%; padding:10px 12px; border:1px solid rgba(255,255,255,0.12); border-radius:8px; background:rgba(255,255,255,0.07); color:#fff; font-size:13px; box-sizing:border-box; outline:none;"/>
+        <input id="notify-email" type="email" placeholder="Email address"
+          style="width:100%; padding:10px 12px; border:1px solid rgba(255,255,255,0.12); border-radius:8px; background:rgba(255,255,255,0.07); color:#fff; font-size:13px; box-sizing:border-box; outline:none;"/>
+        <input id="notify-phone" type="tel" placeholder="WhatsApp number (optional)"
+          style="width:100%; padding:10px 12px; border:1px solid rgba(255,255,255,0.12); border-radius:8px; background:rgba(255,255,255,0.07); color:#fff; font-size:13px; box-sizing:border-box; outline:none;"/>
+        <input id="notify-service-id" type="hidden" value=""/>
+        <button id="notify-submit-btn" onclick="submitNotifyMe()"
+          style="width:100%; padding:11px; background:#fff; color:#111; border:none; border-radius:8px; font-size:13px; font-weight:700; cursor:pointer; letter-spacing:0.3px; margin-top:2px;">
+          Notify Me When Slots Open
+        </button>
+      </div>
+      <div id="notify-success" style="display:none; padding:14px; background:rgba(76,175,80,0.1); border:1px solid rgba(76,175,80,0.25); border-radius:10px; text-align:center; margin-top:4px;">
+        <p style="margin:0; font-size:14px; color:#4caf50; font-weight:600;">You're on the list!</p>
+        <p style="margin:4px 0 0; font-size:12px; color:#888;">We'll reach out as soon as slots open up.</p>
+      </div>
+      <p id="notify-error" style="display:none; font-size:12px; color:#f87171; text-align:center; margin:8px 0 0;"></p>
     </div>
   </div>
 </div>

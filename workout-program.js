@@ -479,6 +479,17 @@ function initReviewsSlider() {
     function openServiceFullyBookedModal(svc) {
         const msgEl = document.getElementById('service-fullybooked-message');
         if (msgEl) msgEl.textContent = (svc && svc.fullyBookedMessage) || 'All slots are Fully Booked.';
+        // Set serviceId for the shared Notify Me form
+        const serviceIdInput = document.getElementById('notify-service-id');
+        if (serviceIdInput) serviceIdInput.value = svc && svc.id ? svc.id : '';
+        const fields  = document.getElementById('notify-form-fields');
+        const success = document.getElementById('notify-success');
+        const errEl   = document.getElementById('notify-error');
+        const btn     = document.getElementById('notify-submit-btn');
+        if (fields)  fields.style.display = 'flex';
+        if (success) success.style.display = 'none';
+        if (errEl)   { errEl.style.display = 'none'; errEl.textContent = ''; }
+        if (btn)     { btn.textContent = 'Notify Me When Slots Open'; btn.disabled = false; }
         if (fbModal) fbModal.classList.add('active');
     }
 
