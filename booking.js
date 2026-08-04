@@ -239,7 +239,7 @@ if (bookingForm) {
                 const orderRes = await fetch(`${BACKEND_URL}/api/create-website-order`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ serviceKey: 'consultation' })
+                    body: JSON.stringify({ serviceKey: 'consultation', name: userName, email: userEmail, phone: userPhone })
                 });
                 const orderData = await orderRes.json();
                 if (!orderRes.ok) throw new Error(orderData.error || 'Could not start booking. Please try again.');
@@ -298,6 +298,9 @@ if (bookingForm) {
                         if (submitBtn) {
                             submitBtn.classList.remove('loading');
                             submitBtn.disabled = false;
+                        }
+                        if (planType === 'consultation' && orderData && orderData.orderId) {
+                            fetch(BACKEND_URL + '/api/create-website-order', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ action: 'abandon', email: userEmail, razorpayOrderId: orderData.orderId }) }).catch(function(){});
                         }
                     }
                 }

@@ -198,7 +198,7 @@
         const orderRes = await fetch(`${BACKEND_URL}/api/create-website-order`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ serviceKey: 'payFee', amount: amount })
+            body: JSON.stringify({ serviceKey: 'payFee', amount: amount, name: name, email: email, phone: phone })
         });
         const orderData = await orderRes.json();
         if (!orderRes.ok) throw new Error(orderData.error || 'Could not start payment. Please try again.');
@@ -225,6 +225,12 @@
                 ondismiss: function() {
                     submitBtn.classList.remove('loading');
                     submitBtn.disabled = false;
+                    // Tell backend the checkout was abandoned so status updates to 'attempted'
+                    fetch(`${BACKEND_URL}/api/create-website-order`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ action: 'abandon', email: email, razorpayOrderId: orderData.orderId }),
+                    }).catch(() => {});
                 }
             }
         };
