@@ -157,9 +157,24 @@
     // ==========================================
     // FORM SUBMISSION
     // ==========================================
+    const errorEl = document.getElementById('payfeeError');
+
+    function showPayfeeError(msg) {
+        if (!errorEl) return;
+        errorEl.textContent = msg;
+        errorEl.style.display = 'block';
+    }
+
+    function clearPayfeeError() {
+        if (!errorEl) return;
+        errorEl.textContent = '';
+        errorEl.style.display = 'none';
+    }
+
     if (form) {
         form.addEventListener('submit', async function(e) {
             e.preventDefault();
+            clearPayfeeError();
 
             if (!validateAmount()) {
                 amountInput.focus();
@@ -172,7 +187,7 @@
             const amount = parseInt(amountInput.value);
 
             if (!name || !phone || !email || !amount) {
-                alert('Please fill all fields');
+                showPayfeeError('Please fill all fields');
                 return;
             }
 
@@ -183,7 +198,7 @@
                 await initiatePayment(name, phone, email, amount);
             } catch (error) {
                 console.error('Payment error:', error);
-                alert(error.message || 'Payment failed. Please try again.');
+                showPayfeeError(error.message || 'Payment failed. Please try again.');
                 submitBtn.classList.remove('loading');
                 submitBtn.disabled = false;
             }
