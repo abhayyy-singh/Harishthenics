@@ -12,27 +12,6 @@
     // Backend — server-verified pricing + live admin-panel config
     const BACKEND_URL = 'https://haristhenics-backend.vercel.app';
 
-    // Capture a lead as soon as they fill a valid email, even if they never click Pay Now.
-    function attachLeadCapture(emailId, nameId, phoneId, serviceKey) {
-        const emailEl = document.getElementById(emailId);
-        if (!emailEl) return;
-        let captured = false;
-        emailEl.addEventListener('blur', function() {
-            if (captured) return;
-            const email = emailEl.value.trim();
-            if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return;
-            captured = true;
-            const name = nameId ? (document.getElementById(nameId)?.value || '').trim() : '';
-            const phone = phoneId ? (document.getElementById(phoneId)?.value || '').trim() : '';
-            const resolvedServiceKey = typeof serviceKey === 'function' ? serviceKey() : serviceKey;
-            fetch(BACKEND_URL + '/api/create-website-order', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ action: 'capture_lead', email: email, name: name, phone: phone, serviceKey: resolvedServiceKey })
-            }).catch(function(){});
-        });
-    }
-
     // ==========================================
     // 🔧 MASTER CONFIGURATION - EDIT HERE ONLY!
     // ==========================================
@@ -530,11 +509,9 @@ function initReviewsSlider() {
     // Form Submission & Payment
     // ==========================================
     if (form) {
-        attachLeadCapture('wpUserEmail', 'wpUserName', 'wpUserPhone', function() { return currentProgram && currentProgram.id; });
-
         form.addEventListener('submit', async function(e) {
             e.preventDefault();
-
+            
             const submitBtn = document.getElementById('wpSubmitBtn');
             const userName = document.getElementById('wpUserName').value.trim();
             const userEmail = document.getElementById('wpUserEmail').value.trim();
