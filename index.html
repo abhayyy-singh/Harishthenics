@@ -1382,7 +1382,9 @@ During this consultation, we will thoroughly discuss your specific concerns and 
     <script src="./main.js"></script>
     <script src="./payfee.js"></script>
     <script src="./booking.js"></script>
-    <script src="./virtualclass.js"></script>
+    <!-- virtualclass.js intentionally not loaded — predates server-side price
+         verification (client sets the Razorpay amount directly, no order
+         created). Never linked from any button on this page. -->
     <script src="./sheets-tracker.js"></script>
     <script src="./personalized-program.js"></script>
     <!-- ================================================

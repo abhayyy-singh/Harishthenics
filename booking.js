@@ -72,6 +72,15 @@ let currentBookingType = null;
 // OPEN BOOKING MODAL
 // ==========================================
 function openBookingModal(bookingType) {
+    // Weekend Class / Virtual Class checkouts are disabled — they predate
+    // server-side price verification (client sets the Razorpay amount directly,
+    // no order created, no webhook mapping to grant access). Not linked from any
+    // live button; this guard closes the only remaining way to reach them
+    // (calling the globally-exposed function directly from devtools).
+    if (bookingType !== 'consultation') {
+        console.error('This booking type is not available.');
+        return;
+    }
     currentBookingType = bookingType;
     
     const modal = document.getElementById('bookingModal');
