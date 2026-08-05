@@ -6,6 +6,27 @@
 // Backend — server-verified pricing + live admin-panel config
 const BACKEND_URL = 'https://haristhenics-backend.vercel.app';
 
+// Capture a lead as soon as they fill a valid email, even if they never click Pay Now.
+// Fires once per field-set (blur on the email field), independent of form submission.
+function attachLeadCapture(emailId, nameId, phoneId, serviceKey) {
+    const emailEl = document.getElementById(emailId);
+    if (!emailEl) return;
+    let captured = false;
+    emailEl.addEventListener('blur', function() {
+        if (captured) return;
+        const email = emailEl.value.trim();
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return;
+        captured = true;
+        const name = nameId ? (document.getElementById(nameId)?.value || '').trim() : '';
+        const phone = phoneId ? (document.getElementById(phoneId)?.value || '').trim() : '';
+        fetch(BACKEND_URL + '/api/create-website-order', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ action: 'capture_lead', email: email, name: name, phone: phone, serviceKey: serviceKey })
+        }).catch(function(){});
+    });
+}
+
 // ==========================================
 // CONFIGURATION
 // ==========================================
@@ -187,6 +208,8 @@ function hideMessages() {
 const bookingForm = document.getElementById('bookingForm');
 
 if (bookingForm) {
+    attachLeadCapture('userEmail', 'userName', 'userPhone', 'consultation');
+
     bookingForm.addEventListener('submit', async function(e) {
         e.preventDefault();
         

@@ -16,6 +16,25 @@
     // Backend — server-verified order creation
     const BACKEND_URL = 'https://haristhenics-backend.vercel.app';
 
+    // Capture a lead as soon as they fill a valid email, even if they never click Pay Now.
+    function attachLeadCapture(emailEl, nameEl, phoneEl, serviceKey) {
+        if (!emailEl) return;
+        let captured = false;
+        emailEl.addEventListener('blur', function() {
+            if (captured) return;
+            const email = emailEl.value.trim();
+            if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return;
+            captured = true;
+            const name = nameEl ? nameEl.value.trim() : '';
+            const phone = phoneEl ? phoneEl.value.trim() : '';
+            fetch(BACKEND_URL + '/api/create-website-order', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ action: 'capture_lead', email: email, name: name, phone: phone, serviceKey: serviceKey })
+            }).catch(function(){});
+        });
+    }
+
     // ==========================================
     // DOM ELEMENTS
     // ==========================================
@@ -28,6 +47,8 @@
     const emailInput = document.getElementById('payfeeEmail');
     const amountInput = document.getElementById('payfeeAmount');
     const amountError = document.getElementById('amountError');
+
+    attachLeadCapture(emailInput, nameInput, phoneInput, 'payFee');
     const submitBtn = document.getElementById('payfeeSubmitBtn');
     const successDiv = document.getElementById('payfeeSuccess');
     const successAmount = document.getElementById('successAmount');

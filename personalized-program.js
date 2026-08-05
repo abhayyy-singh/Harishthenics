@@ -15,6 +15,26 @@
     // Backend — server-verified pricing + live admin-panel availability
     const BACKEND_URL = 'https://haristhenics-backend.vercel.app';
 
+    // Capture a lead as soon as they fill a valid email, even if they never click Pay Now.
+    function attachLeadCapture(emailId, nameId, phoneId, serviceKey) {
+        const emailEl = document.getElementById(emailId);
+        if (!emailEl) return;
+        let captured = false;
+        emailEl.addEventListener('blur', function() {
+            if (captured) return;
+            const email = emailEl.value.trim();
+            if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return;
+            captured = true;
+            const name = nameId ? (document.getElementById(nameId)?.value || '').trim() : '';
+            const phone = phoneId ? (document.getElementById(phoneId)?.value || '').trim() : '';
+            fetch(BACKEND_URL + '/api/create-website-order', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ action: 'capture_lead', email: email, name: name, phone: phone, serviceKey: serviceKey })
+            }).catch(function(){});
+        });
+    }
+
     // Fails safe to "closed" if the live fetch doesn't come back in time
     const LIVE_SERVICES = {
         personalizedProgram: { price: 15000, isActive: false, isFullyBooked: true, fullyBookedMessage: '' },
@@ -336,6 +356,8 @@
         /* ── Personalized Program form ── */
         const form = document.getElementById('personalizedForm');
         if (form) {
+            attachLeadCapture('personalizedEmail', 'personalizedName', 'personalizedPhone', 'personalizedProgram');
+
             form.addEventListener('submit', async function (e) {
                 e.preventDefault();
                 const submitBtn = document.getElementById('personalizedSubmitBtn');
@@ -397,6 +419,8 @@
         /* ── Train with Haristhenics form ── */
         const htForm = document.getElementById('harishTrainingForm');
         if (htForm) {
+            attachLeadCapture('harishTrainingEmail', 'harishTrainingName', 'harishTrainingPhone', 'harishTraining');
+
             htForm.addEventListener('submit', async function (e) {
                 e.preventDefault();
                 const submitBtn = document.getElementById('harishTrainingSubmitBtn');
