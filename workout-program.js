@@ -548,7 +548,7 @@ function initReviewsSlider() {
                 const orderRes = await fetch(`${BACKEND_URL}/api/create-website-order`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ serviceKey: currentProgram.id })
+                    body: JSON.stringify({ serviceKey: currentProgram.id, name: userName, email: userEmail, phone: userPhone })
                 });
                 const orderData = await orderRes.json();
                 if (!orderRes.ok) throw new Error(orderData.error || 'Could not start payment. Please try again.');
@@ -580,6 +580,7 @@ function initReviewsSlider() {
                         ondismiss: function() {
                             submitBtn.classList.remove('loading');
                             submitBtn.disabled = false;
+                            fetch(BACKEND_URL + '/api/create-website-order', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ action: 'abandon', email: userEmail, razorpayOrderId: orderData.orderId }) }).catch(function(){});
                         }
                     }
                 };

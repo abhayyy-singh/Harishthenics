@@ -157,9 +157,24 @@
     // ==========================================
     // FORM SUBMISSION
     // ==========================================
+    const errorEl = document.getElementById('payfeeError');
+
+    function showPayfeeError(msg) {
+        if (!errorEl) return;
+        errorEl.textContent = msg;
+        errorEl.style.display = 'block';
+    }
+
+    function clearPayfeeError() {
+        if (!errorEl) return;
+        errorEl.textContent = '';
+        errorEl.style.display = 'none';
+    }
+
     if (form) {
         form.addEventListener('submit', async function(e) {
             e.preventDefault();
+            clearPayfeeError();
 
             if (!validateAmount()) {
                 amountInput.focus();
@@ -172,7 +187,7 @@
             const amount = parseInt(amountInput.value);
 
             if (!name || !phone || !email || !amount) {
-                alert('Please fill all fields');
+                showPayfeeError('Please fill all fields');
                 return;
             }
 
@@ -183,7 +198,7 @@
                 await initiatePayment(name, phone, email, amount);
             } catch (error) {
                 console.error('Payment error:', error);
-                alert(error.message || 'Payment failed. Please try again.');
+                showPayfeeError(error.message || 'Payment failed. Please try again.');
                 submitBtn.classList.remove('loading');
                 submitBtn.disabled = false;
             }
@@ -198,7 +213,7 @@
         const orderRes = await fetch(`${BACKEND_URL}/api/create-website-order`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ serviceKey: 'payFee', amount: amount })
+            body: JSON.stringify({ serviceKey: 'payFee', amount: amount, name: name, email: email, phone: phone })
         });
         const orderData = await orderRes.json();
         if (!orderRes.ok) throw new Error(orderData.error || 'Could not start payment. Please try again.');
@@ -225,6 +240,12 @@
                 ondismiss: function() {
                     submitBtn.classList.remove('loading');
                     submitBtn.disabled = false;
+                    // Tell backend the checkout was abandoned so status updates to 'attempted'
+                    fetch(`${BACKEND_URL}/api/create-website-order`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ action: 'abandon', email: email, razorpayOrderId: orderData.orderId }),
+                    }).catch(() => {});
                 }
             }
         };

@@ -357,7 +357,7 @@
                     const orderRes = await fetch(`${BACKEND_URL}/api/create-website-order`, {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ serviceKey: 'personalizedProgram' })
+                        body: JSON.stringify({ serviceKey: 'personalizedProgram', name, email, phone })
                     });
                     const orderData = await orderRes.json();
                     if (!orderRes.ok) throw new Error(orderData.error || 'Could not start payment. Please try again.');
@@ -379,7 +379,10 @@
                             if (s) s.style.display = 'block';
                             if (submitBtn) { submitBtn.classList.remove('loading'); submitBtn.disabled = false; }
                         },
-                        modal: { ondismiss: function () { if (submitBtn) { submitBtn.classList.remove('loading'); submitBtn.disabled = false; } } }
+                        modal: { ondismiss: function () {
+                            if (submitBtn) { submitBtn.classList.remove('loading'); submitBtn.disabled = false; }
+                            fetch(BACKEND_URL + '/api/create-website-order', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ action: 'abandon', email: email, razorpayOrderId: orderData.orderId }) }).catch(function(){});
+                        } }
                     };
                     const rzp = new Razorpay(options);
                     rzp.on('payment.failed', function (r) { showError('personalizedError', 'Payment failed: ' + r.error.description); if (submitBtn) { submitBtn.classList.remove('loading'); submitBtn.disabled = false; } });
@@ -415,7 +418,7 @@
                     const orderRes = await fetch(`${BACKEND_URL}/api/create-website-order`, {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ serviceKey: 'harishTraining' })
+                        body: JSON.stringify({ serviceKey: 'harishTraining', name, email, phone })
                     });
                     const orderData = await orderRes.json();
                     if (!orderRes.ok) throw new Error(orderData.error || 'Could not start payment. Please try again.');
@@ -437,7 +440,10 @@
                             if (s) s.style.display = 'block';
                             if (submitBtn) { submitBtn.classList.remove('loading'); submitBtn.disabled = false; }
                         },
-                        modal: { ondismiss: function () { if (submitBtn) { submitBtn.classList.remove('loading'); submitBtn.disabled = false; } } }
+                        modal: { ondismiss: function () {
+                            if (submitBtn) { submitBtn.classList.remove('loading'); submitBtn.disabled = false; }
+                            fetch(BACKEND_URL + '/api/create-website-order', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ action: 'abandon', email: email, razorpayOrderId: orderData.orderId }) }).catch(function(){});
+                        } }
                     };
                     const rzp = new Razorpay(options);
                     rzp.on('payment.failed', function (r) { showError('harishTrainingError', 'Payment failed: ' + r.error.description); if (submitBtn) { submitBtn.classList.remove('loading'); submitBtn.disabled = false; } });
