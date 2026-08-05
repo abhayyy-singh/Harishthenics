@@ -13,19 +13,13 @@ const BOOKING_CONFIG = {
     razorpayKey: 'rzp_live_SwjC4BfDWgdJ2o',
     razorpayName: 'Haristhenics',
     
-    // First EmailJS Account (for Consultation & Weekend Class)
+    // EmailJS Account (for Consultation)
     emailjsPublicKey: 'wwGXMDT6ekGDIkKNg',
     emailjsServiceId: 'harish@teamgng',
     emailjsTemplates: {
-        weekendClass: 'template_1k0fnrn',
         consultation: 'template_axjwehu'
     },
-    
-    // Second EmailJS Account (for Virtual Class)
-    emailjsPublicKey2: 'tH2TNN9GskYvmvT62',
-    emailjsServiceId2: 'HARISH_EMAIL',
-    emailjsTemplateId2: 'virtual_class',
-    
+
     adminEmail: 'haristhenics06@gmail.com',
 
     bookingTypes: {
@@ -33,26 +27,6 @@ const BOOKING_CONFIG = {
             name: 'Consultation / Workout Program',
             amount: 200000,
             displayAmount: '₹2,000'
-        },
-        weekendClass_saturday: {
-            name: 'Weekend Class — Saturday',
-            amount: 400000,
-            displayAmount: '₹4,000'
-        },
-        weekendClass_sunday: {
-            name: 'Weekend Class — Sunday',
-            amount: 400000,
-            displayAmount: '₹4,000'
-        },
-        weekendClass_both: {
-            name: 'Weekend Class — Sat + Sun',
-            amount: 600000,
-            displayAmount: '₹6,000'
-        },
-        virtualClass: {
-            name: 'Virtual Class',
-            amount: 600000,
-            displayAmount: '₹6,000'
         },
     }
 };
@@ -108,20 +82,6 @@ function openBookingModal(bookingType) {
     if (subtitle) subtitle.textContent = 'Complete your booking for ' + booking.displayAmount;
     if (planTypeInput) planTypeInput.value = bookingType;
 
-    // Slot dropdown — weekend class ke liye
-    const slotGroup = document.getElementById('slotGroup');
-    if (slotGroup) {
-        slotGroup.style.display = bookingType.startsWith('weekendClass') ? 'block' : 'none';
-        
-        const config = window.SUNDAY_CLASS_CONFIG_EXPORT;
-        if (config) {
-            const morningSlot = document.getElementById('slot-morning');
-            const afternoonSlot = document.getElementById('slot-afternoon');
-            if (morningSlot) morningSlot.disabled = config.slots.morning.disabled;
-            if (afternoonSlot) afternoonSlot.disabled = config.slots.afternoon.disabled;
-        }
-    }
-    
     // Show modal
     modal.classList.add('active');
     document.body.style.overflow = 'hidden';
@@ -241,37 +201,23 @@ if (bookingForm) {
                 throw new Error('Payment system not loaded. Please refresh the page.');
             }
 
-            let options;
-            let orderData;
+            // Server creates the order with the real price — browser can no longer set its own amount
+            const orderRes = await fetch(`${BACKEND_URL}/api/create-website-order`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ serviceKey: 'consultation', name: userName, email: userEmail, phone: userPhone })
+            });
+            const orderData = await orderRes.json();
+            if (!orderRes.ok) throw new Error(orderData.error || 'Could not start booking. Please try again.');
 
-            if (planType === 'consultation') {
-                // Server creates the order with the real price — browser can no longer set its own amount
-                const orderRes = await fetch(`${BACKEND_URL}/api/create-website-order`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ serviceKey: 'consultation', name: userName, email: userEmail, phone: userPhone })
-                });
-                orderData = await orderRes.json();
-                if (!orderRes.ok) throw new Error(orderData.error || 'Could not start booking. Please try again.');
-
-                options = {
-                    key: orderData.keyId,
-                    order_id: orderData.orderId,
-                    amount: orderData.amount,
-                    currency: orderData.currency,
-                    name: BOOKING_CONFIG.razorpayName,
-                    description: orderData.serviceTitle,
-                };
-            } else {
-                // Weekend Class / Virtual Class — not linked from the live site today
-                options = {
-                    key: BOOKING_CONFIG.razorpayKey,
-                    amount: booking.amount,
-                    currency: 'INR',
-                    name: BOOKING_CONFIG.razorpayName,
-                    description: booking.name,
-                };
-            }
+            const options = {
+                key: orderData.keyId,
+                order_id: orderData.orderId,
+                amount: orderData.amount,
+                currency: orderData.currency,
+                name: BOOKING_CONFIG.razorpayName,
+                description: orderData.serviceTitle,
+            };
 
             Object.assign(options, {
                 handler: async function(response) {
@@ -344,76 +290,9 @@ if (bookingForm) {
 // SEND CONFIRMATION EMAILS
 // ==========================================
 async function sendEmails(formData, paymentResponse) {
-    // Consultation confirmation + app account are handled server-side by the Razorpay webhook now —
-    // still fall through to sheet tracking below, just skip the old EmailJS send for this type.
-    const isConsultation = formData.planType === 'consultation';
-
-    if (!isConsultation && typeof emailjs === 'undefined') {
-        console.warn('EmailJS not available');
-        return;
-    }
-
+    // Consultation confirmation + app account are handled server-side by the Razorpay webhook now.
     try {
-        // Virtual Class — 2nd EmailJS Account
-        if (formData.planType === 'virtualClass') {
-            emailjs.init(BOOKING_CONFIG.emailjsPublicKey2);
-            
-            let templateParams = {
-                user_name: formData.name,
-                user_email: formData.email,
-                user_phone: formData.phone,
-                payment_id: paymentResponse.razorpay_payment_id,
-                slot_time: formData.slotTime || ''
-            };
-            
-            await emailjs.send(
-                BOOKING_CONFIG.emailjsServiceId2,
-                BOOKING_CONFIG.emailjsTemplateId2,
-                templateParams
-            );
-            
-            console.log('✅ Virtual Class email sent (2nd account)');
-            return;
-        }
-        
-        // Consultation & Weekend Class — 1st EmailJS Account (consultation now handled by the backend webhook instead)
-        if (!isConsultation) {
-            emailjs.init(BOOKING_CONFIG.emailjsPublicKey);
-
-            // Template select karo
-            const templateId = formData.planType.startsWith('weekendClass')
-                ? BOOKING_CONFIG.emailjsTemplates.weekendClass
-                : BOOKING_CONFIG.emailjsTemplates[formData.planType];
-
-            let templateParams = {
-                user_name: formData.name,
-                user_email: formData.email,
-                user_phone: formData.phone,
-                payment_id: paymentResponse.razorpay_payment_id
-            };
-
-            // Weekend class — date + plan type add karo
-            if (formData.planType.startsWith('weekendClass')) {
-                if (formData.planType === 'weekendClass_saturday') {
-                    templateParams.class_date = getNextSaturdayFormatted();
-                } else if (formData.planType === 'weekendClass_sunday') {
-                    templateParams.class_date = getNextSundayFormatted();
-                } else if (formData.planType === 'weekendClass_both') {
-                    templateParams.class_date = getNextSaturdayFormatted() + ' & ' + getNextSundayFormatted();
-                }
-                templateParams.plan_type = BOOKING_CONFIG.bookingTypes[formData.planType].name;
-            }
-
-            await emailjs.send(
-                BOOKING_CONFIG.emailjsServiceId,
-                templateId,
-                templateParams
-            );
-
-            console.log('✅ Email sent successfully (1st account)');
-        }
-
-        // Sheet tracking — kept for consultation too, so Harish's existing tracking sheet still gets every booking
+        // Sheet tracking — kept so Harish's existing tracking sheet still gets every booking
         await sendToSheet({
             type: 'booking',
             name: formData.name,
@@ -427,72 +306,6 @@ async function sendEmails(formData, paymentResponse) {
     } catch (error) {
         console.error('Email error:', error);
     }
-}
-
-// ==========================================
-// DATE HELPERS
-// ==========================================
-function getNextSaturdayFormatted() {
-    const today = new Date();
-    const dayOfWeek = today.getDay();
-    const daysUntilSaturday = dayOfWeek === 6 ? 7 : 6 - dayOfWeek;
-    const nextSaturday = new Date(today);
-    nextSaturday.setDate(today.getDate() + daysUntilSaturday);
-    const options = { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' };
-    return nextSaturday.toLocaleDateString('en-IN', options);
-}
-
-function getNextSundayFormatted() {
-    const today = new Date();
-    const dayOfWeek = today.getDay();
-    const daysUntilSunday = dayOfWeek === 0 ? 7 : 7 - dayOfWeek;
-    const nextSunday = new Date(today);
-    nextSunday.setDate(today.getDate() + daysUntilSunday);
-    const options = { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' };
-    return nextSunday.toLocaleDateString('en-IN', options);
-}
-
-function getTodayFormatted() {
-    const today = new Date();
-    const options = { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' };
-    return today.toLocaleDateString('en-IN', options);
-}
-
-// ==========================================
-// WEEKEND CLASS — DAY SELECTOR LOGIC
-// ==========================================
-let selectedWeekendPlan = '1class';
-let selectedWeekendDay = 'saturday';
-
-function selectWeekendPlan(plan) {
-    selectedWeekendPlan = plan;
-
-    document.getElementById('plan-1class').classList.toggle('active', plan === '1class');
-    document.getElementById('plan-2class').classList.toggle('active', plan === '2class');
-
-    const dayPicker = document.getElementById('dayPicker');
-    if (dayPicker) dayPicker.style.display = plan === '1class' ? 'flex' : 'none';
-
-    const btn = document.getElementById('weekendBookBtn');
-    if (btn) btn.textContent = plan === '2class' ? 'Book Now — ₹6,000' : 'Book Now — ₹4,000';
-}
-
-function selectWeekendDay(day) {
-    selectedWeekendDay = day;
-    const satBtn = document.getElementById('dayBtn-saturday');
-    const sunBtn = document.getElementById('dayBtn-sunday');
-    if (satBtn) satBtn.classList.toggle('active', day === 'saturday');
-    if (sunBtn) sunBtn.classList.toggle('active', day === 'sunday');
-}
-
-function openWeekendClassBooking() {
-    const typeMap = {
-        '1class-saturday': 'weekendClass_saturday',
-        '1class-sunday':   'weekendClass_sunday',
-        '2class':          'weekendClass_both'
-    };
-    const key = selectedWeekendPlan === '2class' ? '2class' : '1class-' + selectedWeekendDay;
-    openBookingModal(typeMap[key]);
 }
 
 // ==========================================
@@ -512,8 +325,5 @@ document.addEventListener('keydown', function(e) {
 // ==========================================
 window.openBookingModal = openBookingModal;
 window.closeBookingModal = closeBookingModal;
-window.selectWeekendPlan = selectWeekendPlan;
-window.selectWeekendDay = selectWeekendDay;
-window.openWeekendClassBooking = openWeekendClassBooking;
 
 console.log('✅ Booking.js loaded successfully');
