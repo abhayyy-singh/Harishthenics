@@ -233,6 +233,7 @@ if (bookingForm) {
             }
 
             let options;
+            let orderData;
 
             if (planType === 'consultation') {
                 // Server creates the order with the real price — browser can no longer set its own amount
@@ -241,7 +242,7 @@ if (bookingForm) {
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ serviceKey: 'consultation', name: userName, email: userEmail, phone: userPhone })
                 });
-                const orderData = await orderRes.json();
+                orderData = await orderRes.json();
                 if (!orderRes.ok) throw new Error(orderData.error || 'Could not start booking. Please try again.');
 
                 options = {
