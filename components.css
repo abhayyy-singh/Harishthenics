@@ -1064,6 +1064,36 @@
     display: block;
 }
 
+.payfee-form__checkbox-group {
+    display: flex;
+}
+
+.payfee-form__checkbox-label {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font-size: 13px;
+    line-height: 1.4;
+    color: rgba(255, 255, 255, 0.75);
+    cursor: pointer;
+}
+
+.payfee-form__checkbox {
+    flex-shrink: 0;
+    width: 18px;
+    height: 18px;
+    margin-top: 1px;
+    accent-color: #7C9CB5;
+    cursor: pointer;
+}
+
+.payfee-success__note {
+    margin-top: 12px;
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.6);
+    line-height: 1.5;
+}
+
 /* Submit Button */
 .payfee-form__submit {
     width: 100%;
