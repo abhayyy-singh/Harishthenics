@@ -874,7 +874,15 @@ During this consultation, we will thoroughly discuss your specific concerns and 
             <span class="payfee-form__hint"></span>
             <span class="payfee-form__error" id="amountError">Please enter at least ₹4,000</span>
           </div>
-          
+
+          <!-- App-Related Checkbox -->
+          <div class="payfee-form__checkbox-group">
+            <label class="payfee-form__checkbox-label" for="payfeeAppRelated">
+              <input type="checkbox" id="payfeeAppRelated" class="payfee-form__checkbox">
+              <span>Are you paying the fee for any service related to the Haristhenics app?</span>
+            </label>
+          </div>
+
           <!-- General error -->
           <span class="payfee-form__error" id="payfeeError" style="display:none;margin-top:4px;"></span>
 
@@ -899,6 +907,7 @@ During this consultation, we will thoroughly discuss your specific concerns and 
             <span>Amount: ₹<span id="successAmount"></span></span>
             <span>Payment ID: <span id="successPaymentId"></span></span>
           </p>
+          <p class="payfee-success__note" id="successNote"></p>
         </div>
       </div>
       </div>

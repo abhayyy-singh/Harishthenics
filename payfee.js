@@ -28,10 +28,12 @@
     const emailInput = document.getElementById('payfeeEmail');
     const amountInput = document.getElementById('payfeeAmount');
     const amountError = document.getElementById('amountError');
+    const appRelatedCheckbox = document.getElementById('payfeeAppRelated');
     const submitBtn = document.getElementById('payfeeSubmitBtn');
     const successDiv = document.getElementById('payfeeSuccess');
     const successAmount = document.getElementById('successAmount');
     const successPaymentId = document.getElementById('successPaymentId');
+    const successNote = document.getElementById('successNote');
     const stickyBtn = document.getElementById('stickyPayFeeBtn');
 //push krne k liye
     // ==========================================
@@ -185,6 +187,7 @@
             const phone = phoneInput.value.trim();
             const email = emailInput.value.trim();
             const amount = parseInt(amountInput.value);
+            const isAppRelated = !!(appRelatedCheckbox && appRelatedCheckbox.checked);
 
             if (!name || !phone || !email || !amount) {
                 showPayfeeError('Please fill all fields');
@@ -195,7 +198,7 @@
             submitBtn.disabled = true;
 
             try {
-                await initiatePayment(name, phone, email, amount);
+                await initiatePayment(name, phone, email, amount, isAppRelated);
             } catch (error) {
                 console.error('Payment error:', error);
                 showPayfeeError(error.message || 'Payment failed. Please try again.');
@@ -208,12 +211,12 @@
     // ==========================================
     // RAZORPAY PAYMENT
     // ==========================================
-    async function initiatePayment(name, phone, email, amount) {
+    async function initiatePayment(name, phone, email, amount, isAppRelated) {
         // Server creates the order — locks in the discussed amount so it can't be tampered with in the browser
         const orderRes = await fetch(`${BACKEND_URL}/api/create-website-order`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ serviceKey: 'payFee', amount: amount, name: name, email: email, phone: phone })
+            body: JSON.stringify({ serviceKey: 'payFee', amount: amount, name: name, email: email, phone: phone, isAppRelated: isAppRelated })
         });
         const orderData = await orderRes.json();
         if (!orderRes.ok) throw new Error(orderData.error || 'Could not start payment. Please try again.');
@@ -234,7 +237,7 @@
                 color: '#7C9CB5'
             },
             handler: function(response) {
-                handlePaymentSuccess(response, { name, phone, email, amount });
+                handlePaymentSuccess(response, { name, phone, email, amount, isAppRelated });
             },
             modal: {
                 ondismiss: function() {
@@ -260,6 +263,11 @@
     async function handlePaymentSuccess(response, formData) {
         successAmount.textContent = formData.amount.toLocaleString('en-IN');
         successPaymentId.textContent = response.razorpay_payment_id;
+        if (successNote) {
+            successNote.textContent = formData.isAppRelated
+                ? 'Check your email for your app login details.'
+                : 'Check your email for confirmation. For any queries, contact us on email.';
+        }
 
         form.classList.add('hidden');
         successDiv.classList.add('show');
