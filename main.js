@@ -459,6 +459,23 @@ window.addEventListener('load', function() {
             }
         }, 300);
     }
+
+    if (openCard === 'harishTraining') {
+        setTimeout(function() {
+            const option3 = document.getElementById('option3');
+            if (option3 && typeof toggleOption === 'function') {
+                toggleOption('option3');
+                setTimeout(function() {
+                    option3.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    setTimeout(function() {
+                        if (typeof window.openHarishTrainingModal === 'function') {
+                            window.openHarishTrainingModal();
+                        }
+                    }, 500);
+                }, 500);
+            }
+        }, 300);
+    }
 });
 
 // Book Now on the Consultation card — routes to real booking if admin has it open,
