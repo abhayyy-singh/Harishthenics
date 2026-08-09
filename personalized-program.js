@@ -20,7 +20,10 @@
         personalizedProgram: { price: 15000, isActive: false, isFullyBooked: true, fullyBookedMessage: '' },
         harishTraining:       { price: 15000, isActive: false, isFullyBooked: true, fullyBookedMessage: '' },
     };
-    fetch(`${BACKEND_URL}/api/site-config`)
+    // Exposed globally so other scripts (e.g. main.js's deep-link handler) can
+    // wait for the real isActive/isFullyBooked values instead of racing the
+    // fixed "closed" defaults above with a guessed setTimeout.
+    window.__liveServicesReady = fetch(`${BACKEND_URL}/api/site-config`)
         .then(function (res) { return res.ok ? res.json() : null; })
         .then(function (data) {
             if (data && data.services) {

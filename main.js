@@ -467,11 +467,20 @@ window.addEventListener('load', function() {
                 toggleOption('option3');
                 setTimeout(function() {
                     option3.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                    setTimeout(function() {
+                    // Wait for the real isActive/isFullyBooked fetch (personalized-program.js)
+                    // instead of guessing a fixed delay — a slow fetch previously meant the
+                    // modal opened using the fail-safe "closed" defaults, always showing the
+                    // Notify Me form even when slots were actually open.
+                    const openModal = function() {
                         if (typeof window.openHarishTrainingModal === 'function') {
                             window.openHarishTrainingModal();
                         }
-                    }, 500);
+                    };
+                    if (window.__liveServicesReady && typeof window.__liveServicesReady.then === 'function') {
+                        window.__liveServicesReady.then(openModal).catch(openModal);
+                    } else {
+                        setTimeout(openModal, 500);
+                    }
                 }, 500);
             }
         }, 300);
