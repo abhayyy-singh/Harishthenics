@@ -74,17 +74,19 @@
         // ==========================================
         programs: {
             
-            'back-pain': {
-                id: 'back-pain',
-                name: 'Back Pain / Disc Buldge Recovery Program',
-                shortName: 'Back Pain',
+            ‘back-pain’: {
+                id: ‘back-pain’,
+                name: ‘Back Pain / Disc Buldge Recovery Program’,
+                shortName: ‘Back Pain’,
                 price: 999,
-                tagline: 'Say goodbye to back pain forever',
-                videoId: 'iPG7vkdYT-o',  // Replace with actual YouTube video ID
-              description: [
-    'This recovery program helps you understand the root cause of your back pain and work on it safely.',
-    'Whether you have a disc bulge, herniated disc, weak lower back, or stiffness, the program focuses on reducing pain, restoring pain-free movement, and improving strength & mobility.',
-    'Through guided mobility, strengthening, and recovery exercises, you’ll gradually build strength, move better, and regain the confidence that back pain may have taken away.'
+                tagline: ‘Say goodbye to back pain forever’,
+                videoId: ‘iPG7vkdYT-o’,
+                excelLink: ‘https://docs.google.com/spreadsheets/d/19O1fABG9o16UcXrGhrxrlVX0fOoLl9MNDu1ucpZik0Q/edit?usp=sharing’,
+                ytMembershipLink: ‘https://www.youtube.com/@haristhenics06/join’,
+                description: [
+    ‘This recovery program helps you understand the root cause of your back pain and work on it safely.’,
+    ‘Whether you have a disc bulge, herniated disc, weak lower back, or stiffness, the program focuses on reducing pain, restoring pain-free movement, and improving strength & mobility.’,
+    ‘Through guided mobility, strengthening, and recovery exercises, you\’ll gradually build strength, move better, and regain the confidence that back pain may have taken away.’
 ]
             },
 
@@ -263,8 +265,23 @@
                     ${descriptionHTML}
                 </div>
 
-                <!-- CTA — always shows the button; availability is checked when it's clicked (same pattern as every other service) -->
+                <!-- CTA -->
                 <div class="wp-cta wp-cta--compact">
+                    ${program.id === 'back-pain' ? `
+                    <p class="wp-cta__price-label">Available via</p>
+                    <p class="wp-cta__price" style="font-size:28px;">YouTube Membership</p>
+                    <p class="wp-cta__price-note">Join to get full access</p>
+                    <a href="${program.ytMembershipLink || '#'}" target="_blank" class="wp-cta__button" style="text-decoration:none; display:inline-flex; align-items:center; gap:10px;">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+                        Get This Program
+                    </a>
+                    <p class="wp-cta__secure">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                        </svg>
+                        Redirects to YouTube Membership
+                    </p>
+                    ` : `
                     <p class="wp-cta__price-label">One-Time Payment</p>
                     <p class="wp-cta__price">₹${program.price.toLocaleString('en-IN')}</p>
                     <p class="wp-cta__price-note">Lifetime access</p>
@@ -281,6 +298,7 @@
                         </svg>
                         Secure payment via Razorpay
                     </p>
+                    `}
                 </div>
 
                 <!-- Reviews Section -->
