@@ -73,7 +73,28 @@
         // 🏋️ PROGRAMS - Add/Edit/Remove programs here
         // ==========================================
         programs: {
-            
+
+            'knee-pain': {
+                id: 'knee-pain',
+                name: 'Knee Pain Recovery Program',
+                shortName: 'Knee Pain',
+                price: 4999,
+                tagline: 'Rebuild strong, pain-free knees',
+                videoId: 'uJUAl-HzkIQ',
+
+                description: [
+    'I built this knee pain recovery program after years of dedicated work, hands-on experience, and careful movement selection — designed to help you achieve pain-free movement.',
+    'This program has already helped many people move better and reclaim their daily life. If you commit to it, it will do the same for you.',
+],
+                reviews: [
+                    { name: 'Mohan Patel', photo: '', rating: 5, text: 'Climbing stairs is no longer painful. Amazing program!', location: 'Ahmedabad' },
+                    { name: 'Kavita Sharma', photo: '', rating: 5, text: 'My knee surgery was avoided because of this. Thank you!', location: 'Delhi' },
+                    { name: 'Rajesh Kumar', photo: '', rating: 4, text: 'Gradual improvement, now I can walk without limping.', location: 'Chennai' },
+                    { name: 'Anita Desai', photo: '', rating: 5, text: 'Best investment for my knee health. Feeling 10 years younger!', location: 'Hyderabad' },
+                    { name: 'Suresh Nair', photo: '', rating: 5, text: 'Running again after 2 years of knee pain. Incredible results!', location: 'Kochi' }
+                ]
+            },
+
             'back-pain': {
                 id: 'back-pain',
                 name: 'Back Pain / Disc Buldge Recovery Program',
@@ -88,31 +109,6 @@
     'Whether you have a disc bulge, herniated disc, weak lower back, or stiffness, the program focuses on reducing pain, restoring pain-free movement, and improving strength & mobility.',
     'Through guided mobility, strengthening, and recovery exercises, you\'ll gradually build strength, move better, and regain the confidence that back pain may have taken away.'
 ]
-            },
-
-            'knee-pain': {
-                id: 'knee-pain',
-                name: 'Knee Pain Recovery Program',
-                shortName: 'Knee Pain',
-                price: 4999,
-                tagline: 'Rebuild strong, pain-free knees',
-                videoId: 'uJUAl-HzkIQ',  // Updated with actual YouTube video ID
-
-                description: [
-    'I built this knee pain recovery program after years of dedicated work, hands-on experience, and careful movement selection — designed to help you achieve pain-free movement.',
-    'This program has already helped many people move better and reclaim their daily life. If you commit to it, it will do the same for you.',
-    // 'What makes this program different is that it is not static — it evolves over time. As we learn more, the program gets updated, so what you invest in today only gets better.',
-    // 'Whether your knee pain is from injury, overuse, or age-related wear, this program will guide you step by step back to confident, pain-free movement.',
-],
-                reviews: [
-                    { name: 'Mohan Patel', photo: '', rating: 5, text: 'Climbing stairs is no longer painful. Amazing program!', location: 'Ahmedabad' },
-                    { name: 'Kavita Sharma', photo: '', rating: 5, text: 'My knee surgery was avoided because of this. Thank you!', location: 'Delhi' },
-                    { name: 'Rajesh Kumar', photo: '', rating: 4, text: 'Gradual improvement, now I can walk without limping.', location: 'Chennai' },
-                    { name: 'Anita Desai', photo: '', rating: 5, text: 'Best investment for my knee health. Feeling 10 years younger!', location: 'Hyderabad' },
-                    { name: 'Suresh Nair', photo: '', rating: 5, text: 'Running again after 2 years of knee pain. Incredible results!', location: 'Kochi' }
-                ]
-
-
             },
 
             'shoulder-pain': {
