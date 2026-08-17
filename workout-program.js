@@ -74,19 +74,19 @@
         // ==========================================
         programs: {
             
-            ‘back-pain’: {
-                id: ‘back-pain’,
-                name: ‘Back Pain / Disc Buldge Recovery Program’,
-                shortName: ‘Back Pain’,
+            'back-pain': {
+                id: 'back-pain',
+                name: 'Back Pain / Disc Buldge Recovery Program',
+                shortName: 'Back Pain',
                 price: 999,
-                tagline: ‘Say goodbye to back pain forever’,
-                videoId: ‘iPG7vkdYT-o’,
-                excelLink: ‘https://docs.google.com/spreadsheets/d/19O1fABG9o16UcXrGhrxrlVX0fOoLl9MNDu1ucpZik0Q/edit?usp=sharing’,
-                ytMembershipLink: ‘https://www.youtube.com/@haristhenics06/join’,
+                tagline: 'Say goodbye to back pain forever',
+                videoId: 'iPG7vkdYT-o',
+                excelLink: 'https://docs.google.com/spreadsheets/d/19O1fABG9o16UcXrGhrxrlVX0fOoLl9MNDu1ucpZik0Q/edit?usp=sharing',
+                ytMembershipLink: 'https://www.youtube.com/@haristhenics06/join',
                 description: [
-    ‘This recovery program helps you understand the root cause of your back pain and work on it safely.’,
-    ‘Whether you have a disc bulge, herniated disc, weak lower back, or stiffness, the program focuses on reducing pain, restoring pain-free movement, and improving strength & mobility.’,
-    ‘Through guided mobility, strengthening, and recovery exercises, you\’ll gradually build strength, move better, and regain the confidence that back pain may have taken away.’
+    'This recovery program helps you understand the root cause of your back pain and work on it safely.',
+    'Whether you have a disc bulge, herniated disc, weak lower back, or stiffness, the program focuses on reducing pain, restoring pain-free movement, and improving strength & mobility.',
+    'Through guided mobility, strengthening, and recovery exercises, you\'ll gradually build strength, move better, and regain the confidence that back pain may have taken away.'
 ]
             },
 
