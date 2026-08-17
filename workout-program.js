@@ -304,9 +304,6 @@
                 <!-- Reviews Section -->
                 
                     <div class="wp-reviews__dots" id="reviewsDots"></div>
-                    <a href="${CONFIG.reviewFormLink}" target="_blank" class="wp-reviews__write-btn">
-                        ✍️ Write a Review
-                    </a>
                 </div>
             </section>
 
