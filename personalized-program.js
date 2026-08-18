@@ -211,19 +211,48 @@
         }
     });
 
-    /* ── Harish Training — in-card video ── */
-    let hsVideoMuted = false; // starts unmuted when card opens
+    /* ── Harish Training — in-card video (same pattern as Personalized Program) ── */
+    let hsVideoMuted = false;
+    let hsVideoPlaying = false;
+
+    function hsVideoSrc(muted, controls) {
+        return 'https://www.youtube.com/embed/x2Xm-KZNhx4?autoplay=1&mute=' + (muted ? 1 : 0) + '&loop=1&playlist=x2Xm-KZNhx4&controls=' + (controls ? 1 : 0) + '&rel=0&modestbranding=1';
+    }
+
     window.toggleHsVideoMute = function () {
         const iframe = document.getElementById('hs-training-video');
-        const iconMuted   = document.getElementById('hs-icon-muted');
-        const iconUnmuted = document.getElementById('hs-icon-unmuted');
-        if (!iframe) return;
+        if (!iframe || !hsVideoPlaying) return;
         hsVideoMuted = !hsVideoMuted;
-        const muteParam = hsVideoMuted ? '1' : '0';
-        iframe.src = `https://www.youtube.com/embed/P0P2WBWl2CI?autoplay=1&mute=${muteParam}&loop=1&playlist=P0P2WBWl2CI&controls=0&rel=0&modestbranding=1&enablejsapi=0`;
-        if (iconMuted)   iconMuted.style.display   = hsVideoMuted ? 'block' : 'none';
-        if (iconUnmuted) iconUnmuted.style.display = hsVideoMuted ? 'none'  : 'block';
+        iframe.src = hsVideoSrc(hsVideoMuted, false);
+        document.getElementById('hs-icon-muted').style.display   = hsVideoMuted ? 'block' : 'none';
+        document.getElementById('hs-icon-unmuted').style.display = hsVideoMuted ? 'none'  : 'block';
     };
+
+    window.toggleHsFullscreen = function () {
+        const iframe = document.getElementById('hs-training-video');
+        if (!iframe || !hsVideoPlaying) return;
+        if (document.fullscreenElement || document.webkitFullscreenElement) {
+            if (document.exitFullscreen) document.exitFullscreen();
+            else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
+            return;
+        }
+        iframe.src = hsVideoSrc(hsVideoMuted, true);
+        const req = iframe.requestFullscreen || iframe.webkitRequestFullscreen || iframe.mozRequestFullScreen;
+        if (req) req.call(iframe);
+    };
+
+    document.addEventListener('fullscreenchange', function () {
+        if (!document.fullscreenElement) {
+            const iframe = document.getElementById('hs-training-video');
+            if (iframe && hsVideoPlaying) iframe.src = hsVideoSrc(hsVideoMuted, false);
+        }
+    });
+    document.addEventListener('webkitfullscreenchange', function () {
+        if (!document.webkitFullscreenElement) {
+            const iframe = document.getElementById('hs-training-video');
+            if (iframe && hsVideoPlaying) iframe.src = hsVideoSrc(hsVideoMuted, false);
+        }
+    });
 
     document.addEventListener('DOMContentLoaded', function () {
 
@@ -295,23 +324,33 @@
                 }
             }
 
-            // option3: Harish Training video
+            // option3: Harish Training video (same pattern as Personalized Program)
             if (optionId === 'option3') {
                 const isNowActive = document.getElementById('option3').classList.contains('active');
-                const iframe = document.getElementById('hs-training-video');
-                const iconMuted   = document.getElementById('hs-icon-muted');
-                const iconUnmuted = document.getElementById('hs-icon-unmuted');
+                const iframe    = document.getElementById('hs-training-video');
+                const thumbnail = document.getElementById('hs-video-thumbnail');
+                const ctrlBar   = document.getElementById('hs-ctrl-bar');
                 if (iframe) {
                     if (isNowActive) {
                         hsVideoMuted = false;
-                        iframe.src = 'https://www.youtube.com/embed/P0P2WBWl2CI?autoplay=1&mute=0&loop=1&playlist=P0P2WBWl2CI&controls=0&rel=0&modestbranding=1&enablejsapi=0';
-                        if (iconMuted)   iconMuted.style.display   = 'none';
-                        if (iconUnmuted) iconUnmuted.style.display = 'block';
+                        hsVideoPlaying = true;
+                        iframe.style.display = 'block';
+                        if (ctrlBar) ctrlBar.style.display = 'flex';
+                        document.getElementById('hs-icon-muted').style.display   = 'none';
+                        document.getElementById('hs-icon-unmuted').style.display = 'block';
+                        // hide thumbnail only after iframe has loaded
+                        iframe.addEventListener('load', function hideThumbnail() {
+                            if (thumbnail) thumbnail.style.display = 'none';
+                            iframe.removeEventListener('load', hideThumbnail);
+                        });
+                        iframe.src = hsVideoSrc(false, false);
                     } else {
-                        iframe.src = '';
-                        hsVideoMuted = true;
-                        if (iconMuted)   iconMuted.style.display   = 'block';
-                        if (iconUnmuted) iconUnmuted.style.display = 'none';
+                        iframe.src = 'about:blank';
+                        iframe.style.display = 'none';
+                        hsVideoPlaying = false;
+                        hsVideoMuted   = false;
+                        if (thumbnail) thumbnail.style.display = 'block';
+                        if (ctrlBar)   ctrlBar.style.display   = 'none';
                     }
                 }
             }
