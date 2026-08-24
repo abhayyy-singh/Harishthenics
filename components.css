@@ -567,6 +567,187 @@
 }
 
 /* ================================
+   CONSULTATION CALENDAR + TIME SLOTS
+   ================================ */
+.consult-calendar {
+    margin-bottom: 20px;
+}
+
+.consult-calendar__nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 14px;
+}
+
+.consult-calendar__nav-btn {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #ffffff;
+    font-size: 18px;
+    line-height: 1;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.consult-calendar__nav-btn:hover:not(:disabled) {
+    background: rgba(124, 156, 181, 0.15);
+    border-color: rgba(124, 156, 181, 0.4);
+}
+
+.consult-calendar__nav-btn:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+}
+
+.consult-calendar__month {
+    font-size: 15px;
+    font-weight: 600;
+    color: #ffffff;
+    letter-spacing: 0.2px;
+}
+
+.consult-calendar__weekdays {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    margin-bottom: 6px;
+}
+
+.consult-calendar__weekdays span {
+    text-align: center;
+    font-size: 11px;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.35);
+}
+
+.consult-calendar__grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 4px;
+}
+
+.consult-calendar__day {
+    aspect-ratio: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    font-size: 13px;
+    font-weight: 500;
+    background: transparent;
+    border: 1px solid transparent;
+    color: rgba(255, 255, 255, 0.25);
+    cursor: default;
+    transition: all 0.2s ease;
+}
+
+.consult-calendar__day--open {
+    background: rgba(124, 156, 181, 0.1);
+    border: 1px solid rgba(124, 156, 181, 0.35);
+    color: #ffffff;
+    cursor: pointer;
+}
+
+.consult-calendar__day--open:hover {
+    background: rgba(124, 156, 181, 0.2);
+}
+
+.consult-calendar__day--selected {
+    background: linear-gradient(135deg, #7C9CB5 0%, #A3C1D8 100%);
+    border-color: transparent;
+    color: #0f0f0f;
+    font-weight: 700;
+}
+
+.consult-calendar__hint {
+    font-size: 12.5px;
+    color: rgba(255, 255, 255, 0.4);
+    text-align: center;
+    margin: 12px 0 0;
+}
+
+.consult-slots {
+    margin-bottom: 20px;
+}
+
+.consult-slots__label {
+    font-size: 13px;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.7);
+    margin: 0 0 10px;
+}
+
+.consult-slots__grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.consult-slots__slot {
+    padding: 10px 16px;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    color: #ffffff;
+    font-size: 13.5px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.consult-slots__slot:hover {
+    border-color: rgba(124, 156, 181, 0.5);
+    background: rgba(124, 156, 181, 0.1);
+}
+
+.consult-slots__slot--selected {
+    background: linear-gradient(135deg, #7C9CB5 0%, #A3C1D8 100%);
+    border-color: transparent;
+    color: #0f0f0f;
+    font-weight: 700;
+}
+
+.consult-slots__slot--full {
+    background: rgba(255, 255, 255, 0.02);
+    border-color: rgba(255, 255, 255, 0.08);
+    color: rgba(255, 255, 255, 0.3);
+    cursor: not-allowed;
+    text-decoration: line-through;
+}
+
+.consult-selected-summary {
+    font-size: 13px;
+    color: #A3C1D8;
+    text-align: center;
+    margin: -20px 0 8px;
+    padding: 10px 16px;
+    background: rgba(124, 156, 181, 0.08);
+    border-radius: 10px;
+}
+
+.consult-change-link {
+    display: block;
+    margin: 0 auto 24px;
+    background: none;
+    border: none;
+    color: rgba(255, 255, 255, 0.4);
+    font-size: 12.5px;
+    font-family: inherit;
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+.consult-change-link:hover {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+/* ================================
    CALLBACK MODAL (Legacy Support)
    ================================ */
 .callback-modal {

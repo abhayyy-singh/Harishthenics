@@ -1099,113 +1099,144 @@ During this consultation, we will thoroughly discuss your specific concerns and 
             </svg>
           </div>
 
-          <h2 class="booking-modal__title" id="bookingModalTitle">
-            Book Your Session
-          </h2>
-          <p class="booking-modal__subtitle" id="modalSubtitle">
-            Complete your booking
-          </p>
+          <!-- Step 1: Pick a date + time (consultation only) -->
+          <div id="consultStepCalendar">
+            <h2 class="booking-modal__title">Pick a Date &amp; Time</h2>
+            <p class="booking-modal__subtitle">Choose when you'd like to visit Grip&amp;Grab</p>
 
-          <form class="booking-form" id="bookingForm">
-            <input type="hidden" id="planType" name="planType" value="" />
-
-            <div class="booking-form__group">
-              <label class="booking-form__label" for="userName"
-                >Full Name</label
-              >
-              <input
-                type="text"
-                id="userName"
-                name="user_name"
-                class="booking-form__input"
-                placeholder="Enter your full name"
-                required
-              />
+            <div class="consult-calendar">
+              <div class="consult-calendar__nav">
+                <button type="button" class="consult-calendar__nav-btn" id="calPrevMonth" aria-label="Previous month">‹</button>
+                <span class="consult-calendar__month" id="calMonthLabel">Month Year</span>
+                <button type="button" class="consult-calendar__nav-btn" id="calNextMonth" aria-label="Next month">›</button>
+              </div>
+              <div class="consult-calendar__weekdays" id="calWeekdays"></div>
+              <div class="consult-calendar__grid" id="calGrid"></div>
+              <p class="consult-calendar__hint" id="calHint">Loading available dates...</p>
             </div>
 
-            <div class="booking-form__group">
-              <label class="booking-form__label" for="userEmail">Email</label>
-              <input
-                type="email"
-                id="userEmail"
-                name="user_email"
-                class="booking-form__input"
-                placeholder="your.email@example.com"
-                required
-              />
+            <div class="consult-slots" id="consultSlots" style="display:none;">
+              <p class="consult-slots__label" id="consultSlotsDate"></p>
+              <div class="consult-slots__grid" id="consultSlotsGrid"></div>
             </div>
 
-            <div class="booking-form__group">
-              <label class="booking-form__label" for="userPhone"
-                >Contact Number</label
-              >
-              <input
-                type="tel"
-                id="userPhone"
-                name="user_phone"
-                class="booking-form__input"
-                placeholder="+91 98765 43210"
-                pattern="[0-9+\s-]{10,15}"
-                required
-              />
-            </div>
-            <!-- time slot disabled -->
-            <!-- <div class="booking-form__group" id="slotGroup" style="display:none;">
-  <label class="booking-form__label">Select Time Slot</label>
-  <select id="userSlot" class="booking-form__input">
-    <option value="">-- Choose a slot --</option>
-    <option value="9:00 AM – 10:30 AM" id="slot-morning">9:00 AM – 10:30 AM</option>
-    <option value="10:30 AM – 12:00 PM" id="slot-afternoon">10:30 AM – 12:00 PM</option>
-  </select>
-</div> -->
-            <!-- AGE INPUT (NEW - ADD THIS) -->
-<div class="booking-form__group">
-  <label class="booking-form__label" for="userPhone"
-                >Age</label
-              >
-  <input 
-    type="number" 
-    id="userAge" 
-    name="user_age"
-    class="booking-form__input"
-    placeholder="Age (in years)"
-    min="15"
-    max="80"
-  />
-</div>
-
-
-            <button type="submit" class="booking-form__submit">
-              <span class="booking-form__submit-text">Proceed to Payment</span>
-              <span class="booking-form__submit-loader"></span>
+            <button type="button" class="booking-form__submit" id="consultContinueBtn" disabled>
+              <span class="booking-form__submit-text">Continue</span>
             </button>
 
-            <div class="booking-form__success" id="successMessage">
-              <svg
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-              >
-                <polyline points="20 6 9 17 4 12"></polyline>
-              </svg>
-              <span>Booking successful! We'll contact you soon.</span>
-            </div>
-
-            <div class="booking-form__error" id="errorMessage">
-              <svg
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-              >
+            <div class="booking-form__error" id="calendarError">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <circle cx="12" cy="12" r="10"></circle>
                 <line x1="12" y1="8" x2="12" y2="12"></line>
                 <line x1="12" y1="16" x2="12.01" y2="16"></line>
               </svg>
-              <span>Something went wrong. Please try again.</span>
+              <span>Something went wrong loading the calendar. Please refresh.</span>
             </div>
-          </form>
+          </div>
+
+          <!-- Step 2: Details + payment -->
+          <div id="consultStepForm" style="display:none;">
+            <h2 class="booking-modal__title" id="bookingModalTitle">
+              Book Your Session
+            </h2>
+            <p class="booking-modal__subtitle" id="modalSubtitle">
+              Complete your booking
+            </p>
+            <p class="consult-selected-summary" id="consultSelectedSummary"></p>
+            <button type="button" class="consult-change-link" id="consultChangeSlot">‹ Change date/time</button>
+
+            <form class="booking-form" id="bookingForm">
+              <input type="hidden" id="planType" name="planType" value="" />
+
+              <div class="booking-form__group">
+                <label class="booking-form__label" for="userName"
+                  >Full Name</label
+                >
+                <input
+                  type="text"
+                  id="userName"
+                  name="user_name"
+                  class="booking-form__input"
+                  placeholder="Enter your full name"
+                  required
+                />
+              </div>
+
+              <div class="booking-form__group">
+                <label class="booking-form__label" for="userEmail">Email</label>
+                <input
+                  type="email"
+                  id="userEmail"
+                  name="user_email"
+                  class="booking-form__input"
+                  placeholder="your.email@example.com"
+                  required
+                />
+              </div>
+
+              <div class="booking-form__group">
+                <label class="booking-form__label" for="userPhone"
+                  >Contact Number</label
+                >
+                <input
+                  type="tel"
+                  id="userPhone"
+                  name="user_phone"
+                  class="booking-form__input"
+                  placeholder="+91 98765 43210"
+                  pattern="[0-9+\s-]{10,15}"
+                  required
+                />
+              </div>
+              <!-- AGE INPUT (NEW - ADD THIS) -->
+  <div class="booking-form__group">
+    <label class="booking-form__label" for="userPhone"
+                  >Age</label
+                >
+    <input
+      type="number"
+      id="userAge"
+      name="user_age"
+      class="booking-form__input"
+      placeholder="Age (in years)"
+      min="15"
+      max="80"
+    />
+  </div>
+
+
+              <button type="submit" class="booking-form__submit">
+                <span class="booking-form__submit-text">Proceed to Payment</span>
+                <span class="booking-form__submit-loader"></span>
+              </button>
+
+              <div class="booking-form__success" id="successMessage">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
+                <span>Booking successful! We'll contact you soon.</span>
+              </div>
+
+              <div class="booking-form__error" id="errorMessage">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <line x1="12" y1="8" x2="12" y2="12"></line>
+                  <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                </svg>
+                <span>Something went wrong. Please try again.</span>
+              </div>
+            </form>
+          </div>
         </div>
       </div>
     </div>
