@@ -24,7 +24,7 @@ const BOOKING_CONFIG = {
 
     bookingTypes: {
         consultation: {
-            name: 'Consultation / Workout Program',
+            name: 'Appointment',
             amount: 200000,
             displayAmount: '₹2,000'
         },
@@ -43,10 +43,11 @@ if (typeof emailjs !== 'undefined') {
 let currentBookingType = null;
 
 // ==========================================
-// CONSULTATION CALENDAR STATE
+// APPOINTMENT AVAILABILITY STATE
+// Whole week (however many days admin has opened) shown in one scrollable
+// list — tap any open slot directly, no need to click into a date first.
 // ==========================================
 let consultAvailableDates = {}; // { 'YYYY-MM-DD': [{id,label,startTime,isFull}] }
-let consultCalendarMonth = new Date();
 let selectedConsultMode = null; // 'offline' | 'online'
 let selectedConsultDate = null;
 let selectedConsultSlotId = null;
@@ -58,18 +59,10 @@ const CONSULT_MODE_LABELS = {
     online: { subtitle: "Choose when you'd like to connect online" },
 };
 
-const WEEKDAY_SHORT = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
-const MONTH_NAMES = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-
-function todayDateKey() {
-    const d = new Date();
-    return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
-}
-
 async function loadConsultAvailability() {
     const hint = document.getElementById('calHint');
     const errorBox = document.getElementById('calendarError');
-    if (hint) hint.textContent = 'Loading available dates...';
+    if (hint) hint.textContent = 'Loading available times...';
     try {
         const res = await fetch(BACKEND_URL + '/api/app-config?withSlots=1&mode=' + (selectedConsultMode || 'offline'));
         const data = await res.json();
@@ -77,112 +70,66 @@ async function loadConsultAvailability() {
         (data.consultationDates || []).forEach(function (d) {
             consultAvailableDates[d.date] = d.slots || [];
         });
-        if (Object.keys(consultAvailableDates).length === 0) {
-            if (hint) hint.textContent = 'No dates are open for booking right now — please check back soon.';
-        } else {
-            if (hint) hint.textContent = 'Select a highlighted date to see available times.';
-        }
-        renderConsultCalendar();
+        renderConsultWeekList();
     } catch (err) {
-        console.error('Failed to load consultation availability:', err);
+        console.error('Failed to load appointment availability:', err);
         if (errorBox) errorBox.classList.add('show');
         if (hint) hint.textContent = '';
     }
 }
 
-function renderConsultCalendar() {
-    const weekdaysEl = document.getElementById('calWeekdays');
-    const gridEl = document.getElementById('calGrid');
-    const monthLabelEl = document.getElementById('calMonthLabel');
-    const prevBtn = document.getElementById('calPrevMonth');
-    if (!weekdaysEl || !gridEl || !monthLabelEl) return;
+function renderConsultWeekList() {
+    const listEl = document.getElementById('consultWeekList');
+    if (!listEl) return;
 
-    if (weekdaysEl.children.length === 0) {
-        WEEKDAY_SHORT.forEach(function (w) {
-            const span = document.createElement('span');
-            span.textContent = w;
-            weekdaysEl.appendChild(span);
-        });
-    }
+    const dateKeys = Object.keys(consultAvailableDates).sort();
+    listEl.innerHTML = '';
 
-    const year = consultCalendarMonth.getFullYear();
-    const month = consultCalendarMonth.getMonth();
-    monthLabelEl.textContent = MONTH_NAMES[month] + ' ' + year;
-
-    const now = new Date();
-    const isCurrentRealMonth = year === now.getFullYear() && month === now.getMonth();
-    if (prevBtn) prevBtn.disabled = isCurrentRealMonth;
-
-    const firstWeekday = new Date(year, month, 1).getDay();
-    const daysInMonth = new Date(year, month + 1, 0).getDate();
-    const today = todayDateKey();
-
-    gridEl.innerHTML = '';
-    for (let i = 0; i < firstWeekday; i++) {
-        gridEl.appendChild(document.createElement('div'));
-    }
-    for (let day = 1; day <= daysInMonth; day++) {
-        const dateStr = year + '-' + String(month + 1).padStart(2, '0') + '-' + String(day).padStart(2, '0');
-        const btn = document.createElement('button');
-        btn.type = 'button';
-        btn.textContent = String(day);
-        btn.className = 'consult-calendar__day';
-
-        const isPast = dateStr < today;
-        const hasSlots = !!consultAvailableDates[dateStr];
-        if (!isPast && hasSlots) {
-            btn.classList.add('consult-calendar__day--open');
-            if (dateStr === selectedConsultDate) btn.classList.add('consult-calendar__day--selected');
-            btn.addEventListener('click', function () { selectConsultDate(dateStr); });
-        } else {
-            btn.disabled = true;
-        }
-        gridEl.appendChild(btn);
-    }
-}
-
-function selectConsultDate(dateStr) {
-    selectedConsultDate = dateStr;
-    selectedConsultSlotId = null;
-    selectedConsultSlotLabel = null;
-    renderConsultCalendar();
-    renderConsultSlots();
-    updateConsultContinueState();
-}
-
-function renderConsultSlots() {
-    const wrap = document.getElementById('consultSlots');
-    const dateLabel = document.getElementById('consultSlotsDate');
-    const grid = document.getElementById('consultSlotsGrid');
-    if (!wrap || !dateLabel || !grid) return;
-
-    if (!selectedConsultDate) {
-        wrap.style.display = 'none';
+    if (dateKeys.length === 0) {
+        const hint = document.createElement('p');
+        hint.className = 'consult-week__hint';
+        hint.textContent = 'No dates are open for booking right now — please check back soon.';
+        listEl.appendChild(hint);
         return;
     }
 
-    wrap.style.display = 'block';
-    const d = new Date(selectedConsultDate + 'T00:00:00');
-    dateLabel.textContent = d.toLocaleDateString('en-IN', { weekday: 'long', day: 'numeric', month: 'long' });
+    dateKeys.forEach(function (dateStr) {
+        const slots = consultAvailableDates[dateStr] || [];
+        if (slots.length === 0) return;
 
-    grid.innerHTML = '';
-    const slots = consultAvailableDates[selectedConsultDate] || [];
-    slots.forEach(function (slot) {
-        const btn = document.createElement('button');
-        btn.type = 'button';
-        btn.textContent = slot.isFull ? slot.label + ' — Full' : slot.label;
-        btn.className = 'consult-slots__slot' + (slot.isFull ? ' consult-slots__slot--full' : '') + (slot.id === selectedConsultSlotId ? ' consult-slots__slot--selected' : '');
-        if (!slot.isFull) {
-            btn.addEventListener('click', function () {
-                selectedConsultSlotId = slot.id;
-                selectedConsultSlotLabel = slot.label;
-                renderConsultSlots();
-                updateConsultContinueState();
-            });
-        } else {
-            btn.disabled = true;
-        }
-        grid.appendChild(btn);
+        const dayBlock = document.createElement('div');
+        dayBlock.className = 'consult-week__day';
+
+        const d = new Date(dateStr + 'T00:00:00');
+        const header = document.createElement('p');
+        header.className = 'consult-week__day-header';
+        header.innerHTML = d.toLocaleDateString('en-IN', { weekday: 'long' }) +
+            ' <span>' + d.toLocaleDateString('en-IN', { day: 'numeric', month: 'short' }) + '</span>';
+        dayBlock.appendChild(header);
+
+        const slotsWrap = document.createElement('div');
+        slotsWrap.className = 'consult-week__slots';
+        slots.forEach(function (slot) {
+            const btn = document.createElement('button');
+            btn.type = 'button';
+            btn.textContent = slot.isFull ? slot.label + ' — Full' : slot.label;
+            btn.className = 'consult-slots__slot' + (slot.isFull ? ' consult-slots__slot--full' : '') +
+                (slot.id === selectedConsultSlotId && dateStr === selectedConsultDate ? ' consult-slots__slot--selected' : '');
+            if (!slot.isFull) {
+                btn.addEventListener('click', function () {
+                    selectedConsultDate = dateStr;
+                    selectedConsultSlotId = slot.id;
+                    selectedConsultSlotLabel = slot.label;
+                    renderConsultWeekList();
+                    updateConsultContinueState();
+                });
+            } else {
+                btn.disabled = true;
+            }
+            slotsWrap.appendChild(btn);
+        });
+        dayBlock.appendChild(slotsWrap);
+        listEl.appendChild(dayBlock);
     });
 }
 
@@ -192,7 +139,6 @@ function updateConsultContinueState() {
 }
 
 function resetConsultCalendarState() {
-    consultCalendarMonth = new Date();
     selectedConsultMode = null;
     selectedConsultDate = null;
     selectedConsultSlotId = null;
@@ -204,8 +150,6 @@ function resetConsultCalendarState() {
     if (modeStep) modeStep.style.display = 'block';
     if (calendarStep) calendarStep.style.display = 'none';
     if (formStep) formStep.style.display = 'none';
-    const slotsWrap = document.getElementById('consultSlots');
-    if (slotsWrap) slotsWrap.style.display = 'none';
     updateConsultContinueState();
 }
 
@@ -220,7 +164,6 @@ function chooseConsultMode(mode) {
     if (modeStep) modeStep.style.display = 'none';
     if (calendarStep) calendarStep.style.display = 'block';
 
-    consultCalendarMonth = new Date();
     selectedConsultDate = null;
     selectedConsultSlotId = null;
     selectedConsultSlotLabel = null;
@@ -305,8 +248,6 @@ function closeBookingModal() {
 // CALENDAR STEP NAVIGATION
 // ==========================================
 document.addEventListener('DOMContentLoaded', function () {
-    const prevBtn = document.getElementById('calPrevMonth');
-    const nextBtn = document.getElementById('calNextMonth');
     const continueBtn = document.getElementById('consultContinueBtn');
     const changeBtn = document.getElementById('consultChangeSlot');
     const modeOfflineBtn = document.getElementById('consultModeOffline');
@@ -330,14 +271,6 @@ document.addEventListener('DOMContentLoaded', function () {
         if (calendarStep) calendarStep.style.display = 'block';
     });
 
-    if (prevBtn) prevBtn.addEventListener('click', function () {
-        consultCalendarMonth = new Date(consultCalendarMonth.getFullYear(), consultCalendarMonth.getMonth() - 1, 1);
-        renderConsultCalendar();
-    });
-    if (nextBtn) nextBtn.addEventListener('click', function () {
-        consultCalendarMonth = new Date(consultCalendarMonth.getFullYear(), consultCalendarMonth.getMonth() + 1, 1);
-        renderConsultCalendar();
-    });
     if (continueBtn) continueBtn.addEventListener('click', function () {
         if (!selectedConsultDate || !selectedConsultSlotId) return;
         const calendarStep = document.getElementById('consultStepCalendar');

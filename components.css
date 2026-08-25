@@ -567,123 +567,47 @@
 }
 
 /* ================================
-   CONSULTATION CALENDAR + TIME SLOTS
+   APPOINTMENT — WEEKLY AVAILABILITY LIST
+   Whole week's open days + slots shown together, no need to click into
+   each date one at a time to see what's free.
    ================================ */
-.consult-calendar {
+.consult-week {
     margin-bottom: 20px;
+    max-height: 340px;
+    overflow-y: auto;
+    padding-right: 2px;
 }
 
-.consult-calendar__nav {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 14px;
-}
-
-.consult-calendar__nav-btn {
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    color: #ffffff;
-    font-size: 18px;
-    line-height: 1;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.consult-calendar__nav-btn:hover:not(:disabled) {
-    background: rgba(124, 156, 181, 0.15);
-    border-color: rgba(124, 156, 181, 0.4);
-}
-
-.consult-calendar__nav-btn:disabled {
-    opacity: 0.3;
-    cursor: not-allowed;
-}
-
-.consult-calendar__month {
-    font-size: 15px;
-    font-weight: 600;
-    color: #ffffff;
-    letter-spacing: 0.2px;
-}
-
-.consult-calendar__weekdays {
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    margin-bottom: 6px;
-}
-
-.consult-calendar__weekdays span {
-    text-align: center;
-    font-size: 11px;
-    font-weight: 600;
-    color: rgba(255, 255, 255, 0.35);
-}
-
-.consult-calendar__grid {
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    gap: 4px;
-}
-
-.consult-calendar__day {
-    aspect-ratio: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 10px;
-    font-size: 13px;
-    font-weight: 500;
-    background: transparent;
-    border: 1px solid transparent;
-    color: rgba(255, 255, 255, 0.25);
-    cursor: default;
-    transition: all 0.2s ease;
-}
-
-.consult-calendar__day--open {
-    background: rgba(124, 156, 181, 0.1);
-    border: 1px solid rgba(124, 156, 181, 0.35);
-    color: #ffffff;
-    cursor: pointer;
-}
-
-.consult-calendar__day--open:hover {
-    background: rgba(124, 156, 181, 0.2);
-}
-
-.consult-calendar__day--selected {
-    background: linear-gradient(135deg, #7C9CB5 0%, #A3C1D8 100%);
-    border-color: transparent;
-    color: #0f0f0f;
-    font-weight: 700;
-}
-
-.consult-calendar__hint {
+.consult-week__hint {
     font-size: 12.5px;
     color: rgba(255, 255, 255, 0.4);
     text-align: center;
-    margin: 12px 0 0;
+    margin: 20px 0;
 }
 
-.consult-slots {
-    margin-bottom: 20px;
+.consult-week__day {
+    padding: 14px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
 
-.consult-slots__label {
-    font-size: 13px;
-    font-weight: 600;
-    color: rgba(255, 255, 255, 0.7);
+.consult-week__day:last-child {
+    border-bottom: none;
+}
+
+.consult-week__day-header {
+    font-size: 13.5px;
+    font-weight: 700;
+    color: #ffffff;
     margin: 0 0 10px;
 }
 
-.consult-slots__grid {
+.consult-week__day-header span {
+    font-weight: 400;
+    color: rgba(255, 255, 255, 0.4);
+    font-size: 12px;
+}
+
+.consult-week__slots {
     display: flex;
     flex-wrap: wrap;
     gap: 8px;
