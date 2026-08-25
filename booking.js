@@ -47,10 +47,16 @@ let currentBookingType = null;
 // ==========================================
 let consultAvailableDates = {}; // { 'YYYY-MM-DD': [{id,label,startTime,isFull}] }
 let consultCalendarMonth = new Date();
+let selectedConsultMode = null; // 'offline' | 'online'
 let selectedConsultDate = null;
 let selectedConsultSlotId = null;
 let selectedConsultSlotLabel = null;
 let pendingConsultHoldId = null;
+
+const CONSULT_MODE_LABELS = {
+    offline: { subtitle: "Choose when you'd like to visit Grip&Grab" },
+    online: { subtitle: "Choose when you'd like to connect online" },
+};
 
 const WEEKDAY_SHORT = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
 const MONTH_NAMES = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
@@ -65,7 +71,7 @@ async function loadConsultAvailability() {
     const errorBox = document.getElementById('calendarError');
     if (hint) hint.textContent = 'Loading available dates...';
     try {
-        const res = await fetch(BACKEND_URL + '/api/app-config?withSlots=1&mode=offline');
+        const res = await fetch(BACKEND_URL + '/api/app-config?withSlots=1&mode=' + (selectedConsultMode || 'offline'));
         const data = await res.json();
         consultAvailableDates = {};
         (data.consultationDates || []).forEach(function (d) {
@@ -187,17 +193,38 @@ function updateConsultContinueState() {
 
 function resetConsultCalendarState() {
     consultCalendarMonth = new Date();
+    selectedConsultMode = null;
     selectedConsultDate = null;
     selectedConsultSlotId = null;
     selectedConsultSlotLabel = null;
     pendingConsultHoldId = null;
+    const modeStep = document.getElementById('consultStepMode');
     const calendarStep = document.getElementById('consultStepCalendar');
     const formStep = document.getElementById('consultStepForm');
-    if (calendarStep) calendarStep.style.display = 'block';
+    if (modeStep) modeStep.style.display = 'block';
+    if (calendarStep) calendarStep.style.display = 'none';
     if (formStep) formStep.style.display = 'none';
     const slotsWrap = document.getElementById('consultSlots');
     if (slotsWrap) slotsWrap.style.display = 'none';
     updateConsultContinueState();
+}
+
+function chooseConsultMode(mode) {
+    selectedConsultMode = mode;
+    const labels = CONSULT_MODE_LABELS[mode] || CONSULT_MODE_LABELS.offline;
+    const subtitleEl = document.getElementById('consultCalendarSubtitle');
+    if (subtitleEl) subtitleEl.textContent = labels.subtitle;
+
+    const modeStep = document.getElementById('consultStepMode');
+    const calendarStep = document.getElementById('consultStepCalendar');
+    if (modeStep) modeStep.style.display = 'none';
+    if (calendarStep) calendarStep.style.display = 'block';
+
+    consultCalendarMonth = new Date();
+    selectedConsultDate = null;
+    selectedConsultSlotId = null;
+    selectedConsultSlotLabel = null;
+    loadConsultAvailability();
 }
 
 // ==========================================
@@ -282,6 +309,19 @@ document.addEventListener('DOMContentLoaded', function () {
     const nextBtn = document.getElementById('calNextMonth');
     const continueBtn = document.getElementById('consultContinueBtn');
     const changeBtn = document.getElementById('consultChangeSlot');
+    const modeOfflineBtn = document.getElementById('consultModeOffline');
+    const modeOnlineBtn = document.getElementById('consultModeOnline');
+    const backToModeBtn = document.getElementById('consultBackToMode');
+
+    if (modeOfflineBtn) modeOfflineBtn.addEventListener('click', function () { chooseConsultMode('offline'); });
+    if (modeOnlineBtn) modeOnlineBtn.addEventListener('click', function () { chooseConsultMode('online'); });
+
+    if (backToModeBtn) backToModeBtn.addEventListener('click', function () {
+        const modeStep = document.getElementById('consultStepMode');
+        const calendarStep = document.getElementById('consultStepCalendar');
+        if (calendarStep) calendarStep.style.display = 'none';
+        if (modeStep) modeStep.style.display = 'block';
+    });
 
     if (changeBtn) changeBtn.addEventListener('click', function () {
         const calendarStep = document.getElementById('consultStepCalendar');
@@ -305,7 +345,8 @@ document.addEventListener('DOMContentLoaded', function () {
         const summary = document.getElementById('consultSelectedSummary');
         if (summary) {
             const d = new Date(selectedConsultDate + 'T00:00:00');
-            summary.textContent = '📍 ' + d.toLocaleDateString('en-IN', { weekday: 'short', day: 'numeric', month: 'short' }) + ' — ' + selectedConsultSlotLabel;
+            const icon = selectedConsultMode === 'online' ? '💻' : '📍';
+            summary.textContent = icon + ' ' + d.toLocaleDateString('en-IN', { weekday: 'short', day: 'numeric', month: 'short' }) + ' — ' + selectedConsultSlotLabel;
         }
         if (calendarStep) calendarStep.style.display = 'none';
         if (formStep) formStep.style.display = 'block';
@@ -409,7 +450,7 @@ if (bookingForm) {
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
                     serviceKey: 'consultation', name: userName, email: userEmail, phone: userPhone,
-                    consultDate: selectedConsultDate, consultSlotId: selectedConsultSlotId, consultMode: 'offline',
+                    consultDate: selectedConsultDate, consultSlotId: selectedConsultSlotId, consultMode: selectedConsultMode || 'offline',
                 })
             });
             const orderData = await orderRes.json();
@@ -468,7 +509,7 @@ if (bookingForm) {
                                 body: JSON.stringify({
                                     action: 'abandon', email: userEmail, razorpayOrderId: orderData.orderId,
                                     consultDate: selectedConsultDate, consultSlotId: selectedConsultSlotId,
-                                    consultMode: 'offline', consultHoldId: pendingConsultHoldId,
+                                    consultMode: selectedConsultMode || 'offline', consultHoldId: pendingConsultHoldId,
                                 }),
                             }).catch(function(){});
                         }

@@ -1099,10 +1099,30 @@ During this consultation, we will thoroughly discuss your specific concerns and 
             </svg>
           </div>
 
+          <!-- Step 0: Online or Offline -->
+          <div id="consultStepMode">
+            <h2 class="booking-modal__title">How Would You Like to Connect?</h2>
+            <p class="booking-modal__subtitle">Choose how you'd like to have your session</p>
+
+            <div class="consult-mode-options">
+              <button type="button" class="consult-mode-option" id="consultModeOffline" data-mode="offline">
+                <span class="consult-mode-option__icon">📍</span>
+                <span class="consult-mode-option__title">In-Person</span>
+                <span class="consult-mode-option__desc">At Grip&amp;Grab, Saket</span>
+              </button>
+              <button type="button" class="consult-mode-option" id="consultModeOnline" data-mode="online">
+                <span class="consult-mode-option__icon">💻</span>
+                <span class="consult-mode-option__title">Online</span>
+                <span class="consult-mode-option__desc">From anywhere</span>
+              </button>
+            </div>
+          </div>
+
           <!-- Step 1: Pick a date + time (consultation only) -->
-          <div id="consultStepCalendar">
+          <div id="consultStepCalendar" style="display:none;">
+            <button type="button" class="consult-change-link consult-back-link" id="consultBackToMode">‹ Change online/offline</button>
             <h2 class="booking-modal__title">Pick a Date &amp; Time</h2>
-            <p class="booking-modal__subtitle">Choose when you'd like to visit Grip&amp;Grab</p>
+            <p class="booking-modal__subtitle" id="consultCalendarSubtitle">Choose when you'd like to visit Grip&amp;Grab</p>
 
             <div class="consult-calendar">
               <div class="consult-calendar__nav">
