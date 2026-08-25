@@ -638,11 +638,27 @@
 }
 
 .consult-slots__slot--full {
+    position: relative;
     background: rgba(255, 255, 255, 0.02);
-    border-color: rgba(255, 255, 255, 0.08);
+    border-color: rgba(220, 38, 38, 0.25);
     color: rgba(255, 255, 255, 0.3);
     cursor: not-allowed;
-    text-decoration: line-through;
+    padding-right: 68px;
+}
+
+.consult-slots__slot--full::after {
+    content: 'SOLD OUT';
+    position: absolute;
+    top: 50%;
+    right: 8px;
+    transform: translateY(-50%) rotate(-4deg);
+    background: #dc2626;
+    color: #fff;
+    font-size: 9px;
+    font-weight: 800;
+    letter-spacing: 0.4px;
+    padding: 3px 6px;
+    border-radius: 4px;
 }
 
 .consult-selected-summary {

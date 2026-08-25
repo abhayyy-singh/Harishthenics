@@ -118,7 +118,7 @@ function renderConsultWeekList() {
         slots.forEach(function (slot) {
             const btn = document.createElement('button');
             btn.type = 'button';
-            btn.textContent = slot.isFull ? slot.label + ' — Full' : slot.label;
+            btn.textContent = slot.label;
             btn.className = 'consult-slots__slot' + (slot.isFull ? ' consult-slots__slot--full' : '') +
                 (slot.id === selectedConsultSlotId && dateStr === selectedConsultDate ? ' consult-slots__slot--selected' : '');
             if (!slot.isFull) {
