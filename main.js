@@ -17,10 +17,14 @@ const SUNDAY_CLASS_CONFIG = {
 
     // ==========================================
     // LIVE APP CONFIG — consultation price/availability from admin panel
-    // Fails safe to "unavailable" if the fetch doesn't come back in time
+    // Fails safe to "unavailable" only if the fetch genuinely never resolves.
+    // handleConsultationClick() awaits LIVE_APP_CONFIG_READY before deciding
+    // what to show — otherwise a click landing before this fetch finishes
+    // would always see the "unavailable" default and wrongly go to Notify Me,
+    // even when real slots exist.
     // ==========================================
     window.LIVE_APP_CONFIG = { consultationAvailable: false, consultationPrice: 0, consultationFullyBookedMessage: '' };
-    fetch('https://haristhenics-backend.vercel.app/api/app-config')
+    window.LIVE_APP_CONFIG_READY = fetch('https://haristhenics-backend.vercel.app/api/app-config')
         .then(function(res) { return res.ok ? res.json() : null; })
         .then(function(data) { if (data) window.LIVE_APP_CONFIG = data; })
         .catch(function(err) { console.warn('Live config fetch failed, using defaults:', err.message); });
@@ -489,7 +493,13 @@ window.addEventListener('load', function() {
 
 // Book Now on the Consultation card — routes to real booking if admin has it open,
 // else the same shared "Fully Booked" popup every other service uses (defined in personalized-program.js)
-function handleConsultationClick() {
+async function handleConsultationClick() {
+    // Wait for the real config if the click landed before it arrived — avoids
+    // wrongly using the "unavailable" default and showing Notify Me when
+    // slots genuinely exist.
+    if (window.LIVE_APP_CONFIG_READY) {
+        try { await window.LIVE_APP_CONFIG_READY; } catch (e) { /* fall through to defaults */ }
+    }
     if (window.LIVE_APP_CONFIG && window.LIVE_APP_CONFIG.consultationAvailable) {
         if (typeof window.openBookingModal === 'function') window.openBookingModal('consultation');
     } else if (typeof window.openServiceFullyBookedModal === 'function') {
