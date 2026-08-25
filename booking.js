@@ -70,6 +70,24 @@ async function loadConsultAvailability() {
         (data.consultationDates || []).forEach(function (d) {
             consultAvailableDates[d.date] = d.slots || [];
         });
+
+        // Nothing bookable at all for this mode right now — don't show an empty
+        // calendar, fall back to the same "Notify Me" flow every other service
+        // uses when fully booked.
+        const hasAnyOpenSlot = Object.values(consultAvailableDates).some(function (slots) {
+            return slots.some(function (s) { return !s.isFull; });
+        });
+        if (!hasAnyOpenSlot) {
+            closeBookingModal();
+            if (typeof window.openServiceFullyBookedModal === 'function') {
+                window.openServiceFullyBookedModal({
+                    fullyBookedMessage: (window.LIVE_APP_CONFIG && window.LIVE_APP_CONFIG.consultationFullyBookedMessage) ||
+                        'No appointment slots are open right now. We\'ll notify you as soon as new ones open up.',
+                }, 'consultation');
+            }
+            return;
+        }
+
         renderConsultWeekList();
     } catch (err) {
         console.error('Failed to load appointment availability:', err);
