@@ -346,7 +346,8 @@
     font-size: 28px;
     font-weight: 700;
     text-align: center;
-    margin: 0 0 8px 0;
+    line-height: 1.15;
+    margin: 0 0 4px 0;
     color: #ffffff;
     letter-spacing: -0.5px;
 }
