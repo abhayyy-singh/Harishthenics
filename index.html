@@ -97,7 +97,7 @@
   </head>
 
   <body class="bg-matte-black text-off-white antialiased">
-    <!-- Sticky Book Appointment Button -->
+    <!-- Sticky Pay Fee Button -->
     <button id="stickyPayFeeBtn" class="sticky-payfee-button">
       <span>Pay Your Fee</span>
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -502,18 +502,30 @@
           onclick="toggleOption('option1')"
         >
           <div class="pricing-option__header">
-            <h3 class="pricing-option__title">Appointment</h3>
+            <h3 class="pricing-option__title">Book an Appointment</h3>
             <span id="option1-icon" class="pricing-option__icon">▼</span>
           </div>
           <!-- <p class="pricing-option__subtitle">(Non Grip&Grab members only)</p> -->
 
           <div id="option1-content" class="pricing-option__content">
             <div class="pricing-option__inner">
-              <p class="pricing-option__description">
-               One-on-one appointment with me, available both online and offline. Whether you're facing challenges in your fitness journey, experiencing difficulties with daily movement, or dealing with chronic pain, you can book an appointment and I ( Harish Sharma ) will personally reach out to schedule your session.
-
-During this appointment, we will thoroughly discuss your specific concerns and develop a personalized approach to address them. I will also walk you through my customized workout programs explaining how they function and how the pricing structure varies based on your individual goals and requirements.
-              </p>
+              <div class="pricing-option__description-block">
+                <p class="pricing-option__description">
+                  Before starting a program, many people want to meet me first — to discuss their problems, reports and goals, and see how we can work together. Since my time is limited, I've opened a <strong>Book an Appointment</strong> system to pick a slot and meet me at the given location.
+                </p>
+                <p class="pricing-option__description">
+                  We'll start with a discussion — but as a Movement Coach, <strong>your body's movement tells me more than words or reports ever could.</strong> So we'll also get on the floor and assess how your body actually moves.
+                </p>
+                <p class="pricing-option__description">
+                  You'll leave with a <strong>clear roadmap for how to move forward.</strong> This isn't a complete fix or a therapy session — don't expect your problem solved or instant relief in one sitting.
+                </p>
+                <p class="pricing-option__description">
+                  I work through movement, training and consistency to build your <strong>strength, mobility, flexibility and overall lifestyle.</strong> This is for people genuinely willing to train — not for a quick fix.
+                </p>
+                <p class="pricing-option__description">
+                  <strong>Come prepared to understand your body, not just to find a quick solution.</strong>
+                </p>
+              </div>
 
               <button
                 class="pricing-option__cta"
@@ -1106,12 +1118,20 @@ During this appointment, we will thoroughly discuss your specific concerns and d
 
             <div class="consult-mode-options">
               <button type="button" class="consult-mode-option" id="consultModeOffline" data-mode="offline">
-                <span class="consult-mode-option__icon">📍</span>
+                <span class="consult-mode-option__icon">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/>
+                  </svg>
+                </span>
                 <span class="consult-mode-option__title">In-Person</span>
                 <span class="consult-mode-option__desc">At Grip&amp;Grab, Saket</span>
               </button>
               <button type="button" class="consult-mode-option" id="consultModeOnline" data-mode="online">
-                <span class="consult-mode-option__icon">💻</span>
+                <span class="consult-mode-option__icon">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/>
+                  </svg>
+                </span>
                 <span class="consult-mode-option__title">Online</span>
                 <span class="consult-mode-option__desc">From anywhere</span>
               </button>
@@ -1146,7 +1166,7 @@ During this appointment, we will thoroughly discuss your specific concerns and d
           <!-- Step 2: Details + payment -->
           <div id="consultStepForm" style="display:none;">
             <h2 class="booking-modal__title" id="bookingModalTitle">
-              Book Your Session
+              Book an Appointment
             </h2>
             <p class="booking-modal__subtitle" id="modalSubtitle">
               Complete your booking
@@ -1197,9 +1217,8 @@ During this appointment, we will thoroughly discuss your specific concerns and d
                   required
                 />
               </div>
-              <!-- AGE INPUT (NEW - ADD THIS) -->
-  <div class="booking-form__group">
-    <label class="booking-form__label" for="userPhone"
+              <div class="booking-form__group">
+    <label class="booking-form__label" for="userAge"
                   >Age</label
                 >
     <input

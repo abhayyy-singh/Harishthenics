@@ -59,29 +59,102 @@ const CONSULT_MODE_LABELS = {
     online: { subtitle: "Choose when you'd like to connect online" },
 };
 
+async function fetchConsultDatesForMode(mode) {
+    const res = await fetch(BACKEND_URL + '/api/app-config?withSlots=1&mode=' + mode);
+    const data = await res.json();
+    const dates = {};
+    (data.consultationDates || []).forEach(function (d) {
+        dates[d.date] = d.slots || [];
+    });
+    return dates;
+}
+
+// True if there's nothing left to book — no open dates at all, or every slot
+// on every open date is already SOLD OUT.
+function isModeExhausted(dates) {
+    const keys = Object.keys(dates);
+    if (keys.length === 0) return true;
+    return keys.every(function (k) {
+        const slots = dates[k] || [];
+        return slots.length === 0 || slots.every(function (s) { return s.isFull; });
+    });
+}
+
 async function loadConsultAvailability() {
-    // Simple logic for now, per explicit request: the master "Availability"
-    // toggle in admin (checked in handleConsultationClick before this modal
-    // even opens) is the ONLY thing that decides Notify Me vs. the normal
-    // booking flow. If a specific mode happens to have nothing open yet,
-    // this just shows the plain "no dates open" hint below — no separate
-    // fallback modal, kept deliberately simple.
-    const hint = document.getElementById('calHint');
+    // The master "Availability" toggle in admin (checked in handleConsultationClick
+    // before this modal even opens) is the top-level Notify Me trigger. Below that,
+    // a mode can independently run out — no dates opened for it yet, or every slot
+    // on every open date already booked — in which case we fall back to the same
+    // Notify Me modal rather than showing an empty/all-sold-out calendar.
+    const listEl = document.getElementById('consultWeekList');
     const errorBox = document.getElementById('calendarError');
-    if (hint) hint.textContent = 'Loading available times...';
+    if (errorBox) errorBox.classList.remove('show');
+    // Set fresh every time, not just reference an existing node — renderConsultWeekList()
+    // wipes this container's innerHTML on the first successful render, so the original
+    // #calHint element is gone for good afterwards. Reusing that stale reference is why
+    // switching modes a second time showed no loading state at all, just the previous
+    // mode's slots sitting there until new data silently replaced them.
+    if (listEl) listEl.innerHTML = '<p class="consult-week__hint">Loading available times...</p>';
     try {
-        const res = await fetch(BACKEND_URL + '/api/app-config?withSlots=1&mode=' + (selectedConsultMode || 'offline'));
-        const data = await res.json();
-        consultAvailableDates = {};
-        (data.consultationDates || []).forEach(function (d) {
-            consultAvailableDates[d.date] = d.slots || [];
-        });
+        consultAvailableDates = await fetchConsultDatesForMode(selectedConsultMode || 'offline');
+
+        if (isModeExhausted(consultAvailableDates)) {
+            handleConsultModeExhausted();
+            return;
+        }
+
         renderConsultWeekList();
     } catch (err) {
         console.error('Failed to load appointment availability:', err);
         if (errorBox) errorBox.classList.add('show');
-        if (hint) hint.textContent = '';
+        if (listEl) listEl.innerHTML = '';
     }
+}
+
+// Shows Notify Me immediately with a single-mode message — no waiting on a
+// second fetch first. The other mode is checked in the background right
+// after; if it's ALSO exhausted, the already-open modal's message is
+// upgraded in place to the combined wording. Someone who tries Online then
+// Offline — both empty — still ends up seeing one combined message, but
+// nobody waits through two sequential loads to get there.
+function handleConsultModeExhausted() {
+    // Must read selectedConsultMode BEFORE closeBookingModal() — it calls
+    // resetConsultCalendarState() internally, which nulls selectedConsultMode.
+    // Reading it after meant "the other mode" was miscomputed as the SAME
+    // mode we already knew was exhausted, never the real other one — so the
+    // background check always re-confirmed the mode we already showed, and
+    // always escalated to the (wrong) "both are full" message.
+    const modeLabel = selectedConsultMode === 'online' ? 'online' : 'in-person';
+    const otherMode = selectedConsultMode === 'online' ? 'offline' : 'online';
+
+    closeBookingModal();
+    if (typeof window.openServiceFullyBookedModal === 'function') {
+        window.openServiceFullyBookedModal(
+            { fullyBookedMessage: 'All ' + modeLabel + ' slots are fully booked right now. You can try the other mode, or get notified when new slots open.' },
+            'consultation'
+        );
+    }
+
+    fetchConsultDatesForMode(otherMode).then(function (otherDates) {
+        if (isModeExhausted(otherDates)) {
+            const msgEl = document.getElementById('service-fullybooked-message');
+            if (msgEl) msgEl.textContent = 'All appointment slots — online and in-person — are fully booked right now.';
+        }
+    }).catch(function (err) {
+        console.error('Failed to check other mode availability:', err);
+    });
+}
+
+// "18:00" -> "6:00 PM" — mirrors admin's to12h() so the site shows the same
+// format the admin picks slots in, just as a single time instead of a range.
+function formatTime12h(t) {
+    if (!t) return '';
+    const parts = t.split(':');
+    let h = parseInt(parts[0], 10);
+    const m = parts[1];
+    const ampm = h >= 12 ? 'PM' : 'AM';
+    h = h % 12 || 12;
+    return h + ':' + m + ' ' + ampm;
 }
 
 function renderConsultWeekList() {
@@ -118,7 +191,12 @@ function renderConsultWeekList() {
         slots.forEach(function (slot) {
             const btn = document.createElement('button');
             btn.type = 'button';
-            btn.textContent = slot.label;
+            const timeText = formatTime12h(slot.startTime) || slot.label;
+            btn.innerHTML = timeText + (
+                !slot.isFull && typeof slot.remaining === 'number'
+                    ? ' <span class="consult-slots__slot-left">· ' + slot.remaining + ' left</span>'
+                    : ''
+            );
             btn.className = 'consult-slots__slot' + (slot.isFull ? ' consult-slots__slot--full' : '') +
                 (slot.id === selectedConsultSlotId && dateStr === selectedConsultDate ? ' consult-slots__slot--selected' : '');
             if (!slot.isFull) {
@@ -212,7 +290,10 @@ function openBookingModal(bookingType) {
     }
 
     // Set modal content
-    if (title) title.textContent = 'Book ' + booking.name;
+    // "Book an " is hardcoded here rather than folded into booking.name, since
+    // that field is also sent as the plain "bookingType" label in emails/CRM —
+    // "an Appointment" would read oddly there.
+    if (title) title.textContent = 'Book an ' + booking.name;
     if (subtitle) subtitle.textContent = 'Complete your booking for ' + booking.displayAmount;
     if (planTypeInput) planTypeInput.value = bookingType;
 
@@ -284,8 +365,10 @@ document.addEventListener('DOMContentLoaded', function () {
         const summary = document.getElementById('consultSelectedSummary');
         if (summary) {
             const d = new Date(selectedConsultDate + 'T00:00:00');
-            const icon = selectedConsultMode === 'online' ? '💻' : '📍';
-            summary.textContent = icon + ' ' + d.toLocaleDateString('en-IN', { weekday: 'short', day: 'numeric', month: 'short' }) + ' — ' + selectedConsultSlotLabel;
+            const icon = selectedConsultMode === 'online'
+                ? '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>'
+                : '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>';
+            summary.innerHTML = icon + ' ' + d.toLocaleDateString('en-IN', { weekday: 'short', day: 'numeric', month: 'short' }) + ' — ' + selectedConsultSlotLabel;
         }
         if (calendarStep) calendarStep.style.display = 'none';
         if (formStep) formStep.style.display = 'block';
