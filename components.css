@@ -567,6 +567,177 @@
 }
 
 /* ================================
+   APPOINTMENT — WEEKLY AVAILABILITY LIST
+   Whole week's open days + slots shown together, no need to click into
+   each date one at a time to see what's free.
+   ================================ */
+.consult-week {
+    margin-bottom: 20px;
+    max-height: 340px;
+    overflow-y: auto;
+    padding-right: 2px;
+}
+
+.consult-week__hint {
+    font-size: 12.5px;
+    color: rgba(255, 255, 255, 0.4);
+    text-align: center;
+    margin: 20px 0;
+}
+
+.consult-week__day {
+    padding: 14px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.consult-week__day:last-child {
+    border-bottom: none;
+}
+
+.consult-week__day-header {
+    font-size: 13.5px;
+    font-weight: 700;
+    color: #ffffff;
+    margin: 0 0 10px;
+}
+
+.consult-week__day-header span {
+    font-weight: 400;
+    color: rgba(255, 255, 255, 0.4);
+    font-size: 12px;
+}
+
+.consult-week__slots {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.consult-slots__slot {
+    padding: 10px 16px;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    color: #ffffff;
+    font-size: 13.5px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.consult-slots__slot:hover {
+    border-color: rgba(124, 156, 181, 0.5);
+    background: rgba(124, 156, 181, 0.1);
+}
+
+.consult-slots__slot--selected {
+    background: linear-gradient(135deg, #7C9CB5 0%, #A3C1D8 100%);
+    border-color: transparent;
+    color: #0f0f0f;
+    font-weight: 700;
+}
+
+.consult-slots__slot--full {
+    position: relative;
+    background: rgba(255, 255, 255, 0.02);
+    border-color: rgba(220, 38, 38, 0.25);
+    color: rgba(255, 255, 255, 0.3);
+    cursor: not-allowed;
+    padding-right: 68px;
+}
+
+.consult-slots__slot--full::after {
+    content: 'SOLD OUT';
+    position: absolute;
+    top: 50%;
+    right: 8px;
+    transform: translateY(-50%) rotate(-4deg);
+    background: #dc2626;
+    color: #fff;
+    font-size: 9px;
+    font-weight: 800;
+    letter-spacing: 0.4px;
+    padding: 3px 6px;
+    border-radius: 4px;
+}
+
+.consult-selected-summary {
+    font-size: 13px;
+    color: #A3C1D8;
+    text-align: center;
+    margin: -20px 0 8px;
+    padding: 10px 16px;
+    background: rgba(124, 156, 181, 0.08);
+    border-radius: 10px;
+}
+
+.consult-change-link {
+    display: block;
+    margin: 0 auto 24px;
+    background: none;
+    border: none;
+    color: rgba(255, 255, 255, 0.4);
+    font-size: 12.5px;
+    font-family: inherit;
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+.consult-change-link:hover {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.consult-back-link {
+    display: block;
+    text-align: left;
+    margin: 0 0 12px;
+}
+
+.consult-mode-options {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 8px;
+}
+
+.consult-mode-option {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    padding: 24px 14px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 16px;
+    color: #ffffff;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-family: inherit;
+}
+
+.consult-mode-option:hover {
+    border-color: rgba(124, 156, 181, 0.5);
+    background: rgba(124, 156, 181, 0.1);
+    transform: translateY(-2px);
+}
+
+.consult-mode-option__icon {
+    font-size: 28px;
+    margin-bottom: 4px;
+}
+
+.consult-mode-option__title {
+    font-size: 15px;
+    font-weight: 700;
+    color: #ffffff;
+}
+
+.consult-mode-option__desc {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.5);
+}
+
+/* ================================
    CALLBACK MODAL (Legacy Support)
    ================================ */
 .callback-modal {

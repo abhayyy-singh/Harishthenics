@@ -495,14 +495,14 @@
           </div>
         </div>
 
-        <!-- OPTION 1: Consultation / Workout Program -->
+        <!-- OPTION 1: Appointment -->
         <div
           id="option1"
           class="pricing-option"
           onclick="toggleOption('option1')"
         >
           <div class="pricing-option__header">
-            <h3 class="pricing-option__title">Consultation</h3>
+            <h3 class="pricing-option__title">Appointment</h3>
             <span id="option1-icon" class="pricing-option__icon">▼</span>
           </div>
           <!-- <p class="pricing-option__subtitle">(Non Grip&Grab members only)</p> -->
@@ -510,9 +510,9 @@
           <div id="option1-content" class="pricing-option__content">
             <div class="pricing-option__inner">
               <p class="pricing-option__description">
-               One-on-one consultation with me, available both online and offline. Whether you're facing challenges in your fitness journey, experiencing difficulties with daily movement, or dealing with chronic pain, you can book an appointment and I ( Harish Sharma ) will personally reach out to schedule your session.
+               One-on-one appointment with me, available both online and offline. Whether you're facing challenges in your fitness journey, experiencing difficulties with daily movement, or dealing with chronic pain, you can book an appointment and I ( Harish Sharma ) will personally reach out to schedule your session.
 
-During this consultation, we will thoroughly discuss your specific concerns and develop a personalized approach to address them. I will also walk you through my customized workout programs explaining how they function and how the pricing structure varies based on your individual goals and requirements.
+During this appointment, we will thoroughly discuss your specific concerns and develop a personalized approach to address them. I will also walk you through my customized workout programs explaining how they function and how the pricing structure varies based on your individual goals and requirements.
               </p>
 
               <button
@@ -1099,113 +1099,153 @@ During this consultation, we will thoroughly discuss your specific concerns and 
             </svg>
           </div>
 
-          <h2 class="booking-modal__title" id="bookingModalTitle">
-            Book Your Session
-          </h2>
-          <p class="booking-modal__subtitle" id="modalSubtitle">
-            Complete your booking
-          </p>
+          <!-- Step 0: Online or Offline -->
+          <div id="consultStepMode">
+            <h2 class="booking-modal__title">How Would You Like to Connect?</h2>
+            <p class="booking-modal__subtitle">Choose how you'd like to have your session</p>
 
-          <form class="booking-form" id="bookingForm">
-            <input type="hidden" id="planType" name="planType" value="" />
+            <div class="consult-mode-options">
+              <button type="button" class="consult-mode-option" id="consultModeOffline" data-mode="offline">
+                <span class="consult-mode-option__icon">📍</span>
+                <span class="consult-mode-option__title">In-Person</span>
+                <span class="consult-mode-option__desc">At Grip&amp;Grab, Saket</span>
+              </button>
+              <button type="button" class="consult-mode-option" id="consultModeOnline" data-mode="online">
+                <span class="consult-mode-option__icon">💻</span>
+                <span class="consult-mode-option__title">Online</span>
+                <span class="consult-mode-option__desc">From anywhere</span>
+              </button>
+            </div>
+          </div>
 
-            <div class="booking-form__group">
-              <label class="booking-form__label" for="userName"
-                >Full Name</label
-              >
-              <input
-                type="text"
-                id="userName"
-                name="user_name"
-                class="booking-form__input"
-                placeholder="Enter your full name"
-                required
-              />
+          <!-- Step 1: Pick a day + time — whole week's availability shown at once,
+               no need to click into each date separately. -->
+          <div id="consultStepCalendar" style="display:none;">
+            <button type="button" class="consult-change-link consult-back-link" id="consultBackToMode">‹ Change online/offline</button>
+            <h2 class="booking-modal__title">Pick a Day &amp; Time</h2>
+            <p class="booking-modal__subtitle" id="consultCalendarSubtitle">Choose when you'd like to visit Grip&amp;Grab</p>
+
+            <div class="consult-week" id="consultWeekList">
+              <p class="consult-week__hint" id="calHint">Loading available times...</p>
             </div>
 
-            <div class="booking-form__group">
-              <label class="booking-form__label" for="userEmail">Email</label>
-              <input
-                type="email"
-                id="userEmail"
-                name="user_email"
-                class="booking-form__input"
-                placeholder="your.email@example.com"
-                required
-              />
-            </div>
-
-            <div class="booking-form__group">
-              <label class="booking-form__label" for="userPhone"
-                >Contact Number</label
-              >
-              <input
-                type="tel"
-                id="userPhone"
-                name="user_phone"
-                class="booking-form__input"
-                placeholder="+91 98765 43210"
-                pattern="[0-9+\s-]{10,15}"
-                required
-              />
-            </div>
-            <!-- time slot disabled -->
-            <!-- <div class="booking-form__group" id="slotGroup" style="display:none;">
-  <label class="booking-form__label">Select Time Slot</label>
-  <select id="userSlot" class="booking-form__input">
-    <option value="">-- Choose a slot --</option>
-    <option value="9:00 AM – 10:30 AM" id="slot-morning">9:00 AM – 10:30 AM</option>
-    <option value="10:30 AM – 12:00 PM" id="slot-afternoon">10:30 AM – 12:00 PM</option>
-  </select>
-</div> -->
-            <!-- AGE INPUT (NEW - ADD THIS) -->
-<div class="booking-form__group">
-  <label class="booking-form__label" for="userPhone"
-                >Age</label
-              >
-  <input 
-    type="number" 
-    id="userAge" 
-    name="user_age"
-    class="booking-form__input"
-    placeholder="Age (in years)"
-    min="15"
-    max="80"
-  />
-</div>
-
-
-            <button type="submit" class="booking-form__submit">
-              <span class="booking-form__submit-text">Proceed to Payment</span>
-              <span class="booking-form__submit-loader"></span>
+            <button type="button" class="booking-form__submit" id="consultContinueBtn" disabled>
+              <span class="booking-form__submit-text">Continue</span>
             </button>
 
-            <div class="booking-form__success" id="successMessage">
-              <svg
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-              >
-                <polyline points="20 6 9 17 4 12"></polyline>
-              </svg>
-              <span>Booking successful! We'll contact you soon.</span>
-            </div>
-
-            <div class="booking-form__error" id="errorMessage">
-              <svg
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-              >
+            <div class="booking-form__error" id="calendarError">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <circle cx="12" cy="12" r="10"></circle>
                 <line x1="12" y1="8" x2="12" y2="12"></line>
                 <line x1="12" y1="16" x2="12.01" y2="16"></line>
               </svg>
-              <span>Something went wrong. Please try again.</span>
+              <span>Something went wrong loading availability. Please refresh.</span>
             </div>
-          </form>
+          </div>
+
+          <!-- Step 2: Details + payment -->
+          <div id="consultStepForm" style="display:none;">
+            <h2 class="booking-modal__title" id="bookingModalTitle">
+              Book Your Session
+            </h2>
+            <p class="booking-modal__subtitle" id="modalSubtitle">
+              Complete your booking
+            </p>
+            <p class="consult-selected-summary" id="consultSelectedSummary"></p>
+            <button type="button" class="consult-change-link" id="consultChangeSlot">‹ Change date/time</button>
+
+            <form class="booking-form" id="bookingForm">
+              <input type="hidden" id="planType" name="planType" value="" />
+
+              <div class="booking-form__group">
+                <label class="booking-form__label" for="userName"
+                  >Full Name</label
+                >
+                <input
+                  type="text"
+                  id="userName"
+                  name="user_name"
+                  class="booking-form__input"
+                  placeholder="Enter your full name"
+                  required
+                />
+              </div>
+
+              <div class="booking-form__group">
+                <label class="booking-form__label" for="userEmail">Email</label>
+                <input
+                  type="email"
+                  id="userEmail"
+                  name="user_email"
+                  class="booking-form__input"
+                  placeholder="your.email@example.com"
+                  required
+                />
+              </div>
+
+              <div class="booking-form__group">
+                <label class="booking-form__label" for="userPhone"
+                  >Contact Number</label
+                >
+                <input
+                  type="tel"
+                  id="userPhone"
+                  name="user_phone"
+                  class="booking-form__input"
+                  placeholder="+91 98765 43210"
+                  pattern="[0-9+\s-]{10,15}"
+                  required
+                />
+              </div>
+              <!-- AGE INPUT (NEW - ADD THIS) -->
+  <div class="booking-form__group">
+    <label class="booking-form__label" for="userPhone"
+                  >Age</label
+                >
+    <input
+      type="number"
+      id="userAge"
+      name="user_age"
+      class="booking-form__input"
+      placeholder="Age (in years)"
+      min="15"
+      max="80"
+    />
+  </div>
+
+
+              <button type="submit" class="booking-form__submit">
+                <span class="booking-form__submit-text">Proceed to Payment</span>
+                <span class="booking-form__submit-loader"></span>
+              </button>
+
+              <div class="booking-form__success" id="successMessage">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
+                <span>Booking successful! We'll contact you soon.</span>
+              </div>
+
+              <div class="booking-form__error" id="errorMessage">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <line x1="12" y1="8" x2="12" y2="12"></line>
+                  <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                </svg>
+                <span>Something went wrong. Please try again.</span>
+              </div>
+            </form>
+          </div>
         </div>
       </div>
     </div>
