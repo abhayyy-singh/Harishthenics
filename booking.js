@@ -157,6 +157,10 @@ function formatTime12h(t) {
     return h + ':' + m + ' ' + ampm;
 }
 
+// Harish wants this one date called out to customers for now — bump/remove
+// as needed, it's just a highlight flag, not tied to any real capacity rule.
+const CONSULT_HIGHLIGHT_DATE = '2026-08-28';
+
 function renderConsultWeekList() {
     const listEl = document.getElementById('consultWeekList');
     if (!listEl) return;
@@ -177,13 +181,14 @@ function renderConsultWeekList() {
         if (slots.length === 0) return;
 
         const dayBlock = document.createElement('div');
-        dayBlock.className = 'consult-week__day';
+        dayBlock.className = 'consult-week__day' + (dateStr === CONSULT_HIGHLIGHT_DATE ? ' consult-week__day--highlight' : '');
 
         const d = new Date(dateStr + 'T00:00:00');
         const header = document.createElement('p');
         header.className = 'consult-week__day-header';
         header.innerHTML = d.toLocaleDateString('en-IN', { weekday: 'long' }) +
-            ' <span>' + d.toLocaleDateString('en-IN', { day: 'numeric', month: 'short' }) + '</span>';
+            ' <span>' + d.toLocaleDateString('en-IN', { day: 'numeric', month: 'short' }) + '</span>' +
+            ' <span class="consult-week__day-note">(I take only 1 slot)</span>';
         dayBlock.appendChild(header);
 
         const slotsWrap = document.createElement('div');
@@ -192,11 +197,7 @@ function renderConsultWeekList() {
             const btn = document.createElement('button');
             btn.type = 'button';
             const timeText = formatTime12h(slot.startTime) || slot.label;
-            btn.innerHTML = timeText + (
-                !slot.isFull && typeof slot.remaining === 'number'
-                    ? ' <span class="consult-slots__slot-left">· ' + slot.remaining + ' left</span>'
-                    : ''
-            );
+            btn.innerHTML = timeText;
             btn.className = 'consult-slots__slot' + (slot.isFull ? ' consult-slots__slot--full' : '') +
                 (slot.id === selectedConsultSlotId && dateStr === selectedConsultDate ? ' consult-slots__slot--selected' : '');
             if (!slot.isFull) {

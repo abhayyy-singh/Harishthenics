@@ -607,6 +607,26 @@
     font-size: 12px;
 }
 
+.consult-week__day-note {
+    font-weight: 400;
+    font-style: italic;
+    color: rgba(255, 255, 255, 0.45) !important;
+    font-size: 11.5px !important;
+}
+
+.consult-week__day--highlight {
+    background: rgba(124, 156, 181, 0.08);
+    border: 1px solid rgba(124, 156, 181, 0.3);
+    border-bottom: 1px solid rgba(124, 156, 181, 0.3);
+    border-radius: 12px;
+    padding: 14px;
+    margin: 6px 0;
+}
+
+.consult-week__day--highlight .consult-week__day-header {
+    color: #A3C1D8;
+}
+
 .consult-week__slots {
     display: flex;
     flex-wrap: wrap;
