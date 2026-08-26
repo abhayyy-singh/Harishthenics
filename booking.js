@@ -177,7 +177,11 @@ function renderConsultWeekList() {
     }
 
     dateKeys.forEach(function (dateStr) {
-        const slots = consultAvailableDates[dateStr] || [];
+        // Always show times in chronological order, regardless of the order
+        // they were added in the admin panel.
+        const slots = (consultAvailableDates[dateStr] || []).slice().sort(function (a, b) {
+            return (a.startTime || '').localeCompare(b.startTime || '');
+        });
         if (slots.length === 0) return;
 
         const dayBlock = document.createElement('div');
@@ -256,6 +260,28 @@ function chooseConsultMode(mode) {
 }
 
 // ==========================================
+// BODY SCROLL LOCK (while modal is open)
+// ==========================================
+// `overflow: hidden` on body alone doesn't reliably stop background scroll
+// on iOS Safari — pinning body to its current scroll offset with
+// position:fixed does, and we restore the exact offset on close.
+let bookingModalScrollY = 0;
+function lockBodyScroll() {
+    bookingModalScrollY = window.scrollY;
+    document.body.style.position = 'fixed';
+    document.body.style.top = '-' + bookingModalScrollY + 'px';
+    document.body.style.width = '100%';
+    document.body.style.overflow = 'hidden';
+}
+function unlockBodyScroll() {
+    document.body.style.position = '';
+    document.body.style.top = '';
+    document.body.style.width = '';
+    document.body.style.overflow = '';
+    window.scrollTo(0, bookingModalScrollY);
+}
+
+// ==========================================
 // OPEN BOOKING MODAL
 // ==========================================
 function openBookingModal(bookingType) {
@@ -305,7 +331,7 @@ function openBookingModal(bookingType) {
 
     // Show modal
     modal.classList.add('active');
-    document.body.style.overflow = 'hidden';
+    lockBodyScroll();
 }
 
 // ==========================================
@@ -316,7 +342,7 @@ function closeBookingModal() {
     if (!modal) return;
 
     modal.classList.remove('active');
-    document.body.style.overflow = '';
+    unlockBodyScroll();
 
     const form = document.getElementById('bookingForm');
     if (form) form.reset();
