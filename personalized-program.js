@@ -211,48 +211,8 @@
         }
     });
 
-    /* ── Harish Training — in-card video (same pattern as Personalized Program) ── */
-    let hsVideoMuted = false;
-    let hsVideoPlaying = false;
-
-    function hsVideoSrc(muted, controls) {
-        return 'https://www.youtube.com/embed/x2Xm-KZNhx4?autoplay=1&mute=' + (muted ? 1 : 0) + '&loop=1&playlist=x2Xm-KZNhx4&controls=' + (controls ? 1 : 0) + '&rel=0&modestbranding=1';
-    }
-
-    window.toggleHsVideoMute = function () {
-        const iframe = document.getElementById('hs-training-video');
-        if (!iframe || !hsVideoPlaying) return;
-        hsVideoMuted = !hsVideoMuted;
-        iframe.src = hsVideoSrc(hsVideoMuted, false);
-        document.getElementById('hs-icon-muted').style.display   = hsVideoMuted ? 'block' : 'none';
-        document.getElementById('hs-icon-unmuted').style.display = hsVideoMuted ? 'none'  : 'block';
-    };
-
-    window.toggleHsFullscreen = function () {
-        const iframe = document.getElementById('hs-training-video');
-        if (!iframe || !hsVideoPlaying) return;
-        if (document.fullscreenElement || document.webkitFullscreenElement) {
-            if (document.exitFullscreen) document.exitFullscreen();
-            else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
-            return;
-        }
-        iframe.src = hsVideoSrc(hsVideoMuted, true);
-        const req = iframe.requestFullscreen || iframe.webkitRequestFullscreen || iframe.mozRequestFullScreen;
-        if (req) req.call(iframe);
-    };
-
-    document.addEventListener('fullscreenchange', function () {
-        if (!document.fullscreenElement) {
-            const iframe = document.getElementById('hs-training-video');
-            if (iframe && hsVideoPlaying) iframe.src = hsVideoSrc(hsVideoMuted, false);
-        }
-    });
-    document.addEventListener('webkitfullscreenchange', function () {
-        if (!document.webkitFullscreenElement) {
-            const iframe = document.getElementById('hs-training-video');
-            if (iframe && hsVideoPlaying) iframe.src = hsVideoSrc(hsVideoMuted, false);
-        }
-    });
+    /* ── Harish Training card: thumbnail-only, deliberately never plays — see
+       the option3 branch below (removed) for why. ── */
 
     document.addEventListener('DOMContentLoaded', function () {
 
@@ -324,36 +284,8 @@
                 }
             }
 
-            // option3: Harish Training video (same pattern as Personalized Program)
-            if (optionId === 'option3') {
-                const isNowActive = document.getElementById('option3').classList.contains('active');
-                const iframe    = document.getElementById('hs-training-video');
-                const thumbnail = document.getElementById('hs-video-thumbnail');
-                const ctrlBar   = document.getElementById('hs-ctrl-bar');
-                if (iframe) {
-                    if (isNowActive) {
-                        hsVideoMuted = false;
-                        hsVideoPlaying = true;
-                        iframe.style.display = 'block';
-                        if (ctrlBar) ctrlBar.style.display = 'flex';
-                        document.getElementById('hs-icon-muted').style.display   = 'none';
-                        document.getElementById('hs-icon-unmuted').style.display = 'block';
-                        // hide thumbnail only after iframe has loaded
-                        iframe.addEventListener('load', function hideThumbnail() {
-                            if (thumbnail) thumbnail.style.display = 'none';
-                            iframe.removeEventListener('load', hideThumbnail);
-                        });
-                        iframe.src = hsVideoSrc(false, false);
-                    } else {
-                        iframe.src = 'about:blank';
-                        iframe.style.display = 'none';
-                        hsVideoPlaying = false;
-                        hsVideoMuted   = false;
-                        if (thumbnail) thumbnail.style.display = 'block';
-                        if (ctrlBar)   ctrlBar.style.display   = 'none';
-                    }
-                }
-            }
+            // option3 (Harish Training): thumbnail-only, deliberately never
+            // plays — no video-toggle logic here on purpose.
         };
 
         document.addEventListener('keydown', function (e) {
